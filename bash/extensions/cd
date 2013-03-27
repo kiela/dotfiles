@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# extend default cd command
+extended_cd()
+{
+  [[ -z $* ]] && builtin cd $HOME
+  builtin cd "$*";
+
+  __extended_cd_envs;
+  __extended_cd_messages;
+  __extended_cd_rvm;
+
+  # TODO autoload
+  source ~/.bash/extensions/cd
+}
+
+# load dynamic envs
+__extended_cd_envs()
+{
+  if [[ -f .env ]]; then
+    source .env
+    echo "$(tput setaf 2)Envs from current dir was loaded successfully$(tput sgr0)"
+  fi;
+}
+
+# show notices and todos
+__extended_cd_messages()
+{
+  if [[ -f .msg && -s .msg ]]; then
+   echo "$(tput bold)$(tput setaf 4)NOTICE:$(tput sgr0)"
+   echo -n "$(tput setaf 4)"
+   cat .msg
+   echo -n "$(tput sgr0)"
+  fi;
+
+  if [[ -f .todo && -s .todo ]]; then
+   echo "$(tput bold)$(tput setaf 3)TODO:$(tput sgr0)"
+   echo -n "$(tput setaf 3)"
+   cat .todo
+   echo -n "$(tput sgr0)"
+  fi;
+}
+
+# rvm
+__extended_cd_rvm()
+{
+  [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+  [[ -s $HOME/.rvm/scripts/completion ]] && source $HOME/.rvm/scripts/completion
+}
+
+alias cd=extended_cd;

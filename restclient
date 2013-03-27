@@ -1,0 +1,6 @@
+rails:
+  url: http://localhost:3000
+sinatra:
+  url: http://localhost:4567
+rackup:
+  url: http://localhost:9292

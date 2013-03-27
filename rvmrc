@@ -1,0 +1,5 @@
+export CFLAGS="-march=nocona -O3 -fomit-frame-pointer -pipe"
+export rvm_prefix="$HOME"
+export rvm_path="$HOME/.rvm"
+rvm_auto_reload_flag=1
+rvm_install_on_use_flag=1

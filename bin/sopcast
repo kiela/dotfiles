@@ -1,0 +1,142 @@
+#!/usr/bin/env sh
+
+readonly TRUE=1
+readonly FALSE=0
+
+program='sp-sc-auth'
+player='mplayer'
+
+status()
+{
+	if ps ax | grep -v grep | grep $program > /dev/null
+	then
+		return $TRUE
+	else
+		return $FALSE
+	fi
+}
+
+play()
+{
+	$player http://localhost:8908/tv.asf
+	return
+}
+
+start()
+{	
+	url=""
+	while test -z $url
+	do
+		read -p "url: " url
+		
+		if test -z $url
+		then
+			echo "url is needed!"
+		fi
+	done
+	
+	echo "-----"
+	
+	echo -n "starting sopcast local server: ";
+	if $program $url 3908 8908 > /dev/null &
+	then
+		echo "done"
+	else
+		echo "error"
+		return
+	fi
+
+	echo -n "waiting for connection to remote server: "
+	waiting_for_remote_server=$TRUE
+	start_player=$FALSE
+	
+	while test $waiting_for_remote_server -eq $TRUE
+	do
+		i=1
+		while test $i -lt 11
+		do
+			echo -n "."
+			i=$(($i+1))
+			sleep 1
+		done
+		
+		status
+		if test $? -eq $TRUE
+		then
+			echo "done"
+			waiting_for_remote_server=$FALSE
+			start_player=$TRUE
+		else
+			echo "error"
+			
+			retry_question=""		
+			while test -z $retry_question
+			do
+				read -p "retry [y|n]? " retry_question
+				
+				if test $retry_question = "y" 
+				then
+					echo -n "again waiting: "
+				elif test $retry_question = "n"
+				then
+					echo "cannot connect to remote server"
+					return
+				else
+					retry_question=""
+				fi
+			done		
+		fi
+	done
+	
+	if test $start_player -eq $TRUE
+	then
+		echo "starting player: "
+		play
+		echo "done"
+	else
+		echo "cannot start player"
+	fi
+	
+	return
+}
+
+case $1 in
+	""|"start")
+		status
+		if test $? -eq $TRUE
+		then
+			play
+		else
+			start
+		fi
+	;;
+	
+	"status")
+		status 
+		if test $? -eq $TRUE
+		then
+			echo "running"
+		else
+			echo "not running"
+		fi
+	;;
+	
+	"exit"|"stop") 
+		status
+		if test $? -eq $TRUE
+		then
+			killall $program 2> /dev/null
+			echo "done"
+		else
+			echo "not running"
+		fi
+	;;
+	
+	*) 
+		echo "wrong parametr"
+		echo "just type:"
+		echo "${0} [start] - to start watching"
+		echo "${0} status - to get status"
+		echo "${0} exit - to stop daemon"
+	;;
+esac

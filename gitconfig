@@ -1,0 +1,27 @@
+[user]
+  name = Kamil Kieliszczyk
+  email = kiela@heimdall.pl
+[core]
+  editor = vim
+  excludesfile = ~/.gitignore
+[color]
+  ui = true
+[merge]
+  tool = gitmerge
+[mergetool "gitmerge"]
+  cmd = gitmerge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+[mergetool]
+  trustExitCode = false
+[diff]
+  external = gitdiff
+[alias]
+  h = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s' --graph
+  history = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s' --grap
+  hf = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s%n' --graph --name-status
+  historyfull = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s%n' --graph --name-status
+  st = status
+  ci = commit
+  cl = clone
+  a = add
+  w = whatchanged -p --abbrev-commit --pretty=medium
+  spark = !bash -c ~/bin/spark-git 

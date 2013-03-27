@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Variables
+export EDITOR=vim
+export JAVA_HOME=/usr/local/java/jre1.6.0_30/
+export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt

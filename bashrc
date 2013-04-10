@@ -95,5 +95,5 @@ fi
 [ -f $HOME/.bash/aliases ] &&  . $HOME/.bash/aliases
 
 # extensions
-[ -d $HOME/.bash/extensions ] && . $HOME/.bash/extensions/*
+[ -d $HOME/.bash/extensions ] && source $HOME/.bash/extensions/*
 

@@ -11,7 +11,7 @@ extended_cd()
   __extended_cd_rvm;
 
   # TODO autoload
-  source ~/.bash/extensions/cd
+  source $HOME/.bash/extensions/cd
 }
 
 # load dynamic envs

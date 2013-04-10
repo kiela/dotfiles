@@ -89,11 +89,11 @@ fi
 [[ -d $HOME/.rvm/bin ]] && export PATH=$PATH:$HOME/.rvm/bin
 
 # envs
-[ -f ~/.bash/envs ] && . ~/.bash/envs
+[ -f $HOME/.bash/envs ] && . $HOME/.bash/envs
 
 #aliases
-[ -f ~/.bash/aliases ] &&  . ~/.bash/aliases
+[ -f $HOME/.bash/aliases ] &&  . $HOME/.bash/aliases
 
 # extensions
-[ -d ~/.bash/extensions ] && . ~/.bash/extensions/*
+[ -d $HOME/.bash/extensions ] && . $HOME/.bash/extensions/*
 

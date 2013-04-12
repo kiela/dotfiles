@@ -1,6 +1,6 @@
 [user]
-  name = Kamil Kieliszczyk
-  email = kiela@heimdall.pl
+	name = Kamil Kieliszczyk
+  email = kamil@kieliszczyk.net
 [core]
   editor = vim
   excludesfile = ~/.gitignore

@@ -6,7 +6,7 @@ require 'irb/completion'
 require 'irb/ext/save-history'
 
 IRB.conf[:SAVE_HISTORY] = 1000
-IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-history"
+IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb_history"
 IRB.conf[:PROMPT_MODE] = :SIMPLE
 IRB.conf[:AUTO_INDENT] = true
 
@@ -50,7 +50,7 @@ ARGV.concat [ "--readline", "--prompt-mode", "simple" ]
 
 module Readline
   module History
-    LOG = "#{ENV['HOME']}/.irb-history"
+    LOG = "#{ENV['HOME']}/.irb_history"
 
     def self.write_log(line)
       File.open(LOG, 'ab') {|f| f << "#{line}\n"}

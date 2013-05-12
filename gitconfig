@@ -3,7 +3,7 @@
   email = kamil@kieliszczyk.net
 [core]
   editor = vim
-  excludesfile = ~/.gitignore
+  excludesfile = $HOME/.gitignore
 [color]
   ui = true
 [merge]
@@ -24,4 +24,4 @@
   cl = clone
   a = add
   w = whatchanged -p --abbrev-commit --pretty=medium
-  spark = !bash -c ~/bin/spark-git 
+  spark = !bash -c $HOME/bin/spark-git

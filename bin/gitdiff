@@ -2,5 +2,5 @@
 
 if [ 7 -eq $# ]
 then
-  ~/bin/gitmerge "$2" "$5"
+  $HOME/bin/gitmerge "$2" "$5"
 fi

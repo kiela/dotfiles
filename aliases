@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-alias zshconfig="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
+alias zshconfig='vim $HOME/.zshrc'
+alias ohmyzsh='vim $HOME/.oh-my-zsh'
 
 alias c=clear
 alias cc=clear
@@ -14,7 +14,7 @@ alias lh='ls -lh'
 alias l='ls -CF'
 alias ..='cd ..'
 alias cd..='cd ..'
-alias .='cd ~'
+alias .='cd $HOME'
 alias h='history 25'
 alias j='jobs -l'
 alias x=exit
@@ -22,7 +22,7 @@ alias x=exit
 alias df='df -h'
 alias du='du -h'
 alias duh='du -H'
-alias r='source ~/.zshrc'
+alias r='source $HOME/.zshrc'
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias rgrep='clear && grep --exclude-dir=log --exclude-dir=tmp'

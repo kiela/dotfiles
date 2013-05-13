@@ -1,4 +1,6 @@
-*.swp
+# mine
+.todo
+.msg
 *~
 
 # YARD artifacts

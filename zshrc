@@ -6,7 +6,7 @@ COMPLETION_WAITING_DOTS="true"
 
 plugins=(git ruby rails)
 
-export PATH=$PATH:$HOME/.rvm/bin
+export PATH="$PATH:$HOME/.rvm/bin:/usr/local/heroku/bin"
 export EDITOR=vim
 
 source $ZSH/oh-my-zsh.sh

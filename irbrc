@@ -49,7 +49,7 @@ end
 ARGV.concat [ "--readline", "--prompt-mode", "simple" ]
 
 module Readline
-  module History
+  class History
     LOG = "#{ENV['HOME']}/.irb_history"
 
     def self.write_log(line)

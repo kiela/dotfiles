@@ -1,4 +1,4 @@
-pry ()
+function pry()
 {
   if [ -e ./config/environment.rb ]
   then

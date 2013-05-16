@@ -1,4 +1,4 @@
-function chpwd()
+function chpwd_messages()
 {
   if [[ -f .msg && -s .msg ]]; then
     echo "$(tput bold)$(tput setaf 4)NOTICE:$(tput sgr0)"
@@ -14,3 +14,6 @@ function chpwd()
     echo -n "$(tput sgr0)"
   fi;
 }
+
+add-zsh-hook chpwd chpwd_messages
+

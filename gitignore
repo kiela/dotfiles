@@ -9,6 +9,14 @@
 _yardoc
 doc/
 
+# https://github.com/github/gitignore/blob/master/Erlang.gitignore
+.eunit
+deps
+*.o
+*.beam
+*.plt
+erl_crash.dump
+
 # https://github.com/github/gitignore/blob/master/Ruby.gitignore
 *.gem
 *.rbc

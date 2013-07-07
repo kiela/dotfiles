@@ -26,9 +26,6 @@ set nu
 
 set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp " ignore these"
 
-command Sudowrite w !sudo tee % > /dev/null
-set grepprg=ack-grep
-
 "Po 3 spacjach po naciśnięciu tab idzie do 4 a nie do 5
 set shiftround
 
@@ -41,6 +38,14 @@ map <C-k> <C-w>k
 map <C-l> <C-w>l
 
 map <C-n> :NERDTreeToggle<CR>
+
+" Shortcut to rapidly toggle `set list`
+nmap <leader>l :set list!<CR>
+set listchars=tab:▸\ ,eol:¬
+
+"Invisible character colors
+highlight NonText guifg=#4a4a59
+highlight SpecialKey guifg=#4a4a59
 
 nnoremap ; :
 

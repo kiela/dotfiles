@@ -23,26 +23,30 @@ set shiftwidth=2
 set expandtab
 
 set nu
-
-set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp " ignore these"
-
-"Po 3 spacjach po naciśnięciu tab idzie do 4 a nie do 5
+" After 3 spaces and pressing tab it will be 4 spaces - not 5
 set shiftround
+
+
 
 map <C-p> <C-PageUp> 
 map <C-n> <C-PageDown>
+" ignore these
+set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp
 
 map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+" nerdtree
 map <C-n> :NERDTreeToggle<CR>
 
-" Shortcut to rapidly toggle `set list`
+" shortcut to rapidly toggle `set list`
 set list
 nmap <leader>l :set list!<CR>
 set listchars=tab:▸\ ,eol:¬,nbsp:¶
+
+" Colors!
 
 "Invisible character colors
 highlight NonText guifg=#4a4a59

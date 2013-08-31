@@ -41,7 +41,7 @@ map <C-n> :NERDTreeToggle<CR>
 
 " Shortcut to rapidly toggle `set list`
 nmap <leader>l :set list!<CR>
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:▸\ ,eol:¬,nbsp:¶
 
 "Invisible character colors
 highlight NonText guifg=#4a4a59

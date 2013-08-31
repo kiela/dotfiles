@@ -40,6 +40,7 @@ map <C-l> <C-w>l
 map <C-n> :NERDTreeToggle<CR>
 
 " Shortcut to rapidly toggle `set list`
+set list
 nmap <leader>l :set list!<CR>
 set listchars=tab:▸\ ,eol:¬,nbsp:¶
 

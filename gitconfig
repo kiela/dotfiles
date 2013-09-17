@@ -26,3 +26,5 @@
   w = whatchanged -p --abbrev-commit --pretty=medium
   spark = !bash -c $HOME/bin/spark-git
   undo = reset --hard HEAD~1
+[help]
+  autocorrect = 1

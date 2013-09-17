@@ -28,8 +28,6 @@ set shiftround
 
 
 
-map <C-p> <C-PageUp> 
-map <C-n> <C-PageDown>
 " ignore these
 set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp
 

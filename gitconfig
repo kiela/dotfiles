@@ -26,5 +26,6 @@
   w = whatchanged -p --abbrev-commit --pretty=medium
   spark = !bash -c $HOME/bin/spark-git
   undo = reset --hard HEAD~1
+  unpushed = log --branches --not --remotes --color --graph --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s' --abbrev-commit
 [help]
   autocorrect = 1

@@ -3,7 +3,7 @@ function chpwd_envs()
   if [[ -f ./.env ]]; then
     while read i
     do
-      if [ $i[1] != '#' ]; then
+		if [[ ($i[1] != '#') && (-n $i[1]) ]]; then
         export $i
       fi;
     done < ./.env

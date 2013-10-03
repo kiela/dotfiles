@@ -27,6 +27,19 @@ set noexpandtab
 " After 3 spaces and pressing tab it will be 4 spaces - not 5
 set shiftround
 
+if has("autocmd")
+	autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
+	autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+
+	autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+	autocmd FileType erlang setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+	autocmd BufNewFile,BufRead *.app.src setfiletype erlang
+
+	autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+	autocmd FileType haml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+	autocmd FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+	autocmd FileType sass setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+endif
 
 
 " ignore these

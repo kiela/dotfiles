@@ -18,10 +18,11 @@ vnoremap > >gv
 vnoremap < <gv
 
 set pastetoggle=<F2>
-set tabstop=2
-set shiftwidth=2
 
 set nu
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set noexpandtab
 " After 3 spaces and pressing tab it will be 4 spaces - not 5
 set shiftround

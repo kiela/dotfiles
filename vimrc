@@ -45,11 +45,6 @@ endif
 " ignore these
 set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp
 
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
-
 " nerdtree
 map <C-n> :NERDTreeToggle<CR>
 

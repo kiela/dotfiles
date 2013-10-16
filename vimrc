@@ -33,7 +33,7 @@ if has("autocmd")
 
 	autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 	autocmd FileType erlang setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd BufNewFile,BufRead *.app.src setfiletype erlang
+	autocmd BufNewFile,BufRead *.app,*.app.src setfiletype erlang
 
 	autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 	autocmd FileType haml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab

@@ -42,6 +42,19 @@ if has("autocmd")
 	autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 endif
 
+nnoremap <silent> <F5> :call <SID>StripTrailingSpaces()<CR>
+function! <SID>StripTrailingSpaces()
+	" save last search, and cursor position.
+	let _s=@/
+	let l = line(".")
+	let c = col(".")
+	" strip trailing spaces
+	%s/\s\+$//e
+	" restore previous search history, and cursor position
+	let @/=_s
+	call cursor(l, c)
+endfunction
+
 
 " ignore these
 set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp

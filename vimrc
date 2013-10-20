@@ -44,6 +44,7 @@ if has("autocmd")
 	autocmd BufWritePre *.erl,*.rb :call <SID>StripTrailingSpaces()
 endif
 
+nnoremap <silent> <F6> :g/^$/d<CR>
 nnoremap <silent> <F5> :call <SID>StripTrailingSpaces()<CR>
 function! <SID>StripTrailingSpaces()
 	" save last search, and cursor position.

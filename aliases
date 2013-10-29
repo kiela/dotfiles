@@ -32,6 +32,9 @@ alias top10='topcommands | head -n 10'
 alias top25='topcommands | head -n 25'
 alias netcons='lsof -i -nP'
 
+alias wruby='cd $HOME/workspace/ruby'
+alias werl='cd $HOME/workspace/erlang'
+
 killemall () {
   if [ ! -z $1 ]; then
     ps aux | grep $1 | grep -v grep | awk '{print $2}' | xargs kill -9

@@ -40,6 +40,7 @@ if has("autocmd")
 	autocmd FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 	autocmd FileType sass setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 	autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+	autocmd FileType coffee setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 	autocmd BufWritePre *.erl,*.rb :call <SID>StripTrailingSpaces()
 endif

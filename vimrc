@@ -14,6 +14,9 @@ set fencs=utf-8
 set mouse=
 
 " Robienie wciec
+" switch between buffers without errors
+set hidden
+
 vnoremap > >gv
 vnoremap < <gv
 

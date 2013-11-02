@@ -13,10 +13,10 @@ set noswapfile
 set fencs=utf-8
 set mouse=
 
-" Robienie wciec
 " switch between buffers without errors
 set hidden
 
+" indentations
 vnoremap > >gv
 vnoremap < <gv
 
@@ -27,7 +27,7 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set noexpandtab
-" After 3 spaces and pressing tab it will be 4 spaces - not 5
+" after 3 spaces and pressing tab it will be 4 spaces - not 5
 set shiftround
 
 if has("autocmd")
@@ -76,7 +76,7 @@ set listchars=tab:▸\ ,eol:¬,nbsp:¶
 
 " Colors!
 
-"Invisible character colors
+" invisible character colors
 highlight NonText guifg=#4a4a59
 highlight SpecialKey guifg=#4a4a59
 

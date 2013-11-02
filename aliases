@@ -35,6 +35,8 @@ alias netcons='lsof -i -nP'
 alias wruby='cd $HOME/workspace/ruby'
 alias werl='cd $HOME/workspace/erlang'
 
+alias camera='mplayer -vf mirror -v tv:// -tv device=/dev/video0:driver=v4l2'
+
 killemall () {
   if [ ! -z $1 ]; then
     ps aux | grep $1 | grep -v grep | awk '{print $2}' | xargs kill -9

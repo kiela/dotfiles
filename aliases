@@ -33,6 +33,7 @@ alias top25='topcommands | head -n 25'
 alias netcons='lsof -i -nP'
 
 alias wruby='cd $HOME/workspace/ruby'
+alias wgems='cd $HOME/workspace/ruby/gems'
 alias werl='cd $HOME/workspace/erlang'
 
 alias camera='mplayer -vf mirror -v tv:// -tv device=/dev/video0:driver=v4l2'

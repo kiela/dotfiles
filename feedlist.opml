@@ -43,6 +43,7 @@
             <outline title="Czas Gentlemanów" text="Czas Gentlemanów" description="Czas Gentlemanów" type="rss" xmlUrl="http://czasgentlemanow.pl/feed/" htmlUrl="http://czasgentlemanow.pl" />
             <outline title="Czajnikowy.pl" text="Czajnikowy.pl" description="Czajnikowy.pl" type="rss" xmlUrl="http://czajnikowy.pl/feed/" htmlUrl="http://czajnikowy.pl" />
             <outline title="Prisonplanet" text="Prisonplanet" description="Prisonplanet" type="rss" xmlUrl="http://www.prisonplanet.pl/rss.php" htmlUrl="http://www.prisonplanet.pl/" />
+            <outline title="Najwyższy Czas!" text="Najwyższy Czas!" description="Najwyższy Czas!" type="rss" xmlUrl="http://nczas.com/feed/" htmlUrl="http://nczas.com" />
          </outline>
          <outline title="programming" text="programming" description="programming" type="folder">
             <outline title="ruby/rails" text="ruby/rails" description="ruby/rails" type="folder">
@@ -58,6 +59,7 @@
             <outline title="GitHub Jobs" text="GitHub Jobs" description="GitHub Jobs" type="atom" xmlUrl="https://jobs.github.com/positions.atom" htmlUrl="http://jobs.github.com/" />
             <outline title="RabbitMQ" text="RabbitMQ" description="RabbitMQ" type="rss" xmlUrl="http://www.rabbitmq.com/blog/feed/" htmlUrl="http://www.rabbitmq.com/blog" />
             <outline title="Vimcasts OGG Feed" text="Vimcasts OGG Feed" description="Vimcasts OGG Feed" type="rss" xmlUrl="http://vimcasts.org/feeds/ogg" htmlUrl="http://vimcasts.org/feeds/ogg/" />
+            <outline title="Wynn Netherland" text="Wynn Netherland" description="Wynn Netherland" type="atom" xmlUrl="http://feeds.feedburner.com/wynn" htmlUrl="http://wynnnetherland.com/" />
          </outline>
          <outline title="whisky" text="whisky" description="whisky" type="folder">
             <outline title="Whiskyblog.pl" text="Whiskyblog.pl" description="Whiskyblog.pl" type="rss" xmlUrl="http://whiskyblog.pl/feed/" htmlUrl="http://whiskyblog.pl" />

@@ -61,6 +61,7 @@
             <outline title="RabbitMQ" text="RabbitMQ" description="RabbitMQ" type="rss" xmlUrl="http://www.rabbitmq.com/blog/feed/" htmlUrl="http://www.rabbitmq.com/blog" />
             <outline title="Vimcasts OGG Feed" text="Vimcasts OGG Feed" description="Vimcasts OGG Feed" type="rss" xmlUrl="http://vimcasts.org/feeds/ogg" htmlUrl="http://vimcasts.org/feeds/ogg/" />
             <outline title="Wynn Netherland" text="Wynn Netherland" description="Wynn Netherland" type="atom" xmlUrl="http://feeds.feedburner.com/wynn" htmlUrl="http://wynnnetherland.com/" />
+            <outline title="Elixir Lang" text="Elixir Lang" description="Elixir Lang" type="atom" xmlUrl="http://feeds.feedburner.com/ElixirLang" htmlUrl="http://elixir-lang.org" />
          </outline>
          <outline title="whisky" text="whisky" description="whisky" type="folder">
             <outline title="Whiskyblog.pl" text="Whiskyblog.pl" description="Whiskyblog.pl" type="rss" xmlUrl="http://whiskyblog.pl/feed/" htmlUrl="http://whiskyblog.pl" />

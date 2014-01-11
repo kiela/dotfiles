@@ -16,6 +16,7 @@
             <outline title="Erlang Factory News Feed" text="Erlang Factory News Feed" description="Erlang Factory News Feed" type="rss" xmlUrl="http://www.erlang-factory.com/news/rss" htmlUrl="http://www.erlang-factory.com/news/rss" />
             <outline title="Mostly Erlang" text="Mostly Erlang" description="Mostly Erlang" type="rss" xmlUrl="http://mostlyerlang.com/feed/" htmlUrl="http://mostlyerlang.com" />
             <outline title="Erlang Central" text="Erlang Central" description="Erlang Central" type="rss" xmlUrl="https://erlangcentral.org/feed/rss/" htmlUrl="https://erlangcentral.org" />
+            <outline title="Erlware Blog" text="Erlware Blog" description="Erlware Blog" type="rss" xmlUrl="http://blog.erlware.org/feed/" htmlUrl="http://blog.erlware.org" />
          </outline>
          <outline title="freebsd" text="freebsd" description="freebsd" type="folder">
             <outline title="FreeBSD News Flash" text="FreeBSD News Flash" description="FreeBSD News Flash" type="rss" xmlUrl="http://www.freebsd.org/news/rss.xml" htmlUrl="http://www.FreeBSD.org/news/" />

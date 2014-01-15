@@ -11,13 +11,6 @@
             <outline title="TechCrunch" text="TechCrunch" description="TechCrunch" type="rss" xmlUrl="http://feeds.feedburner.com/TechCrunch" htmlUrl="http://techcrunch.com" />
             <outline title="Informacje Dziennika Internautów" text="Informacje Dziennika Internautów" description="Informacje Dziennika Internautów" type="rss" xmlUrl="http://feeds.feedburner.com/glowny-di" htmlUrl="http://di.com.pl/" />
          </outline>
-         <outline title="erlang" text="erlang" description="erlang" type="folder">
-            <outline title="SoErlang" text="SoErlang" description="SoErlang" type="rss" xmlUrl="http://soerlang.tumblr.com/rss" htmlUrl="http://soerlang.tumblr.com/" />
-            <outline title="Erlang Factory News Feed" text="Erlang Factory News Feed" description="Erlang Factory News Feed" type="rss" xmlUrl="http://www.erlang-factory.com/news/rss" htmlUrl="http://www.erlang-factory.com/news/rss" />
-            <outline title="Mostly Erlang" text="Mostly Erlang" description="Mostly Erlang" type="rss" xmlUrl="http://mostlyerlang.com/feed/" htmlUrl="http://mostlyerlang.com" />
-            <outline title="Erlang Central" text="Erlang Central" description="Erlang Central" type="rss" xmlUrl="https://erlangcentral.org/feed/rss/" htmlUrl="https://erlangcentral.org" />
-            <outline title="Erlware Blog" text="Erlware Blog" description="Erlware Blog" type="rss" xmlUrl="http://blog.erlware.org/feed/" htmlUrl="http://blog.erlware.org" />
-         </outline>
          <outline title="freebsd" text="freebsd" description="freebsd" type="folder">
             <outline title="FreeBSD News Flash" text="FreeBSD News Flash" description="FreeBSD News Flash" type="rss" xmlUrl="http://www.freebsd.org/news/rss.xml" htmlUrl="http://www.FreeBSD.org/news/" />
             <outline title="DistroWatch.com: News" text="DistroWatch.com: News" description="DistroWatch.com: News" type="rss" xmlUrl="http://distrowatch.com/news/dw.xml" htmlUrl="http://distrowatch.com/" />
@@ -55,18 +48,27 @@
                <outline title="Ruby Zone - Resources for Ruby and Rails developers" text="Ruby Zone - Resources for Ruby and Rails developers" description="Ruby Zone - Resources for Ruby and Rails developers" type="rss" xmlUrl="http://feeds.dzone.com/zones/ruby" htmlUrl="http://ruby.dzone.com/" />
                <outline title="The Ruby Toolbox - News" text="The Ruby Toolbox - News" description="The Ruby Toolbox - News" type="rss" xmlUrl="https://www.ruby-toolbox.com/blog.rss" htmlUrl="https://www.ruby-toolbox.com" />
             </outline>
+            <outline title="erlang" text="erlang" description="erlang" type="folder">
+               <outline title="SoErlang" text="SoErlang" description="SoErlang" type="rss" xmlUrl="http://soerlang.tumblr.com/rss" htmlUrl="http://soerlang.tumblr.com/" />
+               <outline title="Erlang Factory News Feed" text="Erlang Factory News Feed" description="Erlang Factory News Feed" type="rss" xmlUrl="http://www.erlang-factory.com/news/rss" htmlUrl="http://www.erlang-factory.com/news/rss" />
+               <outline title="Mostly Erlang" text="Mostly Erlang" description="Mostly Erlang" type="rss" xmlUrl="http://mostlyerlang.com/feed/" htmlUrl="http://mostlyerlang.com" />
+               <outline title="Erlang Central" text="Erlang Central" description="Erlang Central" type="rss" xmlUrl="https://erlangcentral.org/feed/rss/" htmlUrl="https://erlangcentral.org" />
+               <outline title="Erlware Blog" text="Erlware Blog" description="Erlware Blog" type="rss" xmlUrl="http://blog.erlware.org/feed/" htmlUrl="http://blog.erlware.org" />
+            </outline>
+            <outline title="elixir" text="elixir" description="elixir" type="folder">
+               <outline title="Elixir Lang" text="Elixir Lang" description="Elixir Lang" type="atom" xmlUrl="http://feeds.feedburner.com/ElixirLang" htmlUrl="http://elixir-lang.org" />
+            </outline>
             <outline title="dzone.com: latest front page" text="dzone.com: latest front page" description="dzone.com: latest front page" type="rss" xmlUrl="http://feeds.dzone.com/dzone/frontpage" htmlUrl="http://www.dzone.com/links/" />
             <outline title="The GitHub Blog" text="The GitHub Blog" description="The GitHub Blog" type="atom" xmlUrl="https://github.com/blog.atom" htmlUrl="https://github.com/blog" />
             <outline title="GitHub Jobs" text="GitHub Jobs" description="GitHub Jobs" type="atom" xmlUrl="https://jobs.github.com/positions.atom" htmlUrl="http://jobs.github.com/" />
             <outline title="RabbitMQ" text="RabbitMQ" description="RabbitMQ" type="rss" xmlUrl="http://www.rabbitmq.com/blog/feed/" htmlUrl="http://www.rabbitmq.com/blog" />
             <outline title="Vimcasts OGG Feed" text="Vimcasts OGG Feed" description="Vimcasts OGG Feed" type="rss" xmlUrl="http://vimcasts.org/feeds/ogg" htmlUrl="http://vimcasts.org/feeds/ogg/" />
             <outline title="Wynn Netherland" text="Wynn Netherland" description="Wynn Netherland" type="atom" xmlUrl="http://feeds.feedburner.com/wynn" htmlUrl="http://wynnnetherland.com/" />
-            <outline title="Elixir Lang" text="Elixir Lang" description="Elixir Lang" type="atom" xmlUrl="http://feeds.feedburner.com/ElixirLang" htmlUrl="http://elixir-lang.org" />
          </outline>
-         <outline title="whisky" text="whisky" description="whisky" type="folder">
-            <outline title="Whiskyblog.pl" text="Whiskyblog.pl" description="Whiskyblog.pl" type="rss" xmlUrl="http://whiskyblog.pl/feed/" htmlUrl="http://whiskyblog.pl" />
-            <outline title="milerpije.pl" text="milerpije.pl" description="milerpije.pl" type="atom" xmlUrl="http://www.milerpije.pl/feed/atom" htmlUrl="http://www.milerpije.pl" />
-         </outline>
+      </outline>
+      <outline title="whisky" text="whisky" description="whisky" type="folder">
+         <outline title="Whiskyblog.pl" text="Whiskyblog.pl" description="Whiskyblog.pl" type="rss" xmlUrl="http://whiskyblog.pl/feed/" htmlUrl="http://whiskyblog.pl" />
+         <outline title="milerpije.pl" text="milerpije.pl" description="milerpije.pl" type="atom" xmlUrl="http://www.milerpije.pl/feed/atom" htmlUrl="http://www.milerpije.pl" />
       </outline>
    </body>
 </opml>

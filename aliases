@@ -36,6 +36,7 @@ alias installed='dpkg --get-selections | grep -v deinstall'
 alias wruby='cd $HOME/workspace/ruby'
 alias wgems='cd $HOME/workspace/ruby/gems'
 alias werl='cd $HOME/workspace/erlang'
+alias wex='cd $HOME/workspace/erlang/elixir'
 
 alias camera='mplayer -vf mirror -v tv:// -tv device=/dev/video0:driver=v4l2'
 

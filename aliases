@@ -33,8 +33,8 @@ alias top25='topcommands | head -n 25'
 alias netcons='lsof -i -nP'
 alias installed='dpkg --get-selections | grep -v deinstall'
 
-alias wrb='cd $HOME/workspace/ruby'
-alias wg='cd $HOME/workspace/ruby/gems'
+alias wruby='cd $HOME/workspace/ruby'
+alias wgems='cd $HOME/workspace/ruby/gems'
 alias werl='cd $HOME/workspace/erlang'
 alias wex='cd $HOME/workspace/erlang/elixir'
 

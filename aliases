@@ -41,7 +41,7 @@ alias wex='cd $HOME/workspace/erlang/elixir'
 alias camera='mplayer -vf mirror -v tv:// -tv device=/dev/video0:driver=v4l2'
 
 tea () {
-  sh -c 'sleep 180; notify-send "Tea" "Your tea is ready\!"' &
+  sh -c 'notify-send "Tea" "Will remember about your tea in 3 min"; sleep 180; notify-send "Tea" "Your tea is ready\!"' &
 }
 
 killemall () {

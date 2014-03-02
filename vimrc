@@ -70,7 +70,7 @@ set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp
 map <C-n> :NERDTreeToggle<CR>
 
 " shortcut to rapidly toggle `set list`
-nmap <leader>l :set list!<CR>
+nmap <C-l> :set list!<CR>
 set listchars=tab:▸\ ,eol:¬,nbsp:¶
 
 " Colors!

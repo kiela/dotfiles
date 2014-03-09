@@ -22,10 +22,11 @@
   cl = clone
   a = add
   w = whatchanged -p --abbrev-commit --pretty=medium
+  s = stash save
   sl = stash list
   sa = stash apply
   sp = stash pop
-  s = stash save
+  sd = stash drop
   rs = reset --soft HEAD~1
   rh = reset --hard HEAD~1
   spark = !bash -c $HOME/bin/spark-git

@@ -32,6 +32,7 @@ alias top10='topcommands | head -n 10'
 alias top25='topcommands | head -n 25'
 alias netcons='lsof -i -nP'
 alias installed='dpkg --get-selections | grep -v deinstall'
+alias alsarestart='pulseaudio -k && sudo alsa force-reload'
 
 alias wruby='cd $HOME/workspace/ruby'
 alias wgems='cd $HOME/workspace/ruby/gems'

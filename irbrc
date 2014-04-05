@@ -11,4 +11,8 @@ FancyIrb.start :rocket_mode => false,
   :colorize => { :result_prompt => :green },
   :result_proc => proc { |c| c.last_value.awesome_inspect }
 
+def x
+  quit
+end
+
 puts "> all systems loaded <"

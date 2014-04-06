@@ -3,6 +3,8 @@
 .todo
 .msg
 *~
+.ruby-version
+.ruby-gemset
 
 # YARD artifacts
 .yardoc

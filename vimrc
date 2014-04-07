@@ -48,6 +48,7 @@ if has("autocmd")
 	autocmd BufWritePre *.erl,*.rb :call <SID>StripTrailingSpaces()
 
 	autocmd Filetype gitcommit setlocal textwidth=72
+	autocmd Filetype gitcommit setlocal spell
 endif
 
 nnoremap <silent> <F6> :g/^$/d<CR>

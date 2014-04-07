@@ -16,3 +16,6 @@
 [submodule "vim/bundle/vim-nerdtree-tabs"]
 	path = vim/bundle/vim-nerdtree-tabs
 	url = git@github.com:jistr/vim-nerdtree-tabs.git
+[submodule "vim/bundle/vimerl"]
+	path = vim/bundle/vimerl
+	url = git@github.com:jimenezrick/vimerl.git

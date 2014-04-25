@@ -29,7 +29,6 @@ alias erl='erl -config ~/.erlang-hist.config'
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias rgrep='clear && grep --exclude-dir=log --exclude-dir=tmp --exclude-dir=test --exclude-dir=spec --exclude-dir=app/assets'
-alias memsql='mysql -P 3307 --prompt="memsql> "'
 alias topcommands='history | sed "s/^[0-9 ]*//" | sed "s/ *| */\n/g" | awk "{print \$1}" | sort | uniq -c | sort -rn'
 alias top10='topcommands | head -n 10'
 alias top25='topcommands | head -n 25'

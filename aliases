@@ -19,14 +19,13 @@ alias .='cd $HOME'
 alias h='history 25'
 alias j='jobs -l'
 alias x=exit
-
 alias df='df -h'
 alias du='du -h'
 alias duh='du -H'
-alias r='source $HOME/.zshrc'
 
 alias erl='erl -config ~/.erlang-hist.config'
 
+alias r='source $HOME/.zshrc'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias rgrep='clear && grep --exclude-dir=log --exclude-dir=tmp --exclude-dir=test --exclude-dir=spec --exclude-dir=app/assets'
 alias topcommands='history | sed "s/^[0-9 ]*//" | sed "s/ *| */\n/g" | awk "{print \$1}" | sort | uniq -c | sort -rn'
@@ -35,13 +34,12 @@ alias top25='topcommands | head -n 25'
 alias netcons='lsof -i -nP'
 alias installed='dpkg --get-selections | grep -v deinstall'
 alias alsarestart='pulseaudio -k && sudo alsa force-reload'
+alias camera='mplayer -vf mirror -v tv:// -tv device=/dev/video0:driver=v4l2'
 
 alias wruby='cd $HOME/workspace/ruby'
 alias wgems='cd $HOME/workspace/ruby/gems'
 alias werl='cd $HOME/workspace/erlang'
 alias wex='cd $HOME/workspace/erlang/elixir'
-
-alias camera='mplayer -vf mirror -v tv:// -tv device=/dev/video0:driver=v4l2'
 
 tea () {
   sh -c 'notify-send "Tea" "Will remember about your tea in 3 min"; sleep 180; notify-send "Tea" "Your tea is ready\!"' &

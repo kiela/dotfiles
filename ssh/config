@@ -2,11 +2,6 @@ Host *
  ServerAliveInterval 60
  ServerAliveCountMax 2
 
-Host github.com-sb
-  HostName github.com
-  IdentityFile ~/.ssh/id_rsa.sourcebits
-  User git
-
 Host pandora
   HostName pandora.heimdall.pl
   IdentityFile ~/.ssh/id_rsa.pandora

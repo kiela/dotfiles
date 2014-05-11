@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 ENVS=$HOME/.envs
 if [[ -f $ENVS && -s $ENVS ]]; then
 	source $ENVS

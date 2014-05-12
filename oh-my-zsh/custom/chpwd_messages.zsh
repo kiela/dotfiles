@@ -13,6 +13,11 @@ function chpwd_messages()
     cat .todo
     echo -n "$(tput sgr0)"
   fi;
+
+  if [[ -f .links && -s .links ]]; then
+    echo "$(tput bold)$(tput setaf 6)LINKS:$(tput sgr0)"
+    echo "$(tput setaf 6)Check out links stored in .links file!$(tput sgr0)"
+  fi;
 }
 
 add-zsh-hook chpwd chpwd_messages

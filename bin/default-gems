@@ -8,4 +8,3 @@ gem install fancy_irb
 gem install interactive_editor
 gem install looksee
 gem install method_source
-gem install rest-client

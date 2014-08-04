@@ -1,16 +1,19 @@
+# rvm
+source $HOME/.rvm/scripts/rvm
+export rvmsudo_secure_path=1
+export PATH="$HOME/.rvm/bin:$PATH"
+export PATH="$HOME/workspace/elixir/elixir/bin:$PATH"
+
+# zsh
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="rico"
 
 DISABLE_AUTO_UPDATE="true"
 COMPLETION_WAITING_DOTS="true"
 
-plugins=(git ruby rails)
+plugins=(git rails)
 
 export PATH="$PATH:$HOME/bin:/usr/local/heroku/bin"
 export EDITOR=vim
 
 source $ZSH/oh-my-zsh.sh
-
-# RVM
-export rvmsudo_secure_path=1
-PATH=$PATH:$HOME/.rvm/bin

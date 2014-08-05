@@ -5,6 +5,7 @@
 *~
 .ruby-version
 .ruby-gemset
+.rvmrc
 
 # YARD artifacts
 .yardoc

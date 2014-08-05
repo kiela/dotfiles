@@ -2,6 +2,7 @@
 .env
 .todo
 .msg
+.links
 *~
 .ruby-version
 .ruby-gemset

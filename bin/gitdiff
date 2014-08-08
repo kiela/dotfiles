@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-if [ 7 -eq $# ]
-then
-  $HOME/bin/gitmerge "$2" "$5"
-fi

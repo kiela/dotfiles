@@ -7,13 +7,9 @@
 [color]
   ui = true
 [merge]
-  tool = gitmerge
-[mergetool "gitmerge"]
-  cmd = gitmerge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
-[mergetool]
-  trustExitCode = false
+  tool = meld
 [diff]
-  external = gitdiff
+  external = meld
 [alias]
   h = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s' --graph
   hf = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s%n' --graph --name-status
@@ -35,3 +31,5 @@
   ignore = "!gi() { curl http://www.gitignore.io/api/$@ ;}; gi"
 [help]
   autocorrect = 1
+[push]
+  default = simple

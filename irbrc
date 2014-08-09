@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'awesome_print'
 require 'fancy_irb'
-require 'interactive_editor'
 require 'looksee'
 require 'method_source'
 

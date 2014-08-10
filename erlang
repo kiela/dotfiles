@@ -1,12 +1,3 @@
-io:format("executing user profile in $HOME/.erlang~n").
+%% Settings go here
 
-%% Add paths to dependencies
-Home = os:getenv("HOME").
-Dir = Home ++ "/workspace/erlang/dependencies/deps",
-{ok, List} = file:list_dir(Dir).
-lists:foreach(fun(Item) ->
-  Path = Dir ++ "/" ++ Item ++ "/ebin",
-  code:add_path(Path)
-end, List).
-io:format("dependencies from ~p loaded~n", [Dir]).
-
+io:format("> all systems loaded <~n~n").

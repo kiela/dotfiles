@@ -16,6 +16,7 @@
   st = status
   ci = commit
   cl = clone
+  co = checkout
   a = add
   w = whatchanged -p --abbrev-commit --pretty=medium
   s = stash save

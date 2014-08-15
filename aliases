@@ -39,7 +39,7 @@ alias camera='mplayer -vf mirror -v tv:// -tv device=/dev/video0:driver=v4l2'
 alias wruby='cd $HOME/workspace/ruby'
 alias wgems='cd $HOME/workspace/ruby/gems'
 alias werl='cd $HOME/workspace/erlang'
-alias wex='cd $HOME/workspace/erlang/elixir'
+alias wex='cd $HOME/workspace/elixir'
 
 tea () {
   sh -c 'notify-send "Tea" "Will remember about your tea in 3 min"; sleep 180; notify-send "Tea" "Your tea is ready\!"' &

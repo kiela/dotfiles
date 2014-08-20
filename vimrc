@@ -22,11 +22,7 @@ vnoremap < <gv
 
 set pastetoggle=<F2>
 
-set nu
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set noexpandtab
+set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 " after 3 spaces and pressing tab it will be 4 spaces - not 5
 set shiftround
 
@@ -65,6 +61,8 @@ function! <SID>StripTrailingSpaces()
 	call cursor(l, c)
 endfunction
 
+
+set nu
 
 " ignore these
 set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp

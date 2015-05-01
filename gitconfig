@@ -11,8 +11,13 @@
 [diff]
   external = meld
 [alias]
-  h = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s' --graph
-  hf = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s%n' --graph --name-status
+  dl = pull
+  up = push
+  f = fetch
+  m = merge
+  l = log
+  lh = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s' --graph
+  lf = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s%n' --graph --name-status
   st = status
   ci = commit
   cl = clone
@@ -29,7 +34,7 @@
   spark = "!$HOME/bin/spark-git"
   undo = reset --hard HEAD~1
   unpushed = log --branches --not --remotes --color --graph --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s' --abbrev-commit
-  ignore = "!gi() { curl http://www.gitignore.io/api/$@ ;}; gi"
+  i = "!gi() { curl http://www.gitignore.io/api/$@ ;}; gi"
 [help]
   autocorrect = 1
 [push]

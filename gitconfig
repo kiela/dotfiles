@@ -3,7 +3,7 @@
   email = kamil@kieliszczyk.net
 [core]
   editor = vim
-  excludesfile = /home/kiela/.gitignore
+  excludesfile = ~/.gitignore
 [color]
   ui = true
 [merge]

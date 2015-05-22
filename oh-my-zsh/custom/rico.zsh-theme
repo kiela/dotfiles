@@ -1,8 +1,6 @@
 local user='%{$fg[magenta]%}%n@%{$fg[magenta]%}%m%{$reset_color%}'
 local pwd='%{$fg[blue]%}%~%{$reset_color%}'
 
-local erlang='%{$fg[green]%}‹$(erl -eval "erlang:display(erlang:system_info(otp_release)), halt()."  -noshell  | sed -n "/R[0-9][0-9][A|B][0-9][0-9]/ s/.*\(R[0-9][0-9][A|B][0-9][0-9]\).*/\1/p")›%{$reset_color%}'
-
 local rvm=''
 if which rvm-prompt &> /dev/null; then
   rvm='%{$fg[green]%}‹$(rvm-prompt v p g)›%{$reset_color%}'
@@ -26,4 +24,4 @@ ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[yellow]%}═"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}✭"
 
 PROMPT="${user} ${pwd}$ "
-RPROMPT="${git_branch} ${erlang} ${rvm}"
+RPROMPT="${git_branch} ${rvm}"

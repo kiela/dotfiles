@@ -6,7 +6,7 @@ export PATH="$HOME/workspace/elixir/elixir/bin:$PATH"
 
 # zsh
 ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="rico"
+ZSH_THEME="heimdall"
 
 DISABLE_AUTO_UPDATE="true"
 COMPLETION_WAITING_DOTS="true"

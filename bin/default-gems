@@ -1,9 +1,0 @@
-#!/bin/sh
-
-gem install pry
-gem install pry-nav
-gem install awesome_print
-gem install hirb
-gem install fancy_irb
-gem install looksee
-gem install method_source

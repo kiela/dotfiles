@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+tea () {
+  sh -c 'notify-send "Tea" "Will remember about your tea in 3 min"; sleep 180; notify-send "Tea" "Your tea is ready\!"' &
+}
+
+tea

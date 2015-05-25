@@ -41,17 +41,6 @@ alias wgems='cd $HOME/workspace/ruby/gems'
 alias werl='cd $HOME/workspace/erlang'
 alias wex='cd $HOME/workspace/elixir'
 
-tea () {
-  sh -c 'notify-send "Tea" "Will remember about your tea in 3 min"; sleep 180; notify-send "Tea" "Your tea is ready\!"' &
-}
-
-killemall () {
-  if [ ! -z $1 ]; then
-    ps aux | grep $1 | grep -v grep | awk '{print $2}' | xargs kill -9
-    echo "killed 'em all!"
-  fi
-}
-
 extract () {
   if [ -f $1 ]; then
     case $1 in

@@ -1,8 +1,5 @@
 #!/usr/bin/env sh
 
-alias zshconfig='vim $HOME/.zshrc'
-alias ohmyzsh='vim $HOME/.oh-my-zsh'
-
 alias c=clear
 alias cc=clear
 alias la='ls -a'

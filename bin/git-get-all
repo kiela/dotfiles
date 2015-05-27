@@ -1,19 +1,26 @@
 #!/usr/bin/env bash
 
-CUR_DIR=$(pwd)
-echo "Pulling in latest changes for all repositories..."
+git-get-all() {
+	local current_dir=$1
+	local git_cmd=$2
 
-for i in $(find . -name ".git" | cut -c 3-); do
+	echo "Pulling in latest changes for all repositories..."
+
+	for repo in $(find . -type d -name ".git" | cut -c 3-); do
+		cd "$repo"
+		cd ..
+
+		if [ $(git remote | wc -l) -gt 0 ]; then
+			echo ""
+			echo "$(tput setaf 2)"$repo"$(tput sgr0)"
+			git branch | awk '{print $2}' | xargs git $git_cmd origin
+		fi
+
+		cd $current_dir
+	done
+
 	echo ""
-	echo "$(tput setaf 2)"$i"$(tput sgr0)"
+	echo "Completed!"
+}
 
-	cd "$i"
-	cd ..
-
-	git pull origin master
-
-	cd $CUR_DIR
-done
-
-echo ""
-echo "Completed!"
+git-get-all $(pwd) $1

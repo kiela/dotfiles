@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
 killemall () {
-  if [ ! -z $1 ]; then
-    ps aux | grep $1 | grep -v grep | awk '{print $2}' | xargs kill -9
-    echo "killed 'em all!"
-  fi
+	if [ -z $1 ]; then
+		echo "No argument passed.."
+	else
+		ps aux | grep $1 | grep -v grep | awk '{print $2}' | xargs kill -9
+		echo "killed 'em all!"
+	fi
 }
 
 killemall $1

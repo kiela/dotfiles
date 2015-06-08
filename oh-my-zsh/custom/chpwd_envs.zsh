@@ -11,5 +11,5 @@ function chpwd_envs()
   fi;
 }
 
+autoload -U add-zsh-hook
 add-zsh-hook chpwd chpwd_envs
-

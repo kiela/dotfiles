@@ -1,19 +1,33 @@
-# rvm
-source $HOME/.rvm/scripts/rvm
-export rvmsudo_secure_path=1
-export PATH="$HOME/.rvm/bin:$PATH"
-export PATH="$HOME/workspace/elixir/elixir/bin:$PATH"
+# ZSH
 
-# zsh
-ZSH=$HOME/.oh-my-zsh
+# path to oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
+# set theme
 ZSH_THEME="heimdall"
-
-DISABLE_AUTO_UPDATE="true"
+# disable bi-weekly auto-updates checks
+DISABLE_AUTO_UPDATE="false"
+# disable auto-setting terminal title
+DISABLE_AUTO_TITLE="true"
+# display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
+# list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
+plugins=(bundler brew brew-cask git zsh_reload)
+# laod oh-my-zsh
+source "$ZSH/oh-my-zsh.sh"
 
-plugins=(git rails)
 
+# Homebrew
+
+# Github API Token for Homebrew
+export HOMEBREW_GITHUB_API_TOKEN="xxx"
+
+
+# User configuration
 export PATH="$HOME/bin:$PATH"
-export EDITOR=vim
+export PATH="$PATH:/usr/local/sbin"
+export EDITOR="vim"
 
-source $ZSH/oh-my-zsh.sh
+# RVM
+rvmsudo_secure_path=1
+export PATH="$PATH:$HOME/.rvm/bin"
+source "$HOME/.rvm/scripts/rvm"

@@ -5,7 +5,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # set theme
 ZSH_THEME="heimdall"
 # disable bi-weekly auto-updates checks
-DISABLE_AUTO_UPDATE="false"
+DISABLE_AUTO_UPDATE="true"
 # disable auto-setting terminal title
 DISABLE_AUTO_TITLE="true"
 # display red dots whilst waiting for completion.

@@ -24,7 +24,7 @@ alias v='VBoxManage'
 alias erl='erl -config ~/.erlang-hist.config'
 
 alias r='source $HOME/.zshrc'
-alias rgrep='grep --exclude-dir=coverage --exclude-dir=log --exclude-dir=tmp --exclude-dir=test --exclude-dir=spec --exclude-dir=app/assets'
+alias rgrep='grep --exclude-dir=coverage --exclude-dir=log --exclude-dir=tmp --exclude-dir=app/assets'
 alias crgrep='clear && rgrep'
 alias topcmds='history | sed "s/^[0-9 ]*//" | sed "s/ *| */\n/g" | awk "{print \$1}" | sort | uniq -c | sort -rn'
 alias topcmds10='topcommands | head -n 10'

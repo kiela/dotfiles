@@ -32,7 +32,7 @@ alias topcmds10='topcommands | head -n 10'
 alias topcmds25='topcommands | head -n 25'
 alias netcons='lsof -i -nP'
 
-alias wruby='cd $HOME/workspace/ruby'
+alias wrb='cd $HOME/workspace/ruby'
 alias wgems='cd $HOME/workspace/ruby/gems'
 alias werl='cd $HOME/workspace/erlang'
 alias wex='cd $HOME/workspace/elixir'

@@ -1,6 +1,7 @@
 [user]
   name = Kamil Kieliszczyk
   email = kamil@kieliszczyk.net
+  signingkey = 0010B692
 [core]
   editor = vim
   excludesfile = ~/.gitignore
@@ -10,6 +11,8 @@
   tool = meld
 [diff]
   external = meld
+[commit]
+  gpgsign = true
 [alias]
   dl = pull
   up = push

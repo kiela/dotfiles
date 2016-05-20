@@ -14,18 +14,23 @@
 [commit]
   gpgsign = true
 [alias]
-  dl = pull
-  up = push
+  cl = clone
   f = fetch
-  m = merge
-  l = log
-  lh = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s' --graph
-  lf = log --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s%n' --graph --name-status
+  fa = "get-all fetch"
+  dl = pull
+  dla = "get-all pull"
+  up = push
+  a = add
   st = status
   ci = commit
-  cl = clone
+  bl = blame
+  m = merge --commit --no-ff --verify-signatures
   co = checkout
-  a = add
+  cp = cherry-pick
+  r = rebase
+  br = branch
+  t = tag 
+  sub = submodule
   w = whatchanged -p --abbrev-commit --pretty=medium
   s = stash save
   sl = stash list
@@ -34,12 +39,11 @@
   sd = stash drop
   rs = reset --soft HEAD~1
   rh = reset --hard HEAD~1
-  undo = reset --hard HEAD~1
-  unpushed = log --branches --not --remotes --color --graph --pretty=format:'%Cred%h%Creset %C(bold blue)<%an>%Creset%C(yellow)%d%Creset %Cgreen(%cr)%Creset%n%w(80,8,8)%s' --abbrev-commit
+  l = log --show-signature
+  lf = log --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s%n' --graph --name-status
+  unpushed = log --branches --not --remotes --color --graph --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s' --abbrev-commit
   i = "!gi() { curl -L -s https://www.gitignore.io/api/$@; }; gi"
   spark = "!gspark() { git log --format=format:%ad --date=short | uniq -c | awk '{print $1}' | spark; }; gspark"
-	fa = "get-all fetch"
-	dla = "get-all pull"
 [help]
   autocorrect = 1
 [push]

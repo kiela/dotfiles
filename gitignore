@@ -1,57 +1,97 @@
-# mine
-.env
-.todo
-.msg
-.links
-*~
-.ruby-version
-.ruby-gemset
-.rvmrc
+# Created by https://www.gitignore.io
 
-# YARD artifacts
-.yardoc
-_yardoc
-doc/
-
-# https://github.com/github/gitignore/blob/master/Erlang.gitignore
+### Erlang ###
 .eunit
 deps
 *.o
 *.beam
 *.plt
 erl_crash.dump
+ebin
+rel/example_project
+.concrete/DEV_MODE
+.rebar
 
-# https://github.com/github/gitignore/blob/master/Ruby.gitignore
+
+### Elixir ###
+/_build
+/deps
+erl_crash.dump
+*.ez
+
+
+### Ruby ###
 *.gem
 *.rbc
-.bundle
-.config
-coverage
-InstalledFiles
-lib/bundler/man
-pkg
-rdoc
-spec/reports
-test/tmp
-test/version_tmp
-tmp
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/test/tmp/
+/test/version_tmp/
+/tmp/
 
-# https://github.com/github/gitignore/blob/master/Rails.gitignore
-.rbc
-*.sassc
-.sass-cache
+## Specific to RubyMotion:
+.dat*
+.repl_history
+build/
+
+## Documentation cache and generated files:
+/.yardoc/
+/_yardoc/
+/doc/
+/rdoc/
+
+## Environment normalisation:
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+
+# for a library or gem, you might want to ignore these files since the code is
+# intended to run in multiple environments; otherwise, check them in:
+# Gemfile.lock
+# .ruby-version
+# .ruby-gemset
+
+# unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
+.rvmrc
+
+
+### Rails ###
+*.rbc
 capybara-*.html
 .rspec
-.rvmrc
-/.bundle
-/vendor/bundle
-/log/*
-/tmp/*
+/log
+/tmp
 /db/*.sqlite3
-/public/system/*
+/db/*.sqlite3-journal
+/public/system
 /coverage/
-/spec/tmp/*
+/spec/tmp
 **.orig
 rerun.txt
 pickle-email-*.html
-.project
+
+# TODO Comment out these rules if you are OK with secrets being uploaded to the repo
+config/initializers/secret_token.rb
+config/secrets.yml
+
+## Environment normalisation:
+/.bundle
+/vendor/bundle
+
+# these should all be checked in to normalise the environment:
+# Gemfile.lock, .ruby-version, .ruby-gemset
+
+# unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
+.rvmrc
+
+# if using bower-rails ignore default bower_components path bower.json files
+/vendor/assets/bower_components
+*.bowerrc
+bower.json
+
+# Ignore pow environment settings
+.powenv
+

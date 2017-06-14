@@ -23,10 +23,19 @@ alias v='VBoxManage'
 
 alias erl='erl -config ~/.erlang-hist.config'
 
+# I'm just sloppy sometimes
+alias grpe='grep'
+# clear console and grep though directory
+alias cgrep='clear && grep'
 # grep though Ruby on Rails project and omit junk
 alias rgrep='grep --exclude-dir=assets --exclude-dir=coverage --exclude-dir=db --exclude-dir=log --exclude-dir=tmp'
 # clear console and grep though Ruby on Rails project and omit junk
 alias crgrep='clear && rgrep'
+# grep though Scala project and omit junk
+alias sgrep='grep --exclude-dir=target'
+# clear console and grep though Ruby on Rails project and omit junk
+alias csgrep='clear && sgrep'
+
 alias topcmds='history | sed "s/^[0-9 ]*//" | sed "s/ *| */\n/g" | awk "{print \$1}" | sort | uniq -c | sort -rn'
 alias topcmds10='topcommands | head -n 10'
 alias topcmds25='topcommands | head -n 25'

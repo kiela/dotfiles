@@ -1,36 +1,62 @@
 # Use extended color palette if available
 if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
-    turquoise="%F{81}"
-    orange="%F{166}"
-    purple="%F{135}"
-    hotpink="%F{161}"
-    limegreen="%F{118}"
-	blue="%F{21}"
+	local turquoise="%F{81}"
+	local orange="%F{166}"
+	local purple="%F{135}"
+	local hotpink="%F{161}"
+	local limegreen="%F{118}"
+	local green="%F{2}"
+	local blue="%F{21}"
+	local default_color="%f"
 else
-    turquoise="$fg[cyan]"
-    orange="$fg[yellow]"
-    purple="$fg[magenta]"
-    hotpink="$fg[red]"
-    limegreen="$fg[green]"
-	blue="$fg[blue"]
+	local turquoise="$fg[cyan]"
+	local orange="$fg[yellow]"
+	local purple="$fg[magenta]"
+	local hotpink="$fg[red]"
+	local limegreen="$fg[green]"
+	local green="$fg[green]"
+	local blue="$fg[blue]"
+	local default_color=$reset_color
 fi
 
-local time="%(?.%{$limegreen%}.%{$hotpink%})%*%{$reset_color%}"
-local user='%{$purple%}%n@%{$purple%}%m%{$reset_color%}'
-local pwd='%{$blue%}%~%{$reset_color%}'
-local rvm='%{$limegreen%}$(rvm-prompt v p g)%{$reset_color%}'
-local git='$(git_prompt_status) $(git_prompt_info)'
+function time_prompt() {
+	echo "%(?.%{$limegreen%}.%{$hotpink%})%D{%H:%M:%S}%{$default_color%}"
+}
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$limegreen%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+function user_prompt() {
+	echo "%{$purple%}%n@%m%{$default_color%}"
+}
+
+function git_prompt() {
+	if { type git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/null }; then
+		echo "$(git_prompt_status) $(git_prompt_info)"
+	else
+		echo ""
+	fi
+}
+
+function ruby_prompt() {
+	if { type rvm &> /dev/null && [[ -f .ruby-version ]]; }; then
+		echo "using %{$green%}$(rvm-prompt v g)%{$default_color%}"
+	else
+		echo ""
+	fi
+}
+
+function pwd_prompt() {
+	echo "%{$blue%}%~%{$default_color%}"
+}
+
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[green]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$default_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY=""
 ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_ADDED="%{$limegreen%}✹"
-ZSH_THEME_GIT_PROMPT_MODIFIED="%{$orange%}✹"
-ZSH_THEME_GIT_PROMPT_DELETED="%{$hotpink%}✹"
-ZSH_THEME_GIT_PROMPT_RENAMED="%{$orange%}✹"
-ZSH_THEME_GIT_PROMPT_UNMERGED="%{$purple%}✹"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$turquoise%}✹"
+ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}✹"
+ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg[yellow]%}✹"
+ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[red]%}✹"
+ZSH_THEME_GIT_PROMPT_RENAMED="%{$fg[yellow]%}✹"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[magenta]%}✹"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}✹"
 
-PROMPT="${time} ${user} $ "
-RPROMPT="${git} ${rvm} in ${pwd}"
+PROMPT='$(time_prompt) $(user_prompt) $ '
+RPROMPT='$(git_prompt) $(ruby_prompt) in $(pwd_prompt)'

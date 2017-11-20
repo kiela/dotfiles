@@ -27,6 +27,13 @@ export PATH="$HOME/bin:$PATH"
 export PATH="$PATH:/usr/local/sbin"
 export EDITOR="vim"
 
+# User defined aliases
+ALIASES=$HOME/.aliases
+if [[ -f $ALIASES && -s $ALIASES ]]; then
+	source $ALIASES
+	echo "$(tput setaf 2)Aliases loaded$(tput sgr0)"
+fi;
+
 # RVM
 rvmsudo_secure_path=1
 export PATH="$PATH:$HOME/.rvm/bin"

@@ -15,13 +15,6 @@ plugins=(bundler brew brew-cask git zsh_reload)
 # laod oh-my-zsh
 source "$ZSH/oh-my-zsh.sh"
 
-
-# Homebrew
-
-# Github API Token for Homebrew
-export HOMEBREW_GITHUB_API_TOKEN="xxx"
-
-
 # User configuration
 export PATH="$HOME/bin:$PATH"
 export PATH="$PATH:/usr/local/sbin"
@@ -32,7 +25,13 @@ ALIASES=$HOME/.aliases
 if [[ -f $ALIASES && -s $ALIASES ]]; then
 	source $ALIASES
 	echo "$(tput setaf 2)Aliases loaded$(tput sgr0)"
-fi;
+fi
+
+# Homebrew
+if type brew &> /dev/null; then
+  # Github API Token for Homebrew
+  export HOMEBREW_GITHUB_API_TOKEN="xxx"
+fi
 
 # RVM
 rvmsudo_secure_path=1

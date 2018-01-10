@@ -1,4 +1,6 @@
 # ZSH
+HISTSIZE=999999
+SAVEHIST=999999
 
 # path to oh-my-zsh
 export ZSH="$HOME/.oh-my-zsh"

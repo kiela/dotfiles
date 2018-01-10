@@ -25,8 +25,8 @@ export EDITOR="vim"
 # User defined aliases
 ALIASES=$HOME/.aliases
 if [[ -f $ALIASES && -s $ALIASES ]]; then
-	source $ALIASES
-	echo "$(tput setaf 2)Aliases loaded$(tput sgr0)"
+  source $ALIASES
+  echo "$(tput setaf 2)Aliases loaded$(tput sgr0)"
 fi
 
 # Homebrew
@@ -36,6 +36,8 @@ if type brew &> /dev/null; then
 fi
 
 # RVM
-rvmsudo_secure_path=1
-export PATH="$PATH:$HOME/.rvm/bin"
-source "$HOME/.rvm/scripts/rvm"
+if type rvm &> /dev/null; then
+  rvmsudo_secure_path=1
+  export PATH="$PATH:$HOME/.rvm/bin"
+  source "$HOME/.rvm/scripts/rvm"
+fi

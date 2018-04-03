@@ -22,6 +22,7 @@ alias duh='du -H'
 alias v='VBoxManage'
 
 alias erl='erl -config ~/.erlang-hist.config'
+alias t='tmux'
 
 # I'm just sloppy sometimes
 alias grpe='grep'

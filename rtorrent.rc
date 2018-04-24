@@ -96,3 +96,6 @@ use_udp_trackers = yes
 # Enable peer exchange (for torrents not marked private)
 #
 # peer_exchange = yes
+
+# Force rtorrent to use the UTF-8 encoding
+encoding_list = UTF-8

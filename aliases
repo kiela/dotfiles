@@ -13,47 +13,76 @@ alias ..='cd ..'
 alias cd..='cd ..'
 alias scd='cd'
 alias .='cd $HOME'
-alias h='history 25'
 alias j='jobs -l'
 alias x='exit'
 alias df='df -h'
 alias du='du -h'
 alias duh='du -H'
-alias vm='VBoxManage'
-alias d='docker'
-alias dc='docker container'
-alias dco='docker-compose'
-alias di='docker image'
-alias ds='docker service'
-alias dv='docker volume'
-alias sen='docker run -v /var/run/docker.sock:/run/docker.sock -ti -e TERM tomastomecek/sen'
-alias erl='erl -config ~/.erlang-hist.config'
-alias t='tmux'
-
-# I'm just sloppy sometimes
-alias grpe='grep'
-# clear console and grep though directory
+alias grpe='grep' # I'm just sloppy sometimes
 alias cgrep='clear && grep'
-# grep though Ruby on Rails project and omit junk
-alias rgrep='grep --exclude-dir=assets --exclude-dir=coverage --exclude-dir=db --exclude-dir=log --exclude-dir=tmp'
-# clear console and grep though Ruby on Rails project and omit junk
-alias crgrep='clear && rgrep'
-# grep though Scala project and omit junk
-alias sgrep='grep --exclude-dir=target'
-# clear console and grep though Ruby on Rails project and omit junk
-alias csgrep='clear && sgrep'
-
-alias topcmds='history | sed "s/^[0-9 ]*//" | sed "s/ *| */\n/g" | awk "{print \$1}" | sort | uniq -c | sort -rn'
-alias topcmds10='topcommands | head -n 10'
-alias topcmds25='topcommands | head -n 25'
 alias netcons='lsof -i -nP'
 
-alias wrb='cd $HOME/workspace/ruby'
-alias wgems='cd $HOME/workspace/ruby/gems'
-alias werl='cd $HOME/workspace/erlang'
-alias wex='cd $HOME/workspace/elixir'
+if type VBoxManage &> /dev/null; then
+  alias vb='VBoxManage'
+fi
 
-# http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/
-function brew-all-deps() {
-	brew list | while read cask; do echo -n $fg[blue] $cask $fg[white]; brew deps $cask | awk '{printf(" %s ", $0)}'; echo ""; done
-}
+if type docker &> /dev/null; then
+  alias d='docker'
+  alias dctn='d container'
+  alias di='d image'
+  alias dsvc='d service'
+  alias dstk='d stack'
+  alias ds='d swarm'
+  alias dv='d volume'
+  alias dn='d network'
+fi
+
+if type codeclimate &> /dev/null; then
+  alias cc='codeclimate'
+  alias ccc='clear && codeclimate'
+  alias cca='cc analyze'
+  alias ccca='ccc analyze'
+fi
+
+if type erl &> /dev/null; then
+  alias erl='erl -config ~/.erlang-hist.config'
+fi
+
+if type terraform &> /dev/null; then
+  alias tf='terraform'
+  alias tfp='tf plan'
+  alias tfa='tf apply'
+  alias tfs='tf show'
+  alias tfd='tf destroy'
+fi
+
+if type tmux &> /dev/null; then
+  alias t='tmux'
+fi
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias ot='open -a TextEdit'
+  alias ok='open -a Kaleidoscope'
+  alias om='open -a MacDown'
+  alias of='open -a Finder'
+
+  # grep though Ruby on Rails project and omit junk
+  alias rgrep='grep --exclude-dir=assets --exclude-dir=coverage --exclude-dir=db --exclude-dir=docs --exclude-dir=log --exclude-dir=tmp'
+  alias crgrep='clear && rgrep'
+
+  # grep though Scala project and omit junk
+  alias sgrep='grep --exclude-dir=target'
+  alias csgrep='clear && sgrep'
+
+  if type docker &> /dev/null; then
+    alias sen='d run -v /var/run/docker.sock:/run/docker.sock -ti -e TERM tomastomecek/sen'
+    alias psql='d exec -it $(d ps -f "name=postgres*" -q) psql'
+    alias pg_dump='d exec -it $(d ps -f "name=postgres*" -q) pg_dump'
+    alias 'redis-cli'='d exec -it $(d ps -f "name=redis*" -q) redis-cli'
+  fi
+
+  # http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/
+  function brew-all-deps() {
+    brew list | while read cask; do echo -n $fg[blue] $cask $fg[white]; brew deps $cask | awk '{printf(" %s ", $0)}'; echo ""; done
+  }
+fi

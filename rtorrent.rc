@@ -99,3 +99,6 @@ use_udp_trackers = yes
 
 # Force rtorrent to use the UTF-8 encoding
 encoding_list = UTF-8
+
+# Enable XMLRPC
+scgi_port = 127.0.0.1:5000

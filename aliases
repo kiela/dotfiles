@@ -28,13 +28,34 @@ fi
 
 if type docker &> /dev/null; then
   alias d='docker'
-  alias dctn='d container'
-  alias di='d image'
-  alias dsvc='d service'
-  alias dstk='d stack'
-  alias ds='d swarm'
-  alias dv='d volume'
-  alias dn='d network'
+  alias dctn='docker container'
+  alias di='docker image'
+  alias dp='docker pull'
+  alias dr='docker run'
+  alias dsvc='docker service'
+  alias dstk='docker stack'
+  alias ds='docker system'
+  alias dsw='docker swarm'
+  alias dv='docker volume'
+  alias dn='docker network'
+fi
+
+if type kubectl &> /dev/null; then
+  alias k='kubectl'
+  alias ka='kubectl apply'
+  alias kd='kubectl describe'
+  alias krm='kubectl delete'
+  alias ke='kubectl exec'
+  alias kg='kubectl get'
+  alias kl='kubectl logs'
+
+  alias ck='clear && k'
+  alias cka='clear && ka'
+  alias ckd='clear && kd'
+  alias ckrm='clear && krm'
+  alias cke='clear && ke'
+  alias ckg='clear && kg'
+  alias ckl='clear && kl'
 fi
 
 if type codeclimate &> /dev/null; then
@@ -50,10 +71,14 @@ fi
 
 if type terraform &> /dev/null; then
   alias tf='terraform'
-  alias tfp='tf plan'
-  alias tfa='tf apply'
-  alias tfs='tf show'
-  alias tfd='tf destroy'
+  alias tfp='terraform plan'
+  alias tfa='terraform apply'
+  alias tfs='terraform show'
+  alias tfd='terraform destroy'
+  alias tfwn='terraform workspace new'
+  alias tfwl='terraform workspace list'
+  alias tfws='terraform workspace select'
+  alias tfwd='terraform workspace delete'
 fi
 
 if type tmux &> /dev/null; then
@@ -65,6 +90,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
   alias ok='open -a Kaleidoscope'
   alias om='open -a MacDown'
   alias of='open -a Finder'
+  alias ost='open -a SourceTree'
 
   # grep though Ruby on Rails project and omit junk
   alias rgrep='grep --exclude-dir=assets --exclude-dir=coverage --exclude-dir=db --exclude-dir=docs --exclude-dir=log --exclude-dir=tmp'
@@ -75,10 +101,11 @@ if [[ "$OSTYPE" == darwin* ]]; then
   alias csgrep='clear && sgrep'
 
   if type docker &> /dev/null; then
-    alias sen='d run -v /var/run/docker.sock:/run/docker.sock -ti -e TERM tomastomecek/sen'
-    alias psql='d exec -it $(d ps -f "name=postgres*" -q) psql'
-    alias pg_dump='d exec -it $(d ps -f "name=postgres*" -q) pg_dump'
-    alias 'redis-cli'='d exec -it $(d ps -f "name=redis*" -q) redis-cli'
+    alias sen='docker run -v /var/run/docker.sock:/run/docker.sock -ti -e TERM tomastomecek/sen'
+    alias psql='docker exec -it $(docker ps -f "name=postgres*" -q) psql'
+    alias pg_dump='docker exec -it $(docker ps -f "name=postgres*" -q) pg_dump'
+    alias pg_config='docker exec -it $(docker ps -f "name=postgres*" -q) pg_config'
+    alias 'redis-cli'='docker exec -it $(docker ps -f "name=redis*" -q) redis-cli'
   fi
 
   # http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/

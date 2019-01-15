@@ -13,7 +13,7 @@ DISABLE_AUTO_TITLE="true"
 # display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(bundler brew brew-cask docker-machine git zsh_reload)
+plugins=(bundler brew brew-cask dirrc docker-machine git zsh_reload)
 # laod oh-my-zsh
 source "$ZSH/oh-my-zsh.sh"
 
@@ -21,13 +21,6 @@ source "$ZSH/oh-my-zsh.sh"
 export PATH="$HOME/bin:$PATH"
 export PATH="$PATH:/usr/local/sbin"
 export EDITOR="vim"
-
-# User defined aliases
-ALIASES=$HOME/.aliases
-if [[ -f $ALIASES && -s $ALIASES ]]; then
-  source $ALIASES
-  echo "$(tput setaf 2)Aliases loaded$(tput sgr0)"
-fi
 
 # Homebrew
 if type brew &> /dev/null; then

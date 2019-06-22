@@ -13,7 +13,7 @@ DISABLE_AUTO_TITLE="true"
 # display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(bundler brew brew-cask dirrc docker-machine git zsh_reload)
+plugins=(bundler dirrc docker docker-compose docker-machine git zsh_reload)
 # laod oh-my-zsh
 source "$ZSH/oh-my-zsh.sh"
 

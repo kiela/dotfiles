@@ -7,10 +7,6 @@
 	excludesfile = ~/.gitignore
 [color]
 	ui = true
-[merge]
-	tool = meld
-[diff]
-	external = meld
 [commit]
 	gpgsign = true
 [alias]

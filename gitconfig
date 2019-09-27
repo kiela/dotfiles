@@ -1,50 +1,50 @@
 [user]
-  name = Kamil Kieliszczyk
-  email = kamil@kieliszczyk.net
-  signingkey = 0010B692
+	name = Kamil Kieliszczyk
+	email = kamil@kieliszczyk.net
+	signingkey = 0010B692
 [core]
-  editor = vim
-  excludesfile = ~/.gitignore
+	editor = vim
+	excludesfile = ~/.gitignore
 [color]
-  ui = true
+	ui = true
 [merge]
-  tool = meld
+	tool = meld
 [diff]
-  external = meld
+	external = meld
 [commit]
-  gpgsign = true
+	gpgsign = true
 [alias]
-  cl = clone
-  f = fetch
-  fa = "get-all fetch"
-  dl = pull
-  dla = "get-all pull"
-  up = push
-  a = add
-  st = status
-  ci = commit
-  bl = blame
-  m = merge --commit --no-ff --verify-signatures
-  co = checkout
-  cp = cherry-pick
-  r = rebase
-  br = branch
-  t = tag 
-  sub = submodule
-  w = whatchanged -p --abbrev-commit --pretty=medium
-  s = stash save
-  sl = stash list
-  sa = stash apply
-  sp = stash pop
-  sd = stash drop
-  rs = reset --soft HEAD~1
-  rh = reset --hard HEAD~1
-  l = log --show-signature
-  lf = log --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s%n' --graph --name-status
-  unpushed = log --branches --not --remotes --color --graph --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s' --abbrev-commit
-  i = "!gi() { curl -L -s https://www.gitignore.io/api/$@; }; gi"
-  spark = "!gspark() { git log --format=format:%ad --date=short | uniq -c | awk '{print $1}' | spark; }; gspark"
+	cl = clone
+	f = fetch
+	fa = "get-all fetch"
+	dl = pull
+	dla = "get-all pull"
+	up = push
+	a = add
+	st = status
+	ci = commit
+	bl = blame
+	m = merge --commit --no-ff --verify-signatures
+	co = checkout
+	cp = cherry-pick
+	r = rebase
+	br = branch
+	t = tag
+	sub = submodule
+	w = whatchanged -p --abbrev-commit --pretty=medium
+	s = stash save
+	sl = stash list
+	sa = stash apply
+	sp = stash pop
+	sd = stash drop
+	rs = reset --soft HEAD~1
+	rh = reset --hard HEAD~1
+	l = log --show-signature
+	lf = log --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s%n' --graph --name-status
+	unpushed = log --branches --not --remotes --color --graph --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s' --abbrev-commit
+	i = "!gi() { curl -L -s https://www.gitignore.io/api/$@; }; gi"
+	spark = "!gspark() { git log --format=format:%ad --date=short | uniq -c | awk '{print $1}' | spark; }; gspark"
 [help]
-  autocorrect = 1
+	autocorrect = 1
 [push]
-  default = simple
+	default = simple

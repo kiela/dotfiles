@@ -45,9 +45,15 @@ if type kubectl &> /dev/null; then
   alias ka='kubectl apply'
   alias kd='kubectl describe'
   alias krm='kubectl delete'
-  alias ke='kubectl exec'
   alias kg='kubectl get'
   alias kl='kubectl logs'
+
+  function ke() {
+    readonly label=${1:-"api"}
+    readonly command=${2:-"bash"}
+
+    kubectl exec -it $(kg po -l io.kompose.service=$label -o jsonpath='{.items[0].metadata.name}') $command
+  }
 
   alias ck='clear && k'
   alias cka='clear && ka'

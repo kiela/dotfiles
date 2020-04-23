@@ -11,11 +11,12 @@
 	gpgsign = true
 [alias]
 	cl = clone
+	all = all-repos
 	f = fetch
-	fa = get-all fetch
+	fa = all-repos fetch
 	d = diff
 	dl = pull
-	dla = get-all pull
+	dla = all-repos pull
 	up = push
 	a = add
 	st = status

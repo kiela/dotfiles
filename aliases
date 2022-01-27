@@ -20,6 +20,7 @@ alias du='du -h'
 alias duh='du -H'
 alias grpe='grep' # I'm just sloppy sometimes
 alias cgrep='clear && grep'
+alias cgrpe=cgrep
 alias netcons='lsof -i -nP'
 
 if type VBoxManage &> /dev/null; then
@@ -43,25 +44,33 @@ fi
 if type kubectl &> /dev/null; then
   alias k='kubectl'
   alias ka='kubectl apply'
+  alias kcfg='kubectl config'
   alias kd='kubectl describe'
   alias krm='kubectl delete'
   alias kg='kubectl get'
   alias kl='kubectl logs'
+  alias ks='kubectl scale'
 
   function ke() {
     readonly label=${1:-"api"}
     readonly command=${2:-"bash"}
 
-    kubectl exec -it $(kg po -l io.kompose.service=$label -o jsonpath='{.items[0].metadata.name}') $command
+    kubectl exec -it $(kg po -l io.kompose.service=$label -o jsonpath='{.items[0].metadata.name}') -- $command
   }
 
   alias ck='clear && k'
   alias cka='clear && ka'
+  alias ckcfg='clear && kcfg'
   alias ckd='clear && kd'
   alias ckrm='clear && krm'
   alias cke='clear && ke'
   alias ckg='clear && kg'
   alias ckl='clear && kl'
+
+  if type kubectx &> /dev/null; then
+    alias kctx=kubectx
+    alias kns=kubens
+  fi
 fi
 
 if type codeclimate &> /dev/null; then
@@ -81,10 +90,11 @@ if type terraform &> /dev/null; then
   alias tfa='terraform apply'
   alias tfs='terraform show'
   alias tfd='terraform destroy'
-  alias tfwn='terraform workspace new'
-  alias tfwl='terraform workspace list'
-  alias tfws='terraform workspace select'
-  alias tfwd='terraform workspace delete'
+  alias tfw='terraform workspace'
+  alias tgrep='grep --exclude-dir=terraform.tfstate.d --exclude-dir=.terraform --exclude-dir=backup'
+  alias tgrpe=tgrep
+  alias ctgrep='clear && tgrep'
+  alias ctgrpe=ctgrep
 fi
 
 if type tmux &> /dev/null; then
@@ -92,6 +102,7 @@ if type tmux &> /dev/null; then
 fi
 
 if [[ "$OSTYPE" == darwin* ]]; then
+  # open an app
   alias ot='open -a TextEdit'
   alias ok='open -a Kaleidoscope'
   alias om='open -a MacDown'
@@ -100,18 +111,12 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
   # grep though Ruby on Rails project and omit junk
   alias rgrep='grep --exclude-dir=assets --exclude-dir=coverage --exclude-dir=db --exclude-dir=docs --exclude-dir=log --exclude-dir=tmp'
+  alias rgrpe=rgrep
   alias crgrep='clear && rgrep'
-
-  # grep though Scala project and omit junk
-  alias sgrep='grep --exclude-dir=target'
-  alias csgrep='clear && sgrep'
+  alias crgrpe=crgrep
 
   if type docker &> /dev/null; then
     alias sen='docker run -v /var/run/docker.sock:/run/docker.sock -ti -e TERM tomastomecek/sen'
-    alias psql='docker exec -it $(docker ps -f "name=postgres*" -q) psql'
-    alias pg_dump='docker exec -it $(docker ps -f "name=postgres*" -q) pg_dump'
-    alias pg_config='docker exec -it $(docker ps -f "name=postgres*" -q) pg_config'
-    alias 'redis-cli'='docker exec -it $(docker ps -f "name=redis*" -q) redis-cli'
   fi
 
   # http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/

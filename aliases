@@ -116,10 +116,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
   if type docker &> /dev/null; then
     alias sen='docker run -v /var/run/docker.sock:/run/docker.sock -ti -e TERM tomastomecek/sen'
-    alias psql='docker exec -it $(docker ps -f "name=postgres*" -q) psql'
-    alias pg_dump='docker exec -it $(docker ps -f "name=postgres*" -q) pg_dump'
-    alias pg_config='docker exec -it $(docker ps -f "name=postgres*" -q) pg_config'
-    alias 'redis-cli'='docker exec -it $(docker ps -f "name=redis*" -q) redis-cli'
   fi
 
   # http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/

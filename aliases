@@ -43,25 +43,33 @@ fi
 if type kubectl &> /dev/null; then
   alias k='kubectl'
   alias ka='kubectl apply'
+  alias kcfg='kubectl config'
   alias kd='kubectl describe'
   alias krm='kubectl delete'
   alias kg='kubectl get'
   alias kl='kubectl logs'
+  alias ks='kubectl scale'
 
   function ke() {
     readonly label=${1:-"api"}
     readonly command=${2:-"bash"}
 
-    kubectl exec -it $(kg po -l io.kompose.service=$label -o jsonpath='{.items[0].metadata.name}') $command
+    kubectl exec -it $(kg po -l io.kompose.service=$label -o jsonpath='{.items[0].metadata.name}') -- $command
   }
 
   alias ck='clear && k'
   alias cka='clear && ka'
+  alias ckcfg='clear && kcfg'
   alias ckd='clear && kd'
   alias ckrm='clear && krm'
   alias cke='clear && ke'
   alias ckg='clear && kg'
   alias ckl='clear && kl'
+
+  if type kubectx &> /dev/null; then
+    alias kctx=kubectx
+    alias kns=kubens
+  fi
 fi
 
 if type codeclimate &> /dev/null; then

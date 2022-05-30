@@ -67,8 +67,20 @@ set nu
 " ignore these
 set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp
 
-" nerdtree
-map <C-n> :NERDTreeToggle<CR>
+" Plugins
+
+" NERDTree
+map <silent> <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeShowHidden=1
+let g:NERDTreeIgnore=['\.DS_Store$', '\.git$']
+" open a NERDTree automatically when vim starts without any file
+if has("autocmd")
+  " Start NERDTree when Vim is started without file arguments.
+  autocmd StdinReadPre * let s:std_in=1
+  autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+end
 
 " shortcut to rapidly toggle `set list`
 nmap <C-l> :set list!<CR>

@@ -12,8 +12,14 @@ DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
 # display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
+# tmux plugin configuration
+ZSH_TMUX_AUTOSTART="true"
+ZSH_TMUX_AUTOSTART_ONCE="false"
+ZSH_TMUX_AUTOCONNECT="false"
+ZSH_TMUX_AUTOQUIT="true"
+ZSH_TMUX_UNICODE="true"
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(dirrc docker docker-compose docker-machine git)
+plugins=(dirrc docker docker-compose docker-machine git tmux)
 # remind about OMZ updates
 zstyle ':omz:update' mode reminder
 # laod oh-my-zsh

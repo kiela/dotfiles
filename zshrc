@@ -32,9 +32,3 @@ if type brew &> /dev/null; then
   export HOMEBREW_GITHUB_API_TOKEN="xxx"
 fi
 
-# RVM
-if type rvm &> /dev/null; then
-  rvmsudo_secure_path=1
-  export PATH="$PATH:$HOME/.rvm/bin"
-  source "$HOME/.rvm/scripts/rvm"
-fi

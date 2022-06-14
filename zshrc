@@ -38,3 +38,5 @@ if type brew &> /dev/null; then
   export HOMEBREW_GITHUB_API_TOKEN="xxx"
 fi
 
+# iTerm2 tmux integration for zsh
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

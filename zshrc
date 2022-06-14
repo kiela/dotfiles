@@ -14,6 +14,8 @@ DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
 plugins=(dirrc docker docker-compose docker-machine git)
+# remind about OMZ updates
+zstyle ':omz:update' mode reminder
 # laod oh-my-zsh
 source "$ZSH/oh-my-zsh.sh"
 

@@ -38,5 +38,9 @@ if type brew &> /dev/null; then
   export HOMEBREW_GITHUB_API_TOKEN="xxx"
 fi
 
+if type kubectl &> /dev/null; then
+  source <(kubectl completion zsh)
+fi
+
 # iTerm2 tmux integration for zsh
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

@@ -13,7 +13,7 @@
 	cl = clone
 	all = all-repos
 	f = fetch
-	fa = all-repos fetch
+	fa = all-repos fetch --all --prune
 	d = diff
 	dl = pull
 	dla = all-repos pull

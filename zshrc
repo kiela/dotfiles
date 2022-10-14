@@ -32,10 +32,17 @@ export PATH="$PATH:/usr/local/sbin"
 export EDITOR="vim"
 export LC_ALL=en_US.UTF-8
 
-# Homebrew
-if type brew &> /dev/null; then
-  # Github API Token for Homebrew
-  export HOMEBREW_GITHUB_API_TOKEN="xxx"
+if [[ "$OSTYPE" == darwin* ]]; then
+  # Homebrew
+  if type brew &> /dev/null; then
+    # Github API Token for Homebrew
+    export HOMEBREW_GITHUB_API_TOKEN="xxx"
+  fi
+
+  # iTerm2 tmux integration for zsh
+  if test -e "${HOME}/.iterm2_shell_integration.zsh"; then
+    source "${HOME}/.iterm2_shell_integration.zsh"
+  fi
 fi
 
 if type kubectl &> /dev/null; then
@@ -45,6 +52,3 @@ fi
 if type gcloud &> /dev/null; then
   source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
-
-# iTerm2 tmux integration for zsh
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

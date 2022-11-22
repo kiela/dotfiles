@@ -1,6 +1,8 @@
 call pathogen#infect()
 call pathogen#helptags()
 
+let mapleader = ','
+
 syntax on
 syntax enable
 filetype plugin indent on
@@ -21,6 +23,9 @@ vnoremap > >gv
 vnoremap < <gv
 
 set pastetoggle=<F2>
+
+" Turn off search highlights
+map <Leader>nn :ohlsearch<CR>
 
 set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 " after 3 spaces and pressing tab it will be 4 spaces - not 5

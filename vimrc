@@ -1,6 +1,8 @@
 call pathogen#infect()
 call pathogen#helptags()
 
+let mapleader = ','
+
 syntax on
 syntax enable
 filetype plugin indent on

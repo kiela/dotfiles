@@ -87,14 +87,16 @@ fi
 if type terraform &> /dev/null; then
   alias tf='terraform'
   alias tfp='terraform plan'
+  alias ctfp='clear && terraform plan'
   alias tfa='terraform apply'
+  alias tfi='terraform import'
   alias tfs='terraform show'
   alias tfd='terraform destroy'
   alias tfw='terraform workspace'
-  alias tgrep='grep --exclude-dir=terraform.tfstate.d --exclude-dir=.terraform --exclude-dir=backup'
-  alias tgrpe=tgrep
+  alias tgrep='grep --exclude-dir=terraform.tfstate.d --exclude-dir=.terraform'
+  alias tgrpe='tgrep'
   alias ctgrep='clear && tgrep'
-  alias ctgrpe=ctgrep
+  alias ctgrpe='ctgrep'
 fi
 
 if type tmux &> /dev/null; then

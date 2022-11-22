@@ -87,7 +87,9 @@ fi
 if type terraform &> /dev/null; then
   alias tf='terraform'
   alias tfp='terraform plan'
+  alias ctfp='clear && terraform plan'
   alias tfa='terraform apply'
+  alias tfi='terraform import'
   alias tfs='terraform show'
   alias tfd='terraform destroy'
   alias tfw='terraform workspace'

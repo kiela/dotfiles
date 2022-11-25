@@ -51,11 +51,20 @@ if type kubectl &> /dev/null; then
   alias kl='kubectl logs'
   alias ks='kubectl scale'
 
-  function ke() {
-    readonly label=${1:-"api"}
-    readonly command=${2:-"bash"}
+  function kubectl-get-pod-name-by-label() {
+    kubectl get pod -l app=$1 -o jsonpath='{.items[0].metadata.name}'
+  }
 
-    kubectl exec -it $(kg po -l io.kompose.service=$label -o jsonpath='{.items[0].metadata.name}') -- $command
+  function ke() {
+    readonly label=${1:-'api'}
+    if [[ $# -gt 1 ]]; then
+      shift
+      command=$@
+    else
+      command='bash'
+    fi
+    pod=$(kubectl-get-pod-name-by-label $label)
+    kubectl exec -it $pod -- sh -c "$command"
   }
 
   alias ck='clear && k'

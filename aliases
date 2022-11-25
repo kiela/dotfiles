@@ -97,8 +97,8 @@ if type kubectl &> /dev/null; then
   alias ckl='clear && kl'
 
   if type kubectx &> /dev/null; then
-    alias kctx=kubectx
-    alias kns=kubens
+    alias kctx='kubectx'
+    alias kns='kubens'
   fi
 fi
 

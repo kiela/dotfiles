@@ -48,7 +48,6 @@ if type kubectl &> /dev/null; then
   alias kd='kubectl describe'
   alias krm='kubectl delete'
   alias kg='kubectl get'
-  alias kl='kubectl logs'
   alias ks='kubectl scale'
 
   function kubectl-get-pod-name-by-label() {
@@ -65,6 +64,16 @@ if type kubectl &> /dev/null; then
     fi
     pod=$(kubectl-get-pod-name-by-label $label)
     kubectl exec -it $pod -- sh -c "$command"
+  }
+
+  alias klog='kubectl logs'
+  alias klogs='klog'
+  alias klf='klog -f'
+  function kl() {
+    label=${1:-api}
+    args="${@:2}"
+    pod=$(kubectl-get-pod-name-by-label $label)
+    kubectl logs $pod $args
   }
 
   alias ck='clear && k'

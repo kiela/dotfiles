@@ -102,13 +102,6 @@ if type kubectl &> /dev/null; then
   fi
 fi
 
-if type codeclimate &> /dev/null; then
-  alias cc='codeclimate'
-  alias ccc='clear && codeclimate'
-  alias cca='cc analyze'
-  alias ccca='ccc analyze'
-fi
-
 if type erl &> /dev/null; then
   alias erl='erl -config ~/.erlang-hist.config'
 fi

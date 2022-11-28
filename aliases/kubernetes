@@ -1,0 +1,62 @@
+#!/usr/bin/env sh
+
+if type kubectl &> /dev/null; then
+  alias k='kubectl'
+  alias ka='kubectl apply'
+  alias kcfg='kubectl config'
+  alias kd='kubectl describe'
+  alias kg='kubectl get'
+  alias ks='kubectl scale'
+
+  if type watch &> /dev/null; then
+    alias wkg='watch -n 1 kubectl get'
+  fi
+
+  function kubectl-get-pod-name-by-label() {
+    kubectl get pod -l app=$1 -o jsonpath='{.items[0].metadata.name}'
+  }
+
+  alias krm='kubectl delete'
+  function krmall() {
+    object=$1
+    for o in $(kubectl get $object --no-headers -o custom-columns=':metadata.name'); do
+      kubectl delete $object --force --grace-period 0 $o
+    done
+  }
+
+  function ke() {
+    readonly label=${1:-'api'}
+    if [[ $# -gt 1 ]]; then
+      shift
+      command=$@
+    else
+      command='bash'
+    fi
+    pod=$(kubectl-get-pod-name-by-label $label)
+    kubectl exec -it $pod -- sh -c "$command"
+  }
+
+  alias klog='kubectl logs'
+  alias klogs='klog'
+  alias klf='klog -f'
+  function kl() {
+    label=${1:-api}
+    args="${@:2}"
+    pod=$(kubectl-get-pod-name-by-label $label)
+    kubectl logs $pod $args
+  }
+
+  alias ck='clear && k'
+  alias cka='clear && ka'
+  alias ckcfg='clear && kcfg'
+  alias ckd='clear && kd'
+  alias ckrm='clear && krm'
+  alias cke='clear && ke'
+  alias ckg='clear && kg'
+  alias ckl='clear && kl'
+
+  if type kubectx &> /dev/null; then
+    alias kctx='kubectx'
+    alias kns='kubens'
+  fi
+fi

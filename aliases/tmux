@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+if type tmux &> /dev/null; then
+  alias t='tmux'
+fi

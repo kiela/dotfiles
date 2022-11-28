@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  # open an app
+  alias ot='open -a TextEdit'
+  alias ok='open -a Kaleidoscope'
+  alias om='open -a MacDown'
+  alias of='open -a Finder'
+  alias ost='open -a SourceTree'
+
+  # grep though Ruby on Rails project and omit junk
+  alias rgrep='grep --exclude-dir=assets --exclude-dir=coverage --exclude-dir=db --exclude-dir=docs --exclude-dir=log --exclude-dir=tmp'
+  alias rgrpe=rgrep
+  alias crgrep='clear && rgrep'
+  alias crgrpe=crgrep
+
+  if type docker &> /dev/null; then
+    alias sen='docker run -v /var/run/docker.sock:/run/docker.sock -ti -e TERM tomastomecek/sen'
+  fi
+
+  # http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/
+  function brew-all-deps() {
+    brew list | while read cask; do echo -n $fg[blue] $cask $fg[white]; brew deps $cask | awk '{printf(" %s ", $0)}'; echo ""; done
+  }
+fi

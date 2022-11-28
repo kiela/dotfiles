@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+source $HOME/.aliases/common
+source $HOME/.aliases/docker
+source $HOME/.aliases/erlang
+source $HOME/.aliases/kubernetes
+source $HOME/.aliases/osx
+source $HOME/.aliases/terraform
+source $HOME/.aliases/tmux
+source $HOME/.aliases/virtualbox

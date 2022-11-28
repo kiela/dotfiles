@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+if type VBoxManage &> /dev/null; then
+  alias vb='VBoxManage'
+fi

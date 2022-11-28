@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+if type erl &> /dev/null; then
+  alias erl='erl -config ~/.erlang-hist.config'
+fi

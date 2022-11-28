@@ -30,9 +30,11 @@ __load_dir_todos() {
 }
 
 __load_dir_aliases() {
-  local file=$1/.aliases
+  local file=$1/${2:-".aliases"}
 
-  if [[ -f $file && -s $file ]]; then
+  if [[ -d $file ]]; then
+    __load_dir_aliases $file "_load"
+  elif [[ -f $file && -s $file ]]; then
     source $file
     echo "$(tput setaf 2)Directory aliases loaded$(tput sgr0)"
   fi;

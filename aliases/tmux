@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if type tmux &> /dev/null; then
+  alias t='tmux'
+  alias ta='tmux apply'
+  alias tls='tmux ls'
+fi

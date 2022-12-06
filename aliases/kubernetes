@@ -1,62 +1,116 @@
 #!/usr/bin/env sh
 
-if type kubectl &> /dev/null; then
+if ! (type setvar &> /dev/null); then
+  setvar() {
+    local _variable_to_be_set="$1"
+    local _value_to_be_set="$2"
+
+    if [[ $# -gt 2 ]]; then
+      echo "$0: too many arguments"
+      return 2
+    fi
+
+    if [[ -n "$_variable_to_be_set" ]]; then
+      eval $_variable_to_be_set="$_value_to_be_set"
+    fi
+  }
+fi
+
+if (type kubectl &> /dev/null); then
   alias k='kubectl'
   alias ka='kubectl apply'
+  alias kc='kubectl create'
   alias kcfg='kubectl config'
   alias kd='kubectl describe'
   alias kg='kubectl get'
   alias ks='kubectl scale'
-
-  if type watch &> /dev/null; then
-    alias wkg='watch -n 1 kubectl get'
-  fi
-
-  function kubectl-get-pod-name-by-label() {
-    kubectl get pod -l app=$1 -o jsonpath='{.items[0].metadata.name}'
-  }
-
   alias krm='kubectl delete'
-  function krmall() {
-    object=$1
-    for o in $(kubectl get $object --no-headers -o custom-columns=':metadata.name'); do
-      kubectl delete $object --force --grace-period 0 $o
-    done
-  }
-
-  function ke() {
-    readonly label=${1:-'api'}
-    if [[ $# -gt 1 ]]; then
-      shift
-      command=$@
-    else
-      command='bash'
-    fi
-    pod=$(kubectl-get-pod-name-by-label $label)
-    kubectl exec -it $pod -- sh -c "$command"
-  }
-
-  alias klog='kubectl logs'
-  alias klogs='klog'
-  alias klf='klog -f'
-  function kl() {
-    label=${1:-api}
-    args="${@:2}"
-    pod=$(kubectl-get-pod-name-by-label $label)
-    kubectl logs $pod $args
-  }
+  alias krmall='__kubectl:delete_all_objects'
+  alias ke='__kubectl:execute'
+  alias kl='kubectl logs'
+  alias klog='__kubectl::get_pod_logs'
+  alias ketcd='__kubectl::etcdctl'
 
   alias ck='clear && k'
   alias cka='clear && ka'
   alias ckcfg='clear && kcfg'
   alias ckd='clear && kd'
-  alias ckrm='clear && krm'
-  alias cke='clear && ke'
   alias ckg='clear && kg'
+  alias cke='clear && ke'
   alias ckl='clear && kl'
 
-  if type kubectx &> /dev/null; then
+  if (type kubectx &> /dev/null); then
     alias kctx='kubectx'
     alias kns='kubens'
   fi
+
+  if (type watch &> /dev/null); then
+    alias wkg='watch -n 1 kubectl get'
+  fi
+
+  __kubectl::get_pod_name_by_label() {
+    local __var __label __value __args __result
+
+    if [[ $# -gt 2 ]]; then
+      __var="$1"
+      shift
+    fi
+    __label="$1"
+    __value="$2"
+    __args=${@:3}
+
+    __result=$(kubectl get pod -l $__label=$__value -o jsonpath='{.items[0].metadata.name}' $__args)
+
+    setvar "$__var" "$__result"
+  }
+
+  __kubectl::delete_all_objects() {
+    local _object=$1
+
+    for _o in $(kubectl get $_object --no-headers -o custom-columns=':metadata.name'); do
+      kubectl delete $_object --force --grace-period 0 $_o
+    done
+  }
+
+  __kubectl::execute() {
+    local _label="${1:-api}"
+    local _args
+    local _pod
+
+    if [[ $# -gt 1 ]]; then
+      shift
+      _args=$@
+    else
+      _args='bash'
+    fi
+
+    __kubectl::get_pod_name_by_label "_pod" "app" $_label
+
+    kubectl exec -it $_pod -- sh -c "$_args"
+  }
+
+  __kubectl::get_pod_logs() {
+    local _label=${1:-api}
+    local _args="${@:2}"
+    local _pod
+
+    __kubectl::get_pod_name_by_label "_pod" "app" $_label
+
+    kubectl logs $_pod $_args
+  }
+
+  __kubectl::etcdctl() {
+    local _args="$@"
+    local _pod
+
+    __kubectl::get_pod_name_by_label "_pod" "component" "etcd" "-n kube-system"
+
+    kubectl -n kube-system exec $_pod -it -- sh -c "\
+      ETCDCTL_API=3 \
+      ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \
+      ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \
+      ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \
+      etcdctl $_args
+    "
+  }
 fi

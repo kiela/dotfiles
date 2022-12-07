@@ -29,17 +29,14 @@ if (type kubectl &> /dev/null); then
   alias ke='__kubectl::execute'
   alias kl='kubectl logs'
   alias klog='__kubectl::get_pod_logs'
-  alias klogs='klog'
-  alias klf='klog -f'
   alias ketcd='__kubectl::etcdctl'
 
   alias ck='clear && k'
   alias cka='clear && ka'
   alias ckcfg='clear && kcfg'
   alias ckd='clear && kd'
-  alias ckrm='clear && krm'
-  alias cke='clear && ke'
   alias ckg='clear && kg'
+  alias cke='clear && ke'
   alias ckl='clear && kl'
 
   if (type kubectx &> /dev/null); then

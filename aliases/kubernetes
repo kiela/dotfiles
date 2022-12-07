@@ -30,6 +30,7 @@ if (type kubectl &> /dev/null); then
   alias klog='kubectl logs'
   alias klogs='klog'
   alias klf='klog -f'
+  alias ketcd='__kubectl::etcdctl'
 
   alias ck='clear && k'
   alias cka='clear && ka'
@@ -98,5 +99,20 @@ if (type kubectl &> /dev/null); then
     __kubectl::get_pod_name_by_label "_pod" "app" $_label
 
     kubectl logs $_pod $_args
+  }
+
+  __kubectl::etcdctl() {
+    local _args="$@"
+    local _pod
+
+    __kubectl::get_pod_name_by_label "_pod" "component" "etcd" "-n kube-system"
+
+    kubectl -n kube-system exec $_pod -it -- sh -c "\
+      ETCDCTL_API=3 \
+      ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt \
+      ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt \
+      ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \
+      etcdctl $_args
+    "
   }
 fi

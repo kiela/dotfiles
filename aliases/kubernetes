@@ -1,5 +1,21 @@
 #!/usr/bin/env sh
 
+if ! (type setvar &> /dev/null); then
+  setvar() {
+    local _variable_to_be_set="$1"
+    local _value_to_be_set="$2"
+
+    if [[ $# -gt 2 ]]; then
+      echo "$0: too many arguments"
+      return 2
+    fi
+
+    if [[ -n "$_variable_to_be_set" ]]; then
+      eval $_variable_to_be_set="$_value_to_be_set"
+    fi
+  }
+fi
+
 if type kubectl &> /dev/null; then
   alias k='kubectl'
   alias ka='kubectl apply'

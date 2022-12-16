@@ -32,6 +32,10 @@ export PATH="$PATH:/usr/local/sbin"
 export EDITOR="vim"
 export LC_ALL=en_US.UTF-8
 
+if test -e "${HOME}/.zshrc.local"; then
+  source "${HOME}/.zshrc.local"
+fi
+
 if [[ "$OSTYPE" == darwin* ]]; then
   # Homebrew
   if type brew &> /dev/null; then

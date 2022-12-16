@@ -38,9 +38,10 @@ fi
 
 if [[ "$OSTYPE" == darwin* ]]; then
   # Homebrew
-  if type brew &> /dev/null; then
+  # NOTE: Why -z $VAR and not -z ${VAR+x}: https://stackoverflow.com/a/13864829
+  if type brew &> /dev/null && [[ -z "$HOMEBREW_GITHUB_API_TOKEN" ]]; then
     # Github API Token for Homebrew
-    export HOMEBREW_GITHUB_API_TOKEN="xxx"
+    echo "Please consider setting \$HOMEBREW_GITHUB_API_TOKEN variable"
   fi
 
   # iTerm2 tmux integration for zsh

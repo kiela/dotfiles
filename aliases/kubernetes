@@ -17,6 +17,8 @@ if ! (type setvar &> /dev/null); then
 fi
 
 if (type kubectl &> /dev/null); then
+  source <(kubectl completion zsh)
+
   alias k='kubectl'
   alias ka='kubectl apply'
   alias kc='kubectl create'

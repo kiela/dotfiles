@@ -17,13 +17,20 @@ if ! (type setvar &> /dev/null); then
 fi
 
 if (type kubectl &> /dev/null); then
+  source <(kubectl completion zsh)
+
   alias k='kubectl'
   alias ka='kubectl apply'
+  alias kan='kubectl annotate'
   alias kc='kubectl create'
   alias kcfg='kubectl config'
   alias kd='kubectl describe'
   alias kg='kubectl get'
   alias ks='kubectl scale'
+  alias kr='kubectl run'
+  alias kro='kubectl rollout'
+  alias kroh='kubectl rollout history'
+  alias kroh='kubectl rollout undo'
   alias krm='kubectl delete'
   alias krmall='__kubectl:delete_all_objects'
   alias ke='__kubectl:execute'

@@ -13,7 +13,6 @@ alias ..='cd ..'
 alias cd..='cd ..'
 alias scd='cd'
 alias .='cd $HOME'
-alias j='jobs -l'
 alias x='exit'
 alias df='df -h'
 alias du='du -h'
@@ -24,3 +23,7 @@ alias cgrpe='cgrep'
 alias rm='rm -v'
 alias netcons='lsof -i -nP'
 alias wr='cd ~/workspace'
+
+if type youtube-dl &> /dev/null; then
+  alias youtube-dl="youtube-dl -f best"
+fi

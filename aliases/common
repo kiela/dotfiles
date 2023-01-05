@@ -23,3 +23,7 @@ alias cgrpe='cgrep'
 alias rm='rm -v'
 alias netcons='lsof -i -nP'
 alias wr='cd ~/workspace'
+
+if type youtube-dl &> /dev/null; then
+  alias youtube-dl="youtube-dl -f best"
+fi

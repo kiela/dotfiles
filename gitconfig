@@ -27,7 +27,7 @@
 	m = merge --commit --no-ff --verify-signatures
 	co = checkout
 	cp = cherry-pick
-	r = rebase
+	rb = rebase
 	t = tag
 	sub = submodule
 	w = whatchanged -p --abbrev-commit --pretty=medium
@@ -37,6 +37,7 @@
 	ss = stash show --patch
 	sp = stash pop
 	sd = stash drop
+	r = reset
 	rs = reset --soft HEAD~1
 	rh = reset --hard HEAD~1
 	l = log --show-signature

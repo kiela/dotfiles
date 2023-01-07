@@ -14,6 +14,8 @@
 	all = all-repos
 	f = fetch --all --prune --tags
 	fa = all-repos fetch --all --prune --tags
+	br = branch
+	bra = all-repos symbolic-ref --short HEAD
 	d = diff
 	dl = pull
 	dla = all-repos pull
@@ -26,7 +28,6 @@
 	co = checkout
 	cp = cherry-pick
 	r = rebase
-	br = branch
 	t = tag
 	sub = submodule
 	w = whatchanged -p --abbrev-commit --pretty=medium

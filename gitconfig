@@ -12,8 +12,8 @@
 [alias]
 	cl = clone
 	all = all-repos
-	f = fetch
-	fa = all-repos fetch --all --prune
+	f = fetch --all --prune --tags
+	fa = all-repos fetch --all --prune --tags
 	d = diff
 	dl = pull
 	dla = all-repos pull

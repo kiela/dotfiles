@@ -13,11 +13,17 @@ DISABLE_AUTO_TITLE="true"
 # display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 # tmux plugin configuration
-ZSH_TMUX_AUTOSTART="true"
-ZSH_TMUX_AUTOSTART_ONCE="false"
-ZSH_TMUX_AUTOCONNECT="false"
-ZSH_TMUX_AUTOQUIT="true"
-ZSH_TMUX_UNICODE="true"
+if [[ ! -f "$HOME/.zsh_tmux_autostart_off" ]]; then
+  ZSH_TMUX_AUTOSTART="true"
+  ZSH_TMUX_AUTOSTART_ONCE="false"
+  ZSH_TMUX_AUTOCONNECT="false"
+  ZSH_TMUX_AUTOQUIT="true"
+  ZSH_TMUX_UNICODE="true"
+else
+  echo "Tmux session will not automagically start"
+  echo "Please remove $HOME/.zsh_tmux_autostart_off"
+  echo "-----"
+fi
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
 plugins=(dirrc docker docker-compose docker-machine git tmux)
 # remind about OMZ updates
@@ -42,6 +48,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
   if type brew &> /dev/null && [[ -z "$HOMEBREW_GITHUB_API_TOKEN" ]]; then
     # Github API Token for Homebrew
     echo "Please consider setting \$HOMEBREW_GITHUB_API_TOKEN variable"
+    echo "-----"
   fi
 
   # iTerm2 tmux integration for zsh

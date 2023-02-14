@@ -16,6 +16,7 @@
 	br = branch
 	bra = all-repos symbolic-ref --short HEAD
 	ci = commit
+	cia = commit --amend
 	cl = clone
 	co = checkout
 	cp = cherry-pick
@@ -46,7 +47,9 @@
 	sub = submodule
 	t = tag
 	unpushed = log --branches --not --remotes --color --graph --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s' --abbrev-commit
+	unstage = restore --staged
 	up = push
+	upf = push -f
 	w = whatchanged -p --abbrev-commit --pretty=medium
 [help]
 	autocorrect = 1

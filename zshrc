@@ -25,7 +25,7 @@ else
   echo "-----"
 fi
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(dirrc docker docker-compose docker-machine git tmux)
+plugins=(brew docker docker-compose docker-machine git tmux bundler dirrc)
 # remind about OMZ updates
 zstyle ':omz:update' mode reminder
 # laod oh-my-zsh
@@ -60,3 +60,4 @@ fi
 if type gcloud &> /dev/null; then
   source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
+export PATH="/opt/homebrew/bin:$PATH"

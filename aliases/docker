@@ -2,14 +2,15 @@
 
 if type docker &> /dev/null; then
   alias d='docker'
-  alias dctn='docker container'
+#  alias dctn='docker container'
   alias di='docker image'
-  alias dp='docker pull'
-  alias dr='docker run'
-  alias dsvc='docker service'
-  alias dstk='docker stack'
+#  alias dp='docker pull'
+  alias dps='docker ps'
+#  alias dr='docker run'
+#  alias dsvc='docker service'
+#  alias dstk='docker stack'
   alias ds='docker system'
-  alias dsw='docker swarm'
-  alias dv='docker volume'
-  alias dn='docker network'
+#  alias dsw='docker swarm'
+#  alias dv='docker volume'
+#  alias dn='docker network'
 fi

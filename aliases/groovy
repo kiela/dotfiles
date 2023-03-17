@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if type docker &> /dev/null; then
+  alias gr='groovy'
+  alias grc='groovyc'
+  alias grs='groovysh'
+fi

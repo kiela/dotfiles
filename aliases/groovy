@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if type groovy &> /dev/null; then
+  alias gr='groovy'
+  alias grc='groovyc'
+  alias grs='groovysh'
+fi

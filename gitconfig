@@ -8,7 +8,7 @@
 [color]
 	ui = true
 [commit]
-	gpgsign = true
+	gpgsign = false
 [alias]
 	a = add
 	all = all-repos

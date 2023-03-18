@@ -60,3 +60,4 @@ fi
 if type gcloud &> /dev/null; then
   source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
+export PATH="/opt/homebrew/bin:$PATH"

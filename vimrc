@@ -25,7 +25,7 @@ vnoremap < <gv
 set pastetoggle=<F2>
 
 " Turn off search highlights
-map <Leader>nn :ohlsearch<CR>
+map <Leader>nn :nohlsearch<CR>
 
 set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 " after 3 spaces and pressing tab it will be 4 spaces - not 5

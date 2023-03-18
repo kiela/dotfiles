@@ -27,8 +27,14 @@ set pastetoggle=<F2>
 " Turn off search highlights
 map <Leader>nn :nohlsearch<CR>
 
-set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-" after 3 spaces and pressing tab it will be 4 spaces - not 5
+" URL: https://vim.fandom.com/wiki/Converting_tabs_to_spaces
+" tabstop - how many spaces replace a tab when tab is hit
+" softtabstop -
+" shiftwidth - how many spaces are used instead of tab when line is indetned
+" expandtab - use spaces when tab is hit
+" shiftround - after 3 spaces and pressing tab it will be 4 spaces - not 5
+set tabstop=4 softtabstop=4 shiftwidth=4
+set expandtab
 set shiftround
 
 if has("autocmd")
@@ -36,7 +42,7 @@ if has("autocmd")
 	autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 	autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType erlang setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+	autocmd FileType erlang setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 	autocmd BufNewFile,BufRead *.app,*.app.src setfiletype erlang
 
 	autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab

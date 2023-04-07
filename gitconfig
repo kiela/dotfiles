@@ -4,7 +4,7 @@
 	signingkey = 0010B692
 [core]
 	editor = vim
-	excludesfile = ~/.gitignore
+	excludesfile = /Users/kiela/.gitignore
 [color]
 	ui = true
 [commit]
@@ -57,3 +57,9 @@
 	autocorrect = 1
 [push]
 	default = simple
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

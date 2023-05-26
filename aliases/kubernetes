@@ -19,7 +19,7 @@ fi
 if (type kubectl &> /dev/null); then
   source <(kubectl completion zsh)
 
-	export know="--force --grace-period 0"
+  export know="--force --grace-period 0"
 
   alias k='kubectl'
   alias ka='kubectl apply'
@@ -122,5 +122,13 @@ if (type kubectl &> /dev/null); then
       ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key \
       etcdctl $_args
     "
+  }
+
+  __kubectl::get_containers() {
+    local $_cmd
+
+    cmd="kubectl get pods -o jsonpath='{range .items[*]}{\"\n\"}{.metadata.name}{\"\t\"}{.metadata.namespace}{\"\t\"}{range .spec.containers[*]}{.name}{\"=>\"}{.image}{\",\"}{end}{end}' | sort #|column -t"
+
+    omz::execute $_cmd
   }
 fi

@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+if (type ansible &> /dev/null); then
+  alias a="ansible"
+  alias ap="ansible-playbook"
+fi

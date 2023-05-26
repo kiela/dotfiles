@@ -1,2 +1,23 @@
-set nu
+let mapleader = ','
+
 syntax on
+
+set encoding=utf-8 " output encoding that is shown in the terminal
+set fileencoding=utf-8 " output encoding of the file that is written
+set ruler " show current row and number at the right bottom of the screen
+set number " display line numbers
+set numberwidth=5 " reserve 5 characters for number line
+set pastetoggle=<F2> " bind setting 'paste' on and off to F2 key
+set diffopt+=vertical " always use vertical diffs
+
+"set textwidth=80 " wrap lines longer then 80 characters
+" show "80-characters-line-long" vertical line
+nmap <silent> <Leader>ll :set colorcolumn=81<CR>
+
+set hlsearch " highlight searching word
+" turn off search highlights
+nmap <silent> <Leader>nn :nohl<CR>
+
+" indentations
+vnoremap > >gv
+vnoremap < <gv

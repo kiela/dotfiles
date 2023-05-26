@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 source $HOME/.aliases/common
+source $HOME/.aliases/ansible
 source $HOME/.aliases/docker
 source $HOME/.aliases/erlang
 source $HOME/.aliases/groovy

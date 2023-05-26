@@ -19,6 +19,8 @@ fi
 if (type kubectl &> /dev/null); then
   source <(kubectl completion zsh)
 
+	export know="--force --grace-period 0"
+
   alias k='kubectl'
   alias ka='kubectl apply'
   alias kan='kubectl annotate'

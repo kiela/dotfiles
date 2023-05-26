@@ -4,32 +4,41 @@ call pathogen#helptags()
 let mapleader = ','
 
 syntax on
-syntax enable
+"syntax enable " TODO wtf is that for?
 filetype plugin indent on
-scriptencoding utf-8
 
-set hlsearch
-set nobackup
-set nowritebackup
-set noswapfile
-set fencs=utf-8
-set mouse=
+set encoding=utf-8 " output encoding that is shown in the terminal
+set fileencoding=utf-8 " output encoding of the file that is written
+set backspace=2 " TODO make backspace work like most other apps
+set ruler " show current row and number at the right bottom of the screen
+set number " display line numbers
+set numberwidth=5 " reserve 5 characters for number line
+set pastetoggle=<F2> " bind setting 'paste' on and off to F2 key
+set nobackup " TODO do not create any backaup files
+set noswapfile " TODO do not create any swap files
+set nowritebackup" TODO wtf is that for?
+"set fencs=utf-8 " TODO wtf is that for?
+"set mouse= " TODO wtf is that for?
+set autowrite " TODO automatically :write before running commands
+set nojoinspaces " TODO use one space, not two, after punctuation
+set diffopt+=vertical " always use vertical diffs
+"set hidden " TODO switch between buffers without errors
 
-" switch between buffers without errors
-set hidden
+"set textwidth=80 " wrap lines longer then 80 characters
+" show "80-characters-line-long" vertical line
+nmap <silent> <Leader>ll :set colorcolumn=81<CR>
+
+set hlsearch " highlight searching word
+" turn off search highlights
+nmap <silent> <Leader>nn :nohlsearch<CR>
 
 " indentations
 vnoremap > >gv
 vnoremap < <gv
 
-set pastetoggle=<F2>
-
-" Turn off search highlights
-map <Leader>nn :nohlsearch<CR>
-
 " URL: https://vim.fandom.com/wiki/Converting_tabs_to_spaces
 " tabstop - how many spaces replace a tab when tab is hit
-" softtabstop - 
+" softtabstop -
 " shiftwidth - how many spaces are used instead of tab when line is indetned
 " expandtab - use spaces when tab is hit
 " shiftround - after 3 spaces and pressing tab it will be 4 spaces - not 5
@@ -40,13 +49,14 @@ set shiftround
 if has("autocmd")
 	autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
 	autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+	autocmd FileType sh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 	autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 	autocmd FileType groovy setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 	autocmd FileType erlang setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 	autocmd BufNewFile,BufRead *.app,*.app.src setfiletype erlang
 
-    autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
+  autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
 
 	autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 	autocmd FileType haml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
@@ -76,7 +86,6 @@ function! <SID>StripTrailingSpaces()
 endfunction
 
 
-set nu
 
 " ignore these
 set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp
@@ -107,7 +116,7 @@ highlight NonText guifg=#4a4a59
 highlight SpecialKey guifg=#4a4a59
 
 " highlight the 80th column
-"highlight OverLength ctermbg=darkred ctermfg=white guibg=#FFD9D9
+highlight OverLength ctermbg=darkred ctermfg=white guibg=#FFD9D9
 "match OverLength /\%>80v.\+/
 
 

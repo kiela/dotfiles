@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+if (type helm &> /dev/null); then
+  source <(helm completion zsh)
+
+  alias hi='helm install'
+  alias hls='helm list'
+#  alias hp='helm pull'
+  alias hr='helm repo'
+#  alias hra='helm repo add'
+#  alias hrb='helm rollback'
+  alias hrls='helm repo list'
+#  alias hrr='helm repo remove'
+  alias hrup='helm repo update'
+#  alias hs='helm show'
+  alias hs='helm search'
+#  alias hsh='helm search hub'
+#  alias hsr='helm search repo'
+#  alias hss='helm status'
+  alias ht='helm template'
+  alias hu='helm uninstall'
+  alias hd='helm dependency'
+  alias hf="helm fetch"
+fi

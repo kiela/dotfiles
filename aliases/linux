@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-
-if [[ "$OSTYPE" == linux* ]]; then
-  # open an app
-  alias of="xdg-open"
-  alias ot="gedit"
-fi

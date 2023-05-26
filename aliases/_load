@@ -4,11 +4,11 @@ source $HOME/.aliases/common
 source $HOME/.aliases/ansible
 source $HOME/.aliases/docker
 source $HOME/.aliases/erlang
+source $HOME/.aliases/gcloud
 source $HOME/.aliases/groovy
 source $HOME/.aliases/kubernetes
 source $HOME/.aliases/okd
 source $HOME/.aliases/osx
-source $HOME/.aliases/linux
 source $HOME/.aliases/terraform
 source $HOME/.aliases/tmux
 source $HOME/.aliases/virtualbox

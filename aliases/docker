@@ -1,8 +1,14 @@
 #!/usr/bin/env sh
 
-if type docker &> /dev/null; then
+if (type docker &> /dev/null); then
   alias d='docker'
   alias di='docker image'
   alias dps='docker ps'
   alias ds='docker system'
+
+  if [[ "$(uname -m)" == "arm64" ]]; then
+    alias dr='docker run --platform=linux/amd64'
+  else
+    alias dr='docker run'
+  fi
 fi

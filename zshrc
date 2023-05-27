@@ -1,6 +1,10 @@
 # ZSH
-HISTSIZE=999999
+# Refers to the number of commands that are stored in the zsh history file
 SAVEHIST=999999
+# Refers to the number of commands that are loaded into memory from the history
+HISTSIZE=999999
+# Refers to the path/location of the history file
+#HISTFILE=~/.zsh_history # default
 
 # path to oh-my-zsh
 export ZSH="$HOME/.oh-my-zsh"

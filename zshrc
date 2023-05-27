@@ -61,7 +61,5 @@ if [[ "$OSTYPE" == darwin* ]]; then
   fi
 fi
 
-export PATH="/opt/homebrew/bin:$PATH"
-
 # load oh-my-zsh as the last step
 source "$ZSH/oh-my-zsh.sh"

@@ -29,7 +29,7 @@ else
   echo "-----"
 fi
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(brew docker docker-compose docker-machine git tmux bundler dirrc)
+plugins=(dirrc docker docker-compose git helm tmux)
 # remind about OMZ updates
 zstyle ':omz:update' mode reminder
 # laod oh-my-zsh
@@ -48,6 +48,7 @@ fi
 
 if [[ "$OSTYPE" == darwin* ]]; then
   # Homebrew
+  plugins+=(brew)
   # NOTE: Why -z $VAR and not -z ${VAR+x}: https://stackoverflow.com/a/13864829
   if type brew &> /dev/null && [[ -z "$HOMEBREW_GITHUB_API_TOKEN" ]]; then
     # Github API Token for Homebrew

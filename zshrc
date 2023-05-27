@@ -32,8 +32,6 @@ fi
 plugins=(dirrc docker docker-compose git helm tmux)
 # remind about OMZ updates
 zstyle ':omz:update' mode reminder
-# laod oh-my-zsh
-source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
 export PATH="$HOME/bin:$PATH"
@@ -42,6 +40,7 @@ export PATH="$PATH:/usr/local/sbin"
 export EDITOR="vim"
 export LC_ALL=en_US.UTF-8
 
+# load zsh configuration specific for given machine
 if test -e "${HOME}/.zshrc.local"; then
   source "${HOME}/.zshrc.local"
 fi
@@ -63,3 +62,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 export PATH="/opt/homebrew/bin:$PATH"
+
+# load oh-my-zsh as the last step
+source "$ZSH/oh-my-zsh.sh"

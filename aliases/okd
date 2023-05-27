@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+if (type oc &> /dev/null); then
+  source <(oc completion zsh)
+
+  alias ocls='oc projects'
+  alias ocp='oc project'
+fi

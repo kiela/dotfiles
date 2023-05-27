@@ -8,7 +8,6 @@ source $HOME/.aliases/gcloud
 source $HOME/.aliases/groovy
 source $HOME/.aliases/helm
 source $HOME/.aliases/kubernetes
-source $HOME/.aliases/linux
 source $HOME/.aliases/okd
 source $HOME/.aliases/osx
 source $HOME/.aliases/terraform

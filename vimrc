@@ -42,47 +42,50 @@ vnoremap < <gv
 " shiftwidth - how many spaces are used instead of tab when line is indetned
 " expandtab - use spaces when tab is hit
 " shiftround - after 3 spaces and pressing tab it will be 4 spaces - not 5
-set tabstop=4 softtabstop=4 shiftwidth=4
+set tabstop=2 softtabstop=2 shiftwidth=2
 set expandtab
 set shiftround
 
 if has("autocmd")
-	autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
-	autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType sh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
+    autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType sh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType zsh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
-	autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType groovy setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-	autocmd FileType erlang setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-	autocmd BufNewFile,BufRead *.app,*.app.src setfiletype erlang
+    autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType groovy setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+    autocmd FileType erlang setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+    autocmd BufNewFile,BufRead *.app,*.app.src setfiletype erlang
 
-  autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
+    autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
 
-	autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType haml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType sass setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType coffee setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType haml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType sass setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType coffee setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
-	autocmd BufWritePre *.erl,*.rb :call <SID>StripTrailingSpaces()
+    autocmd BufWritePre *.erl,*.rb :call <SID>StripTrailingSpaces()
 
-	autocmd Filetype gitcommit setlocal textwidth=72
-	autocmd Filetype gitcommit setlocal spell
+    autocmd BufNewFile,BufRead *.sls setfiletype yaml
+
+    autocmd Filetype gitcommit setlocal textwidth=72
+    autocmd Filetype gitcommit setlocal spell
 endif
 
 nnoremap <silent> <F6> :g/^$/d<CR>
 nnoremap <silent> <F5> :call <SID>StripTrailingSpaces()<CR>
 function! <SID>StripTrailingSpaces()
-	" save last search, and cursor position.
-	let _s=@/
-	let l = line(".")
-	let c = col(".")
-	" strip trailing spaces
-	%s/\s\+$//e
-	" restore previous search history, and cursor position
-	let @/=_s
-	call cursor(l, c)
+    " save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " strip trailing spaces
+    %s/\s\+$//e
+    " restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
 endfunction
 
 
@@ -125,8 +128,8 @@ nnoremap ; :
 " Cheat!
 command! -complete=file -nargs=+ Cheat call Cheat(<q-args>)
 function! Cheat(command)
-	botright new
-	setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-	execute 'silent $read !cheat '.escape(a:command,'%#')
-	setlocal nomodifiable
+    botright new
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+    execute 'silent $read !cheat '.escape(a:command,'%#')
+    setlocal nomodifiable
 endfunction

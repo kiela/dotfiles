@@ -74,6 +74,21 @@ if (type kubectl &> /dev/null); then
     setvar "$__var" "$__result"
   }
 
+  __kubectl::get_pod_name_by_name() {
+    local __var __value __args __result
+
+    if [[ $# -gt 1 ]]; then
+      __var="$1"
+      shift
+    fi
+    __value="$1"
+    __args=${@:2}
+
+    __result=$(kubectl get pods -o json | jq -r '.items[] | select(any(.metadata.labels[]; test("'$__value'.*"))) | "\(.metadata.name)"' | head -n 1 $__args)
+
+    setvar "$__var" "$__result"
+  }
+
   __kubectl::delete_all_objects() {
     local _object=$1
 
@@ -83,7 +98,7 @@ if (type kubectl &> /dev/null); then
   }
 
   __kubectl::execute() {
-    local _label="${1:-api}"
+    local _name="${1:-api}"
     local _args
     local _pod
 
@@ -94,7 +109,7 @@ if (type kubectl &> /dev/null); then
       _args='bash'
     fi
 
-    __kubectl::get_pod_name_by_label "_pod" "app" $_label
+    __kubectl::get_pod_name_by_name "_pod" $_name
 
     kubectl exec -it $_pod -- sh -c "$_args"
   }

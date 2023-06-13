@@ -84,7 +84,7 @@ if (type kubectl &> /dev/null); then
     __value="$1"
     __args=${@:2}
 
-    __result=$(kubectl get pods -o json | jq -r '.items[] | select(any(.metadata.labels[]; test("'$__value'.*"))) | "\(.metadata.name)"' | head -n 1 $__args)
+    __result=$(kubectl get pods -o json | jq -r '.items[] | select(any(.metadata.labels[]; test("'$__value'.*"))) | "\(.metadata.name)"' $__args | head -n 1)
 
     setvar "$__var" "$__result"
   }

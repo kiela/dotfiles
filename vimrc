@@ -68,6 +68,8 @@ if has("autocmd")
 
     autocmd BufWritePre *.erl,*.rb :call <SID>StripTrailingSpaces()
 
+    autocmd BufNewFile,BufRead *.sls setfiletype yaml
+
     autocmd Filetype gitcommit setlocal textwidth=72
     autocmd Filetype gitcommit setlocal spell
 endif

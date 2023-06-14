@@ -50,6 +50,7 @@ if has("autocmd")
     autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
     autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
     autocmd FileType sh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+    autocmd FileType zsh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
     autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
     autocmd FileType groovy setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab

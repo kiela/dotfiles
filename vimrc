@@ -42,7 +42,7 @@ vnoremap < <gv
 " shiftwidth - how many spaces are used instead of tab when line is indetned
 " expandtab - use spaces when tab is hit
 " shiftround - after 3 spaces and pressing tab it will be 4 spaces - not 5
-set tabstop=4 softtabstop=4 shiftwidth=4
+set tabstop=2 softtabstop=2 shiftwidth=2
 set expandtab
 set shiftround
 

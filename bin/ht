@@ -1,0 +1,70 @@
+#!/usr/bin/env sh
+
+V=${V:-false}
+
+__debug()
+{
+  if $V; then
+    echo "DEBUG: $1"
+  fi
+}
+
+__execute()
+{
+  __debug "$1"
+  eval "$1"
+}
+
+__install()
+{
+  dir=$(basename "$(pwd)")
+  args="$@"
+
+  __execute "helm dependency build"
+  __execute "helm install $dir . --namespace $dir --create-namespace $args"
+}
+
+__upgrade()
+{
+  dir=$(basename "$(pwd)")
+  args="$@"
+
+  __execute "helm upgrade $dir . --namespace $dir --create-namespace $args"
+}
+
+__template_render()
+{
+  output_dir=$1
+  args=${@:2}
+
+  __execute "rm -rf Chart.lock charts $output_dir"
+  __execute "helm repo update"
+  __execute "helm template \
+        --debug \
+        --dependency-update \
+        --output-dir $output_dir \
+        -f values.yaml $args ."
+}
+
+__help()
+{
+  echo "$0 install|upgrade|out|help <args>"
+}
+
+option=$1
+shift
+
+case $option in
+  install)
+    __install $@
+    ;;
+  upgrade)
+    __upgrade $@
+    ;;
+  out)
+    __template_render $@
+    ;;
+  *)
+    __help
+    ;;
+esac

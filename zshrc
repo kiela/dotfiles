@@ -29,7 +29,7 @@ else
   echo "-----"
 fi
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(brew dirrc docker docker-compose git helm tmux)
+plugins=(brew dirrc git helm tmux)
 # remind about OMZ updates
 zstyle ':omz:update' mode reminder
 

@@ -33,6 +33,43 @@ __upgrade()
   __execute "helm upgrade $dir . --namespace $dir --create-namespace $args"
 }
 
+__uninstall()
+{
+  local _chart_name=$(basename "$(pwd)")
+  local _delete_namespace=false
+  local _resource_count
+
+  __execute "helm delete $_chart_name"
+
+  while true; do
+    echo "Removing chart $_chart_name objects"
+    _resource_count=$(kubectl get all -n "$_chart_name" --ignore-not-found | wc -l)
+    
+    if [[ $_resource_count -gt 0 ]]; then
+      sleep 5
+      echo "Still removing chart $_chart_name objects..."
+    else
+      while true; do
+        read -p "Namespace '$_chart_name' has no resources. Do you want to delete it? (y/n) " _yn
+
+        case $_yn in
+          [Yy]* ) _delete_namespace=true; break;; # brak from the second loop
+          [Nn]* ) break;; # break from the second loop
+          * ) echo "Please answer yes (Y/y) or no (N/n).";;
+        esac
+      done
+
+      if [[ "$_delete_namespace" == true ]]; then
+        __execute "kubectl delete namespace $_chart_name"
+      else
+        echo "Deletion cancelled. Namespace '$_chart_name' is not deleted."
+      fi
+
+      break # break from the first loop
+    fi
+  done
+}
+
 __template_render()
 {
   output_dir=$1
@@ -49,7 +86,7 @@ __template_render()
 
 __help()
 {
-  echo "$0 install|upgrade|out|help <args>"
+  echo "$0 install|upgrade|uninstall|out|help <args>"
 }
 
 option=$1
@@ -61,6 +98,9 @@ case $option in
     ;;
   upgrade)
     __upgrade $@
+    ;;
+  uninstall)
+    __uninstall $@
     ;;
   out)
     __template_render $@

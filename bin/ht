@@ -86,7 +86,7 @@ __template_render()
 
 __help()
 {
-  echo "$0 install|upgrade|uninstall|out|help <args>"
+  echo "$0 install|upgrade|uninstall|render|help <args>"
 }
 
 option=$1
@@ -102,7 +102,7 @@ case $option in
   uninstall)
     __uninstall $@
     ;;
-  out)
+  render)
     __template_render $@
     ;;
   *)

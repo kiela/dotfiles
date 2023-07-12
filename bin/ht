@@ -86,23 +86,23 @@ __template_render()
 
 __help()
 {
-  echo "$0 install|upgrade|uninstall|render|help <args>"
+  echo "$0 i|install|up|upgrade|un|uninstall|r|render|help <args>"
 }
 
 option=$1
 shift
 
 case $option in
-  install)
+  i|install)
     __install $@
     ;;
-  upgrade)
+  up|upgrade)
     __upgrade $@
     ;;
-  uninstall)
+  un|uninstall)
     __uninstall $@
     ;;
-  render)
+  r|render)
     __template_render $@
     ;;
   *)

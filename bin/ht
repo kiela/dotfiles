@@ -29,6 +29,7 @@ __upgrade()
   dir=$(basename "$(pwd)")
   args="$@"
 
+  __execute "helm dependency update"
   __execute "helm upgrade $dir . --namespace $dir --create-namespace $args"
 }
 

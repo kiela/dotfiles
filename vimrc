@@ -58,6 +58,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.app,*.app.src setfiletype erlang
 
     autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
+    autocmd BufRead,BufNewFile Jenkinsfile* set filetype=groovy
 
     autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
     autocmd FileType haml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab

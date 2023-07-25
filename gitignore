@@ -96,5 +96,6 @@ bower.json
 .powenv
 
 
+.dirrc
+.msg
 .todo
-ht.sh

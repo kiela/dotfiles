@@ -1,0 +1,17 @@
+set nu
+syntax on
+
+set backspace=indent,eol,start
+
+set tabstop=4
+set shiftwidth=3
+set expandtab
+
+
+" indentations
+vnoremap > >gv
+vnoremap < <gv
+
+" shortcut to rapidly toggle `set list`
+nmap <C-l> :set list!<CR>
+set listchars=tab:▸\ ,eol:¬,nbsp:¶

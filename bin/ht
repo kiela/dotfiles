@@ -75,6 +75,11 @@ __template_render()
   output_dir=$1
   args=${@:2}
 
+  if [[ -z $output_dir ]]; then
+    echo "No output dir passed..."
+    exit 1
+  fi
+
   __execute "rm -rf Chart.lock charts $output_dir"
   __execute "helm repo update"
   __execute "helm template \

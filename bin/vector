@@ -1,0 +1,36 @@
+#!/usr/bin/env sh
+
+V=${V:-false}
+
+__debug()
+{
+  if $V; then
+    echo "DEBUG: $1"
+  fi
+}
+
+__execute()
+{
+  __debug "$1"
+  eval "$1"
+}
+
+_cmd=""
+_args=()
+
+if [[ $# -eq 0 ]]; then
+  _cmd="help"
+else
+  _cmd=$1
+  shift
+
+  for arg in "$@"; do
+    if [[ $arg == *.yaml || $arg == *.yml ]]; then
+      _args+=("/etc/vector/$arg")
+    else
+      _args+=("$arg")
+    fi
+  done
+fi
+
+__execute "docker run -i -v $(pwd)/:/etc/vector/ --rm timberio/vector:0.31.0-alpine $_cmd $_args"

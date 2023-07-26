@@ -5,14 +5,14 @@ V=${V:-false}
 __debug()
 {
   if $V; then
-    echo "DEBUG: $1"
+    echo "DEBUG: $@"
   fi
 }
 
 __execute()
 {
-  __debug "$1"
-  eval "$1"
+  __debug "$@"
+  eval "$@"
 }
 
 _cmd=""
@@ -24,13 +24,13 @@ else
   _cmd=$1
   shift
 
-  for arg in "$@"; do
-    if [[ $arg == *.yaml || $arg == *.yml ]]; then
-      _args+=("/etc/vector/$arg")
+  for _arg in "$@"; do
+    if [[ $_arg == *.yaml || $_arg == *.yml ]]; then
+      _args+=("/etc/vector/$_arg")
     else
-      _args+=("$arg")
+      _args+=("$_arg")
     fi
   done
 fi
 
-__execute "docker run -i -v $(pwd)/:/etc/vector/ --rm timberio/vector:0.31.0-alpine $_cmd $_args"
+__execute "docker run -i -v $(pwd)/:/etc/vector/ --rm timberio/vector:0.31.0-alpine $_cmd ${_args[@]}"

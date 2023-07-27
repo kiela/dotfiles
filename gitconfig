@@ -49,7 +49,7 @@
   ui = true
 [commit]
   gpgsign = false
-    template = ~/.stCommitMsg
+  template = ~/.gitcommitmsg
 [core]
   attributesfile = ~/.gitattributes
   editor = vim

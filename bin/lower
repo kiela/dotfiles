@@ -7,8 +7,8 @@
 if [[ -p /dev/stdin ]]; then
   # If we want to read the input line by line
   while IFS= read line; do
-    echo ${line} | awk '{$1=$1};1'
+    echo ${line} | tr '[:upper:]' '[:lower:]'
   done
 elif [[ $# -gt 0 ]]; then
-  echo $@ | awk '{$1=$1};1'
+  echo $@ | tr '[:upper:]' '[:lower:]'
 fi

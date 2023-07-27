@@ -1,0 +1,3 @@
+#!/bin/sh
+
+openssl req -in $1 -text -noout | grep -i 'Subject Alternative Name' -A1 | tail -n 1 | tr ',' '\n' | cut -d ':' -f 2 | sort

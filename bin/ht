@@ -17,44 +17,47 @@ __execute()
 
 __install()
 {
-  dir=$(basename "$(pwd)")
-  args="$@"
+  local _chart_name=$1
+  local _args=$2
 
   __execute "helm dependency build"
-  __execute "helm install $dir . --namespace $dir --create-namespace $args"
+  __execute "helm install $_chart_name . --namespace $_chart_name --create-namespace $args"
 }
 
 __upgrade()
 {
-  dir=$(basename "$(pwd)")
-  args="$@"
+  local _chart_name=$1
+  local _args=$2
 
   __execute "helm dependency update"
-  __execute "helm upgrade $dir . --namespace $dir --create-namespace $args"
+  __execute "helm upgrade $_chart_name . --namespace $_chart_name --create-namespace $args"
 }
 
 __uninstall()
 {
-  local _chart_name=$(basename "$(pwd)")
+  local _chart_name=$1
   local _delete_namespace=false
   local _resource_count
 
   __execute "helm delete $_chart_name"
 
+  echo "Removing chart $_chart_name objects."
+
   while true; do
-    echo "Removing chart $_chart_name objects"
     _resource_count=$(kubectl get all -n "$_chart_name" --ignore-not-found | wc -l)
-    
+
     if [[ $_resource_count -gt 0 ]]; then
       sleep 5
       echo "Still removing chart $_chart_name objects..."
     else
+      echo "Chart $_chart_name objects have been removed."
+
       while true; do
-        read -p "Namespace '$_chart_name' has no resources. Do you want to delete it? (y/n) " _yn
+        read -p "Do you want to remove $_chart_name namespace? (y/n) " _yn
 
         case $_yn in
-          [Yy]* ) _delete_namespace=true; break;; # brak from the second loop
-          [Nn]* ) break;; # break from the second loop
+          [Yy]* ) _delete_namespace=true; break;; # break out from the second loop
+          [Nn]* ) break;; # break out from the second loop
           * ) echo "Please answer yes (Y/y) or no (N/n).";;
         esac
       done
@@ -62,31 +65,31 @@ __uninstall()
       if [[ "$_delete_namespace" == true ]]; then
         __execute "kubectl delete namespace $_chart_name"
       else
-        echo "Deletion cancelled. Namespace '$_chart_name' is not deleted."
+        echo "Namespace $_chart_name is not removed."
       fi
 
-      break # break from the first loop
+      break # break out from the first loop
     fi
   done
 }
 
 __template_render()
 {
-  output_dir=$1
-  args=${@:2}
+  local _output_dir=$1
+  local _args=${@:2}
 
   if [[ -z $output_dir ]]; then
     echo "No output dir passed..."
     exit 1
   fi
 
-  __execute "rm -rf Chart.lock charts $output_dir"
+  __execute "rm -rf Chart.lock charts $_output_dir"
   __execute "helm repo update"
   __execute "helm template \
         --debug \
         --dependency-update \
-        --output-dir $output_dir \
-        -f values.yaml $args ."
+        --output-dir $_output_dir \
+        -f values.yaml $_args ."
 }
 
 __help()
@@ -97,18 +100,23 @@ __help()
 option=$1
 shift
 
+chart_name=$(basename "$(pwd)")
+args="$@"
+
 case $option in
   i|install)
-    __install $@
+    __install $chart_name "$args"
     ;;
   up|upgrade)
-    __upgrade $@
+    __upgrade $chart_name "$args"
     ;;
   un|uninstall)
-    __uninstall
+    __uninstall $chart_name
     ;;
   r|render)
-    __template_render $@
+    output_dir=$1
+    args="${@:2}"
+    __template_render $output_dir $args
     ;;
   *)
     __help

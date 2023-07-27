@@ -95,7 +95,7 @@ bower.json
 # Ignore pow environment settings
 .powenv
 
-
+# Custom
 .dirrc
 .msg
 .todo

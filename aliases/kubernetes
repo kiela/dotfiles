@@ -100,7 +100,7 @@ if (type kubectl &> /dev/null); then
   }
 
   __kubectl::execute() {
-    local _name="${1:-api}"
+    local _label="${1:-api}"
     local _args
     local _pod
 

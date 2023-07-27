@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-ht()
-{
-  eval "V=true $HOME/bin/$0 $@ -f values-worker.yaml -f values-worker-version.yaml"
-}

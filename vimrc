@@ -23,6 +23,7 @@ set autowrite " TODO automatically :write before running commands
 set nojoinspaces " TODO use one space, not two, after punctuation
 set diffopt+=vertical " always use vertical diffs
 "set hidden " TODO switch between buffers without errors
+set maxmempattern=4096 " increase mximum amount of memory (in Kbyte) to use for pattern matching
 
 "set textwidth=80 " wrap lines longer then 80 characters
 " show "80-characters-line-long" vertical line

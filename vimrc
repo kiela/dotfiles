@@ -61,13 +61,6 @@ if has("autocmd")
     autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
     autocmd BufRead,BufNewFile Jenkinsfile* set filetype=groovy
 
-    autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-    autocmd FileType haml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-    autocmd FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-    autocmd FileType sass setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-    autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-    autocmd FileType coffee setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-
     autocmd BufWritePre *.erl,*.rb :call <SID>StripTrailingSpaces()
 
     autocmd BufNewFile,BufRead *.sls setfiletype yaml

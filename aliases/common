@@ -27,6 +27,7 @@ alias ff='find . -type f'
 alias fd='find . -type d'
 alias first='head -n 1'
 alias last='tail -n 1'
+alias mv='mv -i'
 
 if (type youtube-dl &> /dev/null); then
   alias youtube-dl="youtube-dl -f best"

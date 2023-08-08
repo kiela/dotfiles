@@ -53,7 +53,7 @@
 [core]
   attributesfile = ~/.gitattributes
   editor = vim
-  excludesfile = /Users/kiela/.gitignore
+  excludesfile = ~/.gitignore
 [filter "lfs"]
   clean = git-lfs clean -- %f
   process = git-lfs filter-process

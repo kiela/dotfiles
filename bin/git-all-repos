@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-git-all-repos() {
+git-all-repos()
+{
 	local current_dir=$1
 	local git_cmd=$2
 	local git_args=${@:3}

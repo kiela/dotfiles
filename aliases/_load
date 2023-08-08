@@ -6,6 +6,7 @@ source $HOME/.aliases/docker
 source $HOME/.aliases/erlang
 source $HOME/.aliases/gcloud
 source $HOME/.aliases/groovy
+source $HOME/.aliases/helm
 source $HOME/.aliases/kubernetes
 source $HOME/.aliases/okd
 source $HOME/.aliases/osx

@@ -108,6 +108,7 @@ nmap <C-l> :set list!<CR>
 set listchars=tab:▸\ ,eol:¬,nbsp:¶
 
 " Colors!
+highlight Comment ctermfg=blue
 
 " invisible character colors
 highlight NonText guifg=#4a4a59

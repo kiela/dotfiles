@@ -14,7 +14,7 @@ if (type helm &> /dev/null); then
 #  alias hrr='helm repo remove'
   alias hrup='helm repo update'
 #  alias hs='helm show'
-#  alias hs='helm search'
+  alias hs='helm search'
 #  alias hsh='helm search hub'
 #  alias hsr='helm search repo'
 #  alias hss='helm status'

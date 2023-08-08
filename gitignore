@@ -96,6 +96,8 @@ bower.json
 .powenv
 
 # Custom
-.dirrc
-.msg
-.todo
+**/.dirrc
+**/.links
+**/.msg
+**/.todo
+**/tmp/

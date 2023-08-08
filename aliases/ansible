@@ -3,4 +3,5 @@
 if (type ansible &> /dev/null); then
   alias a="ansible"
   alias ap="ansible-playbook"
+  alias av="ansible-vault"
 fi

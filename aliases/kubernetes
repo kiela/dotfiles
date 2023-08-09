@@ -29,6 +29,8 @@ if (type kubectl &> /dev/null); then
   alias kd='kubectl describe'
   alias kg='kubectl get'
   alias kge="kubectl get events --sort-by='.firstTimestamp'"
+  alias kgy='kubectl get -o yaml'
+  alias kgj='kubectl get -o json'
   alias ks='kubectl scale'
   alias kr='kubectl run'
   alias kro='kubectl rollout'

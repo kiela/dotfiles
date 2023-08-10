@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 V=${V:-false}
+CLEAR=${CLEAR:-true}
 
 __debug()
 {
@@ -83,7 +84,10 @@ __template_render()
     exit 1
   fi
 
-  __execute "rm -rf Chart.lock charts $_output_dir"
+  if $CLEAR; then
+    __execute "rm -rf Chart.lock charts $_output_dir"
+  fi
+
   __execute "helm repo update"
   __execute "helm template \
         --debug \

@@ -1,7 +1,8 @@
 #!/usr/bin/env sh
 
 if ! (type setvar &> /dev/null); then
-  setvar() {
+  setvar()
+  {
     local _variable_to_be_set="$1"
     local _value_to_be_set="$2"
 
@@ -62,7 +63,8 @@ if (type kubectl &> /dev/null); then
     alias wkd='watch -n 1 kubectl describe'
   fi
 
-  __kubectl::get_pod_name_by_label() {
+  __kubectl::get_pod_name_by_label()
+  {
     local __var __label __value __args __result
 
     if [[ $# -gt 2 ]]; then
@@ -78,7 +80,8 @@ if (type kubectl &> /dev/null); then
     setvar "$__var" "$__result"
   }
 
-  __kubectl::get_pod_name_by_name() {
+  __kubectl::get_pod_name_by_name()
+  {
     local __var __value __args __result
 
     if [[ $# -gt 1 ]]; then
@@ -93,7 +96,8 @@ if (type kubectl &> /dev/null); then
     setvar "$__var" "$__result"
   }
 
-  __kubectl::delete_all_objects() {
+  __kubectl::delete_all_objects()
+  {
     local _object=$1
 
     for _o in $(kubectl get $_object --no-headers -o custom-columns=':metadata.name'); do
@@ -101,7 +105,8 @@ if (type kubectl &> /dev/null); then
     done
   }
 
-  __kubectl::execute() {
+  __kubectl::execute()
+  {
     local _name="${1:-api}"
     local _args
     local _pod
@@ -118,7 +123,8 @@ if (type kubectl &> /dev/null); then
     kubectl exec -it $_pod -- sh -c "$_args"
   }
 
-  __kubectl::get_pod_logs() {
+  __kubectl::get_pod_logs()
+  {
     local _label=${1:-api}
     local _args="${@:2}"
     local _pod
@@ -128,7 +134,8 @@ if (type kubectl &> /dev/null); then
     kubectl logs $_pod $_args
   }
 
-  __kubectl::etcdctl() {
+  __kubectl::etcdctl()
+  {
     local _args="$@"
     local _pod
 
@@ -143,7 +150,8 @@ if (type kubectl &> /dev/null); then
     "
   }
 
-  __kubectl::get_containers() {
+  __kubectl::get_containers()
+  {
     local _cmd
 
     _cmd="kubectl get pods -o jsonpath='{range .items[*]}{\"\n\"}{.metadata.name}{\"\t\"}{.metadata.namespace}{\"\t\"}{range .spec.containers[*]}{.name}{\"=>\"}{.image}{\",\"}{end}{end}' | sort #|column -t"

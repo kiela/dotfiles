@@ -75,7 +75,20 @@ if (type kubectl &> /dev/null); then
     __value="$2"
     __args=${@:3}
 
-    __result=$(kubectl get pod -l $__label=$__value -o jsonpath='{.items[0].metadata.name}' $__args)
+    if [[ ! -z "$__label" ]]; then
+      __result=$(kubectl get pod -l $__label=$__value -o jsonpath='{.items[0].metadata.name}' $__args | head -n 1)
+    else
+      # TODO: can it be done using jsonpath without jq?
+      __result=$(kubectl get pods -o json $__args | jq -r '.items[] | select(.metadata.labels[] | tostring | contains("'$__value'")) | .metadata.name' | head -n 1)
+    fi
+
+    # TODO: add debug method for those:
+    #echo "var:\t$__var"
+    #echo "label:\t$__label"
+    #echo "value:\t$__value"
+    #echo "args:\t$__args"
+    #echo "result:\t$__result"
+    #echo "-----"
 
     setvar "$__var" "$__result"
   }
@@ -107,9 +120,14 @@ if (type kubectl &> /dev/null); then
 
   __kubectl::execute()
   {
-    local _name="${1:-api}"
+    local _name=$1
     local _args
     local _pod
+
+    if [[ -z "${_name:-}" ]]; then
+      echo "Please provide pod name or label"
+      return 1
+    fi
 
     if [[ $# -gt 1 ]]; then
       shift
@@ -119,6 +137,7 @@ if (type kubectl &> /dev/null); then
     fi
 
     __kubectl::get_pod_name_by_name "_pod" $_name
+    [[ -z "$_pod" ]] && __kubectl::get_pod_name_by_label "_pod" "app" $_name
 
     kubectl exec -it $_pod -- sh -c "$_args"
   }

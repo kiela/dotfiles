@@ -15,6 +15,12 @@ __execute()
   eval "$@"
 }
 
+# Check if Docker Desktop is running
+if ! docker info &> /dev/null; then
+  echo "Docker Desktop is not running..."
+  exit 1
+fi
+
 _cmd=""
 _args=()
 

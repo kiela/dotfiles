@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+# Idea taken from:
+# https://stackoverflow.com/a/46726373
+
+# Check to see if a pipe exists on stdin.
+if [[ -p /dev/stdin ]]; then
+  # If we want to read the input line by line
+  while IFS= read line; do
+    echo ${line} | tr '[:upper:]' '[:lower:]'
+  done
+elif [[ $# -gt 0 ]]; then
+  echo $@ | tr '[:upper:]' '[:lower:]'
+fi

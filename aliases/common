@@ -23,6 +23,8 @@ alias cgrpe='cgrep'
 alias rm='rm -v'
 alias netcons='lsof -i -nP'
 alias wr='cd ~/workspace'
+alias toff="touch $HOME/.zsh_tmux_autostart_off"
+alias ton="rm $HOME/.zsh_tmux_autostart_off"
 
 if type youtube-dl &> /dev/null; then
   alias youtube-dl="youtube-dl -f best"

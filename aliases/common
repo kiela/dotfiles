@@ -23,8 +23,40 @@ alias cgrpe='cgrep'
 alias rm='rm -v'
 alias netcons='lsof -i -nP'
 alias wr='cd ~/workspace'
-alias toff="touch $HOME/.zsh_tmux_autostart_off"
-alias ton="rm $HOME/.zsh_tmux_autostart_off"
+alias toff="__tmux::turn_off"
+alias ton="__tmux::turn_on"
+
+__tmux::turn_off()
+{
+  local __file="$HOME/.zsh_tmux_autostart_off"
+
+  if [[ ! -e $__file ]]; then
+    touch $__file
+    if [[ $? -eq 0 ]]; then
+      echo "Tmux has been turned off"
+    else
+      echo "Cannot turn off Tmux"
+    fi
+  else
+    echo "Tmux is already turned off"
+  fi
+}
+
+__tmux::turn_on()
+{
+  local __file="$HOME/.zsh_tmux_autostart_off"
+
+  if [[ -e $__file ]]; then
+    rm $__file >/dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+      echo "Tmux has been turned back on"
+    else
+      echo "Cannot turn Tmux back on"
+    fi
+  else
+    echo "Tmux is already turned on"
+  fi
+}
 
 if type youtube-dl &> /dev/null; then
   alias youtube-dl="youtube-dl -f best"

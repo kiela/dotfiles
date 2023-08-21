@@ -23,6 +23,8 @@ alias cgrpe='cgrep'
 alias rm='rm -v'
 alias netcons='lsof -i -nP'
 alias wr='cd ~/workspace'
+alias cp='cp -i'
+alias mv='mv -i'
 alias toff="__tmux::turn_off"
 alias ton="__tmux::turn_on"
 

@@ -53,6 +53,7 @@ if (type kubectl &> /dev/null); then
 
   if (type watch &> /dev/null); then
     alias wkg='watch -n 1 kubectl get'
+    alias wkd='watch -n 1 kubectl describe'
   fi
 
   __kubectl::get_pod_name_by_label() {

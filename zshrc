@@ -28,8 +28,6 @@ fi
 plugins=(dirrc docker docker-compose docker-machine git tmux)
 # remind about OMZ updates
 zstyle ':omz:update' mode reminder
-# laod oh-my-zsh
-source "$ZSH/oh-my-zsh.sh"
 
 # User configuration
 export PATH="$HOME/bin:$PATH"
@@ -60,3 +58,5 @@ fi
 if type gcloud &> /dev/null; then
   source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
+# load oh-my-zsh as the last step
+source "$ZSH/oh-my-zsh.sh"

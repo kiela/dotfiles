@@ -16,6 +16,37 @@ DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
 # display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
+
+# User configuration
+export PATH="$HOME/bin:$PATH"
+export PATH="$PATH:/usr/local/bin"
+export PATH="$PATH:/usr/local/sbin"
+export LC_ALL=en_US.UTF-8
+
+# list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
+plugins=()
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  # Homebrew
+  # TODO: find a better way for checking if brew is installed
+  if (type /opt/homebrew/bin/brew &> /dev/null); then
+    plugins+=(brew)
+    # NOTE: Why -z $VAR and not -z ${VAR+x}: https://stackoverflow.com/a/13864829
+    if [[ -z "$HOMEBREW_GITHUB_API_TOKEN" ]]; then
+      # Github API Token for Homebrew
+      echo "WARNING: Please consider setting \$HOMEBREW_GITHUB_API_TOKEN variable"
+      echo "-----"
+    fi
+  else
+    echo "WARNING: Please consider installing Homebrew: https://brew.sh/"
+    echo "-----"
+  fi
+  # iTerm2 tmux integration for zsh
+  if test -e "${HOME}/.iterm2_shell_integration.zsh"; then
+    source "${HOME}/.iterm2_shell_integration.zsh"
+  fi
+fi
+
 # tmux plugin configuration
 if [[ ! -f "$HOME/.zsh_tmux_autostart_off" ]]; then
   ZSH_TMUX_AUTOSTART="true"
@@ -24,42 +55,29 @@ if [[ ! -f "$HOME/.zsh_tmux_autostart_off" ]]; then
   ZSH_TMUX_AUTOQUIT="true"
   ZSH_TMUX_UNICODE="true"
 else
-  echo "Tmux session will not automagically start"
-  echo "Please remove $HOME/.zsh_tmux_autostart_off"
+  echo "WARNING: Tmux session will not automagically start"
+  echo "WARNING: Please remove $HOME/.zsh_tmux_autostart_off"
   echo "-----"
 fi
+
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(brew dirrc git helm tmux)
+plugins+=(dirrc git helm tmux)
 # remind about OMZ updates
 zstyle ':omz:update' mode reminder
-
-# User configuration
-export PATH="$HOME/bin:$PATH"
-export PATH="$PATH:/usr/local/bin"
-export PATH="$PATH:/usr/local/sbin"
-export EDITOR="vim"
-export LC_ALL=en_US.UTF-8
 
 # load zsh configuration specific for given machine
 if test -e "${HOME}/.zshrc.local"; then
   source "${HOME}/.zshrc.local"
 fi
 
-if [[ "$OSTYPE" == darwin* ]]; then
-  # Homebrew
-  plugins+=(brew)
-  # NOTE: Why -z $VAR and not -z ${VAR+x}: https://stackoverflow.com/a/13864829
-  if type brew &> /dev/null && [[ -z "$HOMEBREW_GITHUB_API_TOKEN" ]]; then
-    # Github API Token for Homebrew
-    echo "Please consider setting \$HOMEBREW_GITHUB_API_TOKEN variable"
-    echo "-----"
-  fi
-
-  # iTerm2 tmux integration for zsh
-  if test -e "${HOME}/.iterm2_shell_integration.zsh"; then
-    source "${HOME}/.iterm2_shell_integration.zsh"
-  fi
+if (type vim &> /dev/null); then
+  export EDITOR="vim"
+else
+  echo "WARNING: Please install Vim editor"
+  echo "-----"
 fi
+
+echo $plugins
 
 # load oh-my-zsh as the last step
 source "$ZSH/oh-my-zsh.sh"

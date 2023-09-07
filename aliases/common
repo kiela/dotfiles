@@ -31,6 +31,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias toff="__tmux::turn_off"
 alias ton="__tmux::turn_on"
+alias v="vim"
 
 __tmux::turn_off()
 {

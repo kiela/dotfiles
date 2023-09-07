@@ -56,8 +56,8 @@ if [[ ! -f "$HOME/.zsh_tmux_autostart_off" ]]; then
   ZSH_TMUX_AUTOQUIT="true"
   ZSH_TMUX_UNICODE="true"
 else
-  echo "Tmux session will not automagically start"
-  echo "Please remove $HOME/.zsh_tmux_autostart_off"
+  echo "WARNING: Tmux session will not automagically start"
+  echo "WARNING: Please remove $HOME/.zsh_tmux_autostart_off"
   echo "-----"
 fi
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)

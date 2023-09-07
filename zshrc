@@ -21,7 +21,6 @@ COMPLETION_WAITING_DOTS="true"
 export PATH="$HOME/bin:$PATH"
 export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:/usr/local/sbin"
-export EDITOR="vim"
 export LC_ALL=en_US.UTF-8
 
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
@@ -68,6 +67,13 @@ zstyle ':omz:update' mode reminder
 # load zsh configuration specific for given machine
 if test -e "${HOME}/.zshrc.local"; then
   source "${HOME}/.zshrc.local"
+fi
+
+if (type vim &> /dev/null); then
+  export EDITOR="vim"
+else
+  echo "WARNING: Please install Vim editor"
+  echo "-----"
 fi
 
 # load oh-my-zsh as the last step

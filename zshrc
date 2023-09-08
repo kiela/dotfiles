@@ -54,20 +54,27 @@ if [[ "$OSTYPE" == darwin* ]]; then
   fi
 fi
 
-# tmux plugin configuration
-if [[ ! -f "$HOME/.zsh_tmux_autostart_off" ]]; then
-  ZSH_TMUX_AUTOSTART="true"
-  ZSH_TMUX_AUTOSTART_ONCE="false"
-  ZSH_TMUX_AUTOCONNECT="false"
-  ZSH_TMUX_AUTOQUIT="true"
-  ZSH_TMUX_UNICODE="true"
+if (type /opt/homebrew/bin/tmux &> /dev/null); then
+  plugins+=(tmux)
+  # tmux plugin configuration
+  if [[ ! -f "$HOME/.zsh_tmux_autostart_off" ]]; then
+    ZSH_TMUX_AUTOSTART="true"
+    ZSH_TMUX_AUTOSTART_ONCE="false"
+    ZSH_TMUX_AUTOCONNECT="false"
+    ZSH_TMUX_AUTOQUIT="true"
+    ZSH_TMUX_UNICODE="true"
+  else
+    echo "WARNING: Tmux session will not automagically start"
+    echo "WARNING: Please remove $HOME/.zsh_tmux_autostart_off"
+    echo "-----"
+  fi
 else
-  echo "WARNING: Tmux session will not automagically start"
-  echo "WARNING: Please remove $HOME/.zsh_tmux_autostart_off"
+  echo "Please consider installing Tmux: https://tmux.github.io/"
   echo "-----"
 fi
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins+=(dirrc git helm tmux)
+plugins+=(dirrc git helm)
+
 # remind about OMZ updates
 zstyle ':omz:update' mode reminder
 

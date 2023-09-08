@@ -48,10 +48,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
     echo "Please consider installing Homebrew: https://brew.sh/"
     echo "-----"
   fi
-  # iTerm2 tmux integration for zsh
-  if test -e "${HOME}/.iterm2_shell_integration.zsh"; then
-    source "${HOME}/.iterm2_shell_integration.zsh"
-  fi
 fi
 
 if (type /opt/homebrew/bin/tmux &> /dev/null); then

@@ -26,6 +26,8 @@ if (type kubectl &> /dev/null); then
   alias kcfg='kubectl config'
   alias kd='kubectl describe'
   alias kg='kubectl get'
+  alias kgy='kubectl get -o yaml'
+  alias kgj='kubectl get -o json'
   alias ks='kubectl scale'
   alias kr='kubectl run'
   alias kro='kubectl rollout'

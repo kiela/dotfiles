@@ -26,6 +26,7 @@ if (type kubectl &> /dev/null); then
   alias kcfg='kubectl config'
   alias kd='kubectl describe'
   alias kg='kubectl get'
+  alias kge="kubectl get events --sort-by='.firstTimestamp'"
   alias kgy='kubectl get -o yaml'
   alias kgj='kubectl get -o json'
   alias ks='kubectl scale'
@@ -55,6 +56,7 @@ if (type kubectl &> /dev/null); then
 
   if (type watch &> /dev/null); then
     alias wkg='watch -n 1 kubectl get'
+    alias wkge='watch -n 1 "kubectl get events --sort-by=\".firstTimestamp\" | tail -n 10"'
     alias wkd='watch -n 1 kubectl describe'
   fi
 

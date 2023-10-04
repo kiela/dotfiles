@@ -22,6 +22,7 @@
   ls = log --pretty=format:'%C(red)%h%C(reset) %C(green)%cr%C(reset) %x09 %C(bold blue)%an%C(reset) %x09 %s'
   m = merge --commit --no-ff --verify-signatures
   pl = "!git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done"
+  pla = "!echo 'not implemnented...'"
   r = reset
   rb = rebase
   rba = rebase --abort

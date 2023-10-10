@@ -98,7 +98,6 @@ __cert_encode()
 	local _cert_pem_file=$5
 	local _cert_priv_key_file=$6
 	local _password 
-	local _question_extension _yn _ns _keystore_pass_file _sealed_keystore_pass_file
 
 	__password_generate $_password_file
 
@@ -122,33 +121,6 @@ __cert_encode()
 	base64 -i $_keystore_file -o $_keystore_base64_file
 	__command_result_message
 
-	_question_extension=""
-	echo "Sealling the keystore: "
-
-	while true; do
-		read -p "  Should the keystore password be sealed$_question_extension? (y/n) " _yn
-		case $_yn in
-			[Yy]* ) 
-				_ns=""
-				while [[ -z "$_ns" ]]; do
-					read -p "    What namespace should it be sealed for? " _ns
-					if [[ -z "$_ns" ]]; then
-						echo "    Namespace cannot be empty\n"
-					fi
-				done
-
-				_keystore_pass_file=$path/keystore_pass_$_ns.yaml
-				_sealed_keystore_pass_file=$path/sealed_keystore_pass_$_ns.yaml
-
-				kubectl -n $_ns create secret generic keystore_password --from-literal=keystore_password=$_password --dry-run=client -o yaml > $_keystore_pass_file
-
-				kubeseal --format yaml --scope namespace-wide < $_keystore_pass_file > $_sealed_keystore_pass_file
-				_question_extension=" for another namespace"
-				;; 
-			[Nn]* ) break;;
-			* ) echo "    Please answer yes (Y/y) or no (N/n).";;
-		esac
-	done
 }
 
 __cert_decode()
@@ -213,6 +185,47 @@ __cert_p12_generate()
 	else
 		echo "PKCS#12 file already exists: $_cert_p12_file"
 	fi
+}
+
+__cert_seal()
+{
+	local _ask_to_generate_password=$1
+	local _password_file=$2
+	local _password
+	local _ns _keystore_pass_file _sealed_keystore_pass_file _yn
+
+	if [[ "$_ask_to_generate_password" == "true" ]]; then
+		__password_generate $_password_file
+	fi
+
+	printf "Load password: "
+	_password=$(__password_load $_password_file)
+	__command_result_message
+
+	_ns=""
+	while [[ -z "$_ns" ]]; do
+		read -p "What namespace should it be sealed for? " _ns
+		if [[ -z "$_ns" ]]; then
+			echo "  Namespace cannot be empty\n"
+		else
+			_keystore_pass_file=$path/keystore_pass_$_ns.yaml
+			_sealed_keystore_pass_file=$path/sealed_keystore_pass_$_ns.yaml
+
+			kubectl -n $_ns create secret generic keystore_password --from-literal=keystore_password=$_password --dry-run=client -o yaml > $_keystore_pass_file
+
+			kubeseal --format yaml --scope namespace-wide < $_keystore_pass_file > $_sealed_keystore_pass_file
+
+			_yn=""
+			while true; do
+				read -p "  Should the keystore password be sealed for another namespace? (y/n) " _yn
+				case $_yn in
+					[Yy]* ) _ns=""; break;;
+					[Nn]* ) break;;
+					* ) echo "    Please answer yes (Y/y) or no (N/n).";;
+				esac
+			done
+		fi
+	done
 }
 
 __cert_info()
@@ -300,14 +313,18 @@ __debug "----------"
 __debug
 
 case $cmd in
-	encode) 
+	encode)
 		__cert_encode $password_file $keystore_base64_file $keystore_file $cert_p12_file $cert_pem_file $cert_priv_key_file
+		__cert_seal "false" $password_file
 		;;
 	decode)
 		__cert_decode $password_file $keystore_base64_file $keystore_file $cert_p12_file $cert_pem_file $cert_priv_key_file
 		;;
 	p12)
 		__cert_p12_generate $password_file $cert_pem_file $cert_priv_key_file $cert_p12_file
+		;;
+	seal)
+		__cert_seal "true" $password_file
 		;;
 	info)
 		__cert_info $cert_pem_file

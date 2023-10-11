@@ -5,6 +5,7 @@ if (type terraform &> /dev/null); then
   alias tfp='terraform plan'
   alias ctfp='clear && terraform plan'
   alias tfa='terraform apply'
+  alias tff='terraform fmt'
   alias tfi='terraform import'
   alias tfs='terraform show'
   alias tfd='terraform destroy'

@@ -38,7 +38,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
   # TODO: find a better way for checking if brew is installed
   if (type /opt/homebrew/bin/brew &> /dev/null); then
     plugins+=(brew)
-    # NOTE: Why -z $VAR and not -z ${VAR+x}: https://stackoverflow.com/a/13864829
+    # NOTE: Why -z "$VAR" and not -z ${VAR+x}: https://stackoverflow.com/a/13864829
+    # Check if $HOMEBREW_GITHUB_API_TOKEN is not set or set to an empty string
     if [[ -z "$HOMEBREW_GITHUB_API_TOKEN" ]]; then
       # Github API Token for Homebrew
       echo "WARNING: Please consider setting \$HOMEBREW_GITHUB_API_TOKEN variable"
@@ -79,8 +80,6 @@ zstyle ':omz:update' mode reminder
 if test -e "${HOME}/.zshrc.local"; then
   source "${HOME}/.zshrc.local"
 fi
-
-#echo $plugins
 
 # load oh-my-zsh as the last step
 source "$ZSH/oh-my-zsh.sh"

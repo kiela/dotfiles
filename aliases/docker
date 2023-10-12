@@ -5,6 +5,7 @@ if (type docker &> /dev/null); then
   alias di='docker image'
   alias dps='docker ps'
   alias ds='docker system'
+  alias dsc='docker scout'
 
   if [[ "$(uname -m)" == "arm64" ]]; then
     alias db='docker build --platform=linux/amd64'

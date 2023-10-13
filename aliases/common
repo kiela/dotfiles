@@ -20,6 +20,7 @@ alias duh='du -H'
 alias grpe='grep' # I'm just sloppy sometimes
 alias cgrep='clear && grep'
 alias cgrpe='cgrep'
+alias rgrep='grep -rin'
 alias rm='rm -v'
 alias netcons='lsof -i -nP'
 alias wr='cd $HOME/workspace'

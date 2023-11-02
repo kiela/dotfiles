@@ -30,6 +30,7 @@ if (type kubectl &> /dev/null); then
   alias kd='kubectl describe'
   alias kg='kubectl get'
   alias kge="kubectl get events --sort-by='.firstTimestamp'"
+  alias kgs="__kubectl::get_decoded_secret"
   alias kgy='kubectl get -o yaml'
   alias kgj='kubectl get -o json'
   alias ks='kubectl scale'
@@ -62,6 +63,23 @@ if (type kubectl &> /dev/null); then
     alias wkge='watch -n 1 "kubectl get events --sort-by=\".firstTimestamp\" | tail -n 10"'
     alias wkd='watch -n 1 kubectl describe'
   fi
+
+  __kubectl::get_decoded_secret()
+  {
+    local _name=$1
+
+    if ! (type jq &> /dev/null); then
+      echo "ERROR: Please install jq to use this feature"
+      echo "-----"
+      exit 1
+    fi
+
+    for __k __v in $(kubectl get secret $_name -o json | jq -r '.data | to_entries[] | "\(.key): \(.value)"'); do
+      echo -n $__k" "
+      echo $__v | base64 --decode
+      echo
+    done
+  }
 
   __kubectl::get_pod_name_by_label()
   {

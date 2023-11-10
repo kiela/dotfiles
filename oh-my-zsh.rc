@@ -1,0 +1,64 @@
+# path to oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
+# set theme
+ZSH_THEME="heimdall"
+# disable bi-weekly auto-updates checks
+DISABLE_AUTO_UPDATE="true"
+# disable auto-setting terminal title
+DISABLE_AUTO_TITLE="true"
+# display red dots whilst waiting for completion.
+COMPLETION_WAITING_DOTS="true"
+
+# list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
+plugins=()
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  # Homebrew
+  # TODO: find a better way for checking if brew is installed
+  if (type /opt/homebrew/bin/brew &> /dev/null); then
+    plugins+=(brew)
+    # NOTE: Why -z "$VAR" and not -z ${VAR+x}: https://stackoverflow.com/a/13864829
+    # Check if $HOMEBREW_GITHUB_API_TOKEN is not set or set to an empty string
+    if [[ -z "$HOMEBREW_GITHUB_API_TOKEN" ]]; then
+      # Github API Token for Homebrew
+      echo "WARNING: Please consider setting \$HOMEBREW_GITHUB_API_TOKEN variable"
+      echo "-----"
+    fi
+  else
+    echo "WARNING: Please consider installing Homebrew: https://brew.sh/"
+    echo "-----"
+  fi
+fi
+
+if (type /opt/homebrew/bin/tmux &> /dev/null); then
+  plugins+=(tmux)
+  # tmux plugin configuration
+  if [[ ! -f "$HOME/.zsh_tmux_autostart_off" ]]; then
+    ZSH_TMUX_AUTOSTART="true"
+    ZSH_TMUX_AUTOSTART_ONCE="false"
+    ZSH_TMUX_AUTOCONNECT="false"
+    ZSH_TMUX_AUTOQUIT="true"
+    ZSH_TMUX_UNICODE="true"
+  else
+    echo "Tmux session will not automagically start"
+    echo "Please remove $HOME/.zsh_tmux_autostart_off"
+    echo "-----"
+  fi
+else
+  echo "Please consider installing Tmux: https://tmux.github.io/"
+  echo "-----"
+fi
+
+# list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
+plugins+=(dirrc git helm)
+
+# remind about OMZ updates
+zstyle ':omz:update' mode reminder
+
+# load zsh configuration specific for given machine
+if test -e "${HOME}/.zshrc.local"; then
+  source "${HOME}/.zshrc.local"
+fi
+
+# load oh-my-zsh as the last step
+source "$ZSH/oh-my-zsh.sh"

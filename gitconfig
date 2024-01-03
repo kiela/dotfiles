@@ -68,6 +68,7 @@
   rebase = false
 [push]
   default = simple
+	autoSetupRemote = true
 [user]
   email = kamil@kieliszczyk.net
   name = Kamil Kieliszczyk

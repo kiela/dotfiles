@@ -24,6 +24,8 @@ set nojoinspaces " TODO use one space, not two, after punctuation
 set diffopt+=vertical " always use vertical diffs
 "set hidden " TODO switch between buffers without errors
 set maxmempattern=4000 " increase mximum amount of memory (in Kbyte) to use for pattern matching
+set modeline " allow to set variables specific to a file
+set modelines=5 " numer of lines that are checked for set commands
 
 "set textwidth=80 " wrap lines longer then 80 characters
 " show "80-characters-line-long" vertical line

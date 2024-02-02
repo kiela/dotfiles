@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+if (type glab &> /dev/null); then
+  alias gl="glab"
+fi

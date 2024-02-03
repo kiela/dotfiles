@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+if (type vault &> /dev/null); then
+  autoload -U +X bashcompinit && bashcompinit
+  complete -o nospace -C /opt/homebrew/bin/vault vault
+
+  alias va='vault'
+  alias vakv='vault kv'
+fi

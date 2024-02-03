@@ -12,4 +12,5 @@ source $HOME/.aliases/okd
 source $HOME/.aliases/osx
 source $HOME/.aliases/terraform
 source $HOME/.aliases/tmux
+source $HOME/.aliases/vault
 source $HOME/.aliases/virtualbox

@@ -63,7 +63,7 @@ if has("autocmd")
   autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
   autocmd BufRead,BufNewFile Jenkinsfile* set filetype=groovy
 
-  autocmd BufWritePre *.erl,*.rb :call <SID>StripTrailingSpaces()
+  autocmd BufWritePre *.erl,*.rb,*.py :call <SID>StripTrailingSpaces()
 
   autocmd BufNewFile,BufRead *.sls setfiletype yaml
 

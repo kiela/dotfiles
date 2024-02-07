@@ -11,8 +11,8 @@ __load_dir_messages() {
   local file=$1/.msg
 
   if [[ -f $file && -s $file ]]; then
-		echo "$(tput bold)$(tput setaf 4)MESSAGE:$(tput sgr0)"
-		echo -n "$(tput setaf 4)"
+		echo "$(tput bold)$(tput setaf 32)MESSAGE:$(tput sgr0)"
+		echo -n "$(tput setaf 32)"
 		cat $file
 		echo -n "$(tput sgr0)"
 	fi;

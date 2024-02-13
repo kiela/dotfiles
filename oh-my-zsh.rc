@@ -50,7 +50,10 @@ else
 fi
 
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins+=(dirrc git helm)
+plugins+=(dirrc git helm ssh-agent)
+
+# ssh-agent
+zstyle :omz:plugins:ssh-agent agent-forwarding yes
 
 # remind about OMZ updates
 zstyle ':omz:update' mode reminder

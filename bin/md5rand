@@ -1,0 +1,10 @@
+#!/bin/bash
+
+random_string=$(openssl rand -base64 12)
+if type md5 &> /dev/null; then
+  md5_hash=$(echo -n "$random_string" | md5 -q)
+else
+  md5_hash=$(echo -n "$random_string" | md5sum | awk '{print $1}')
+fi
+echo -n "$md5_hash" | pbcopy
+echo $md5_hash

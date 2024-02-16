@@ -141,25 +141,41 @@ if (type kubectl &> /dev/null); then
   __kubectl::execute()
   {
     local _name=$1
-    local _args
-    local _pod
+    local __pod
+    local __kubectl_args=""
+    local __pod_args="bash"
 
     if [[ -z "${_name:-}" ]]; then
       echo "Please provide pod name or label"
       return 1
-    fi
-
-    if [[ $# -gt 1 ]]; then
-      shift
-      _args=$@
     else
-      _args='bash'
+      shift
     fi
 
-    __kubectl::get_pod_name_by_name "_pod" $_name
-    [[ -z "$_pod" ]] && __kubectl::get_pod_name_by_label "_pod" $_name
+    while [[ $# -gt 0 ]]; do
+      case "$1" in
+        --)
+          shift
+          __pod_args="$@"
+          break
+          ;;
+        *)
+          __kubectl_args="$__kubectl_args $1"
+          shift
+          ;;
+      esac
+    done
 
-    kubectl exec -it $_pod -- sh -c "$_args"
+    # Trim leading and trailing spaces
+    __kubectl_args="${__kubectl_args#"${__kubectl_args%%[![:space:]]*}"}"
+    __kubectl_args="${__kubectl_args%"${__kubectl_args##*[![:space:]]}"}"
+    __pod_args="${__pod_args#"${__pod_args%%[![:space:]]*}"}"
+    __pod_args="${__pod_args%"${__pod_args##*[![:space:]]}"}"
+
+    __kubectl::get_pod_name_by_name "__pod" $_name
+    [[ -z "$__pod" ]] && __kubectl::get_pod_name_by_label "__pod" $_name
+
+    kubectl exec -it $__pod $__kubectl_args -- sh -c "\"$__pod_args\""
   }
 
   __kubectl::get_pod_logs()

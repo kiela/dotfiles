@@ -7,7 +7,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
   alias om='open -a MacDown'
   alias of='open -a Finder'
 
-  function ost() {
+  ost() {
     current_dir=$(pwd)
 
     while [ "$current_dir" != "/" ]; do
@@ -21,12 +21,12 @@ if [[ "$OSTYPE" == darwin* ]]; then
     echo "No Git repository found."
   }
 
-  function tot() {
+  tot() {
     touch $1 && open -a TextEdit $1
   }
 
   # http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/
-  function brew-all-deps() {
+  brew-all-deps() {
     brew list | while read cask; do echo -n $fg[blue] $cask $fg[white]; brew deps $cask | awk '{printf(" %s ", $0)}'; echo ''; done
   }
 

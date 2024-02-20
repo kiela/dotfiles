@@ -6,7 +6,20 @@ if [[ "$OSTYPE" == darwin* ]]; then
   alias ok='open -a Kaleidoscope'
   alias om='open -a MacDown'
   alias of='open -a Finder'
-  alias ost='open -a SourceTree'
+
+  function ost() {
+    current_dir=$(pwd)
+
+    while [ "$current_dir" != "/" ]; do
+      if [ -d "$current_dir/.git" ]; then
+        open -a SourceTree $current_dir
+        return
+      fi
+      current_dir=$(dirname "$current_dir")
+    done
+
+    echo "No Git repository found."
+  }
 
   function tot() {
     touch $1 && open -a TextEdit $1

@@ -35,14 +35,6 @@ function git_prompt() {
 	fi
 }
 
-function ruby_prompt() {
-	if { type rvm &> /dev/null && [[ -f .ruby-version ]]; }; then
-		echo "using %{$green%}$(rvm-prompt v g)%{$default_color%}"
-	else
-		echo ""
-	fi
-}
-
 function pwd_prompt() {
 	echo "%{$blue%}%~%{$default_color%}"
 }
@@ -59,4 +51,4 @@ ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[magenta]%}✹"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}✹"
 
 PROMPT='$(time_prompt) $(user_prompt) $ '
-RPROMPT='$(git_prompt) $(ruby_prompt) in $(pwd_prompt)'
+RPROMPT='$(git_prompt) in $(pwd_prompt)'

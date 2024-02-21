@@ -5,8 +5,14 @@ V=${V:-false}
 __debug()
 {
 	if $V; then
-		echo $1
+		echo "DEBUG: $1"
 	fi
+}
+
+__execute()
+{
+		__debug "$1"
+		eval "$1"
 }
 
 __command_result_message()
@@ -61,7 +67,7 @@ __password_generate()
 
 	if [[ -s $_file ]]; then
 		while true; do
-			read -p "Overwrite existing password? (y/n)" _yn
+			read -p "Overwrite existing password? (y/n) " _yn
 			case $_yn in
 				[Yy]* ) _generate=true; break;;
 				[Nn]* ) break;;
@@ -91,13 +97,13 @@ __password_load()
 
 __cert_encode()
 {
-	local _password_file=$1
-	local _keystore_base64_file=$2
-	local _keystore_file=$3
-	local _cert_p12_file=$4
-	local _cert_pem_file=$5
-	local _cert_priv_key_file=$6
-	local _password 
+	local _password_file="$1"
+	local _keystore_base64_file="$2"
+	local _keystore_file="$3"
+	local _cert_p12_file="$4"
+	local _cert_pem_file="$5"
+	local _cert_priv_key_file="$6"
+	local _password
 
 	__password_generate $_password_file
 
@@ -106,7 +112,9 @@ __cert_encode()
 	__command_result_message
 
 	printf "Export cert to PKCS #12: "
-	openssl pkcs12 -export -in $_cert_pem_file -inkey $_cert_priv_key_file -out $_cert_p12_file -name mykey -password "pass:$_password" >> /dev/null 2>&1
+	echo 'openssl pkcs12 -export -in '$_cert_pem_file' -inkey '$_cert_priv_key_file' -out '$_cert_p12_file' -name mykey -password "pass:'$_password'" >> /dev/null 2>&1'
+	#openssl pkcs12 -export -in $_cert_pem_file -inkey $_cert_priv_key_file -out $_cert_p12_file -name mykey -password "pass:$_password" >> /dev/null 2>&1
+	openssl pkcs12 -export -in $_cert_pem_file -inkey $_cert_priv_key_file -out $_cert_p12_file -name mykey -password "pass:$_password"
 	__command_result_message
 
 	printf "Generate keystore: "
@@ -152,12 +160,18 @@ __cert_decode()
 	if [[ -f $_cert_p12_file ]]; then
 		if [[ ! -f $_cert_pem_file ]]; then
 			printf "Retrieve certificate in PEM format from PKCS#12 file: "
+      echo ''
+      echo '-----'
+			echo 'openssl pkcs12 -in '$_cert_p12_file' -out '$_cert_pem_file' -clcerts -nokeys -password "pass:'$_password'" >/dev/null 2>&1'
+      echo '-----'
+      echo ''
 			openssl pkcs12 -in $_cert_p12_file -out $_cert_pem_file -clcerts -nokeys -password "pass:$_password" >/dev/null 2>&1
 			__command_result_message
 		fi
 
 		if [[ ! -f $_cert_priv_key_file ]]; then
 			printf "Retrieve private-key from PKCS#12 file: "
+			echo 'openssl pkcs12 -in '$_cert_p12_file' -out '$_cert_priv_key_file' -nocerts -nodes -password "pass:'$_password'" >/dev/null 2>&1'
 			openssl pkcs12 -in $_cert_p12_file -out $_cert_priv_key_file -nocerts -nodes -password "pass:$_password" >/dev/null 2>&1
 			__command_result_message
 		fi
@@ -180,6 +194,7 @@ __cert_p12_generate()
 
 	if [[ ! -f $_cert_p12_file ]]; then
 		printf "Generate PKCS#12 file: "
+		echo 'openssl pkcs12 -export -out '$_cert_p12_file' -inkey '$_cert_priv_key_file' -in '$_cert_pem_file' -password "pass:'$_password'"'
 		openssl pkcs12 -export -out $_cert_p12_file -inkey $_cert_priv_key_file -in $_cert_pem_file -password "pass:$_password"
 		__command_result_message
 	else
@@ -230,23 +245,39 @@ __cert_seal()
 
 __cert_info()
 {
-	local _cert_pem_file=$1
+	local _cert_file=$1
+	local _cert_file_type
+	local _openssl_cmd
 	local _cn _san _end_date _hex_number _dec_number
 
-	_cn=$(openssl x509 -noout -subject -in $_cert_pem_file | awk '{$1=$1;print}' | sed -n '/^subject/s/^.*CN=//p')
-	_san=$(openssl x509 -text -in $_cert_pem_file | grep -A1 'X509v3 Subject Alternative Name' | tail -n1 | awk '{$1=$1;print}' | sed 's/, /\n/g')
-	_end_date=$(openssl x509 -enddate -noout -in $_cert_pem_file)
-	_hex_number=$(openssl x509 -noout -serial -in $_cert_pem_file | cut -d'=' -f2)
-	_dec_number=$(echo "obase=10; ibase=16; $_hex_number" | bc)
+	_cert_file_type=$(file $_cert_file | cut -d ':' -f 2 | awk '{$1=$1};1')
+
+	if [[ $_cert_file_type != *request	]]; then
+		_openssl_cmd='x509'
+		_end_date=$(openssl x509 -enddate -noout -in $_cert_file)
+		_hex_number=$(openssl x509 -noout -serial -in $_cert_file | cut -d'=' -f2 | awk '{$1=$1};1')
+		_dec_number=$(echo "obase=10; ibase=16; $_hex_number" | bc)
+	else
+		_openssl_cmd='req'
+	fi
+
+	_cn=$(openssl $_openssl_cmd -noout -subject -in $_cert_file | sed -n 's/.*CN = \([^,]*\).*/\1/p' | awk '{$1=$1};1')
+	_san=$(openssl $_openssl_cmd -text -in $_cert_file | grep -A1 'X509v3 Subject Alternative Name' | tail -n1 | sed 's/, /\n/g' | awk '{$1=$1};1')
 
 	echo
+	echo "File type: $_cert_file_type"
 	echo "Common Name: $_cn"
 	echo "Alternative Names: "
 	echo "$_san" | sed  's/^/  /'
 	echo "Valid: $_end_date"
 	echo "PEM certificate serial:"
-	echo "  - HEX: $(echo $_hex_number | sed 's/../&:/g;s/:$//')"
-	echo "  - DEC: $_dec_number"
+	echo "  HEX: $(echo $_hex_number | sed 's/../&:/g;s/:$//')"
+	echo "  DEC: $_dec_number"
+}
+
+__usage()
+{
+	echo "V=true to debug"
 }
 
 cmd=$1
@@ -274,6 +305,7 @@ if [[ -z $cert_csr_file ]]; then
 		cert_csr_file=$path/newfile.csr
 	fi
 fi
+cert_csr_file=$(printf "%q" "$cert_csr_file")
 
 cert_pem_file=$(__file_find_by_type $path "PEM certificate$")
 if [[ -z $cert_pem_file ]]; then
@@ -282,6 +314,7 @@ if [[ -z $cert_pem_file ]]; then
 		cert_pem_file=$path/newfile.cer
 	fi
 fi
+cert_pem_file=$(printf "%q" "$cert_pem_file")
 
 cert_priv_key_file=$(__file_find_by_type $path "PEM RSA private key$")
 if [[ -z $cert_priv_key_file ]]; then
@@ -290,32 +323,37 @@ if [[ -z $cert_priv_key_file ]]; then
 		cert_priv_key_file=$path/newfile.key
 	fi
 fi
+cert_priv_key_file=$(printf "%q" "$cert_priv_key_file")
 
 cert_p12_file=$(__file_find_by_extension $path ".p12")
 if [[ -z $cert_p12_file ]]; then
 	cert_p12_file=$path/newfile.p12
 fi
+cert_p12_file=$(printf "%q" "$cert_p12_file")
 
 keystore_file=$path/keystore.jks
 keystore_base64_file=$path/keystore.jks.base64
 
-__debug
-__debug "----------"
-__debug "password_file: $password_file"
-__debug "cert_csr_file: $cert_csr_file"
-__debug "cert_pem_file: $cert_pem_file"
-__debug "cert_priv_key_file: $cert_priv_key_file"
-__debug "cert_p12_file: $cert_p12_file"
-__debug "----------"
-__debug "keystore_file: $keystore_file"
-__debug "keystore_base64_file: $keystore_base64_file"
-__debug "----------"
-__debug
+__debug_files()
+{
+	__debug
+	__debug "----------"
+	__debug "password_file: $password_file"
+	__debug "cert_csr_file: $cert_csr_file"
+	__debug "cert_pem_file: $cert_pem_file"
+	__debug "cert_priv_key_file: $cert_priv_key_file"
+	__debug "cert_p12_file: $cert_p12_file"
+	__debug "----------"
+	__debug "keystore_file: $keystore_file"
+	__debug "keystore_base64_file: $keystore_base64_file"
+	__debug "----------"
+	__debug
+}
 
 case $cmd in
 	encode)
-		__cert_encode $password_file $keystore_base64_file $keystore_file $cert_p12_file $cert_pem_file $cert_priv_key_file
-		__cert_seal "false" $password_file
+		__cert_encode "$password_file" "$keystore_base64_file" "$keystore_file" "$cert_p12_file" "$cert_pem_file" "$cert_priv_key_file"
+		__cert_seal "false" "$password_file"
 		;;
 	decode)
 		__cert_decode $password_file $keystore_base64_file $keystore_file $cert_p12_file $cert_pem_file $cert_priv_key_file
@@ -327,6 +365,18 @@ case $cmd in
 		__cert_seal "true" $password_file
 		;;
 	info)
-		__cert_info $cert_pem_file
+		if [[ -e $cert_pem_file ]]; then
+			__cert_info "$cert_pem_file"
+		else
+			__cert_info "$cert_csr_file"
+		fi
+		;;
+	debug)
+		V=true
+		__debug_files
+		;;
+	help)
+		__usage
+		exit 1
 		;;
 esac

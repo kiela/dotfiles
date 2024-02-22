@@ -19,15 +19,15 @@ else
 	local default_color=$reset_color
 fi
 
-function time_prompt() {
+time_prompt() {
 	echo "%(?.%{$limegreen%}.%{$hotpink%})%D{%H:%M:%S}%{$default_color%}"
 }
 
-function user_prompt() {
+user_prompt() {
 	echo "%{$purple%}%n@%m%{$default_color%}"
 }
 
-function git_prompt() {
+git_prompt() {
 	if { type git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/null }; then
 		echo "$(git_prompt_status) $(git_prompt_info)"
 	else
@@ -35,7 +35,7 @@ function git_prompt() {
 	fi
 }
 
-function pwd_prompt() {
+pwd_prompt() {
 	echo "%{$blue%}%~%{$default_color%}"
 }
 

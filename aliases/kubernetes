@@ -17,6 +17,26 @@ if ! (type setvar &> /dev/null); then
   }
 fi
 
+if ! (type __omd::execute &> /dev/null); then
+  __omd::execute() {
+    local _cmd=$1
+    local _verbose=${2:-${OMD_VERBOSE:-false}}
+
+    if $_verbose; then
+      echo "-----"
+      echo $_cmd
+      echo "-----"
+    fi
+
+    eval $_cmd
+  }
+fi
+
+#cmd = "ls /"
+#__omd::execute($cmd, true)
+
+#echo "foo"
+
 if (type kubectl &> /dev/null); then
   source <(kubectl completion zsh)
 

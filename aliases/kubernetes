@@ -35,6 +35,7 @@ if (type kubectl &> /dev/null); then
   alias kroh='kubectl rollout history'
   alias kroh='kubectl rollout undo'
   alias krm='kubectl delete'
+  alias krmf='kubectl delete --force --grace-period 0'
   alias krmall='__kubectl::delete_all_objects'
   alias ks='kubectl scale'
   alias ke='__kubectl::execute'

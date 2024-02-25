@@ -2,31 +2,31 @@ __load_dir_links() {
   local file=$1/.links
 
   if [[ -f $file && -s $file ]]; then
-		echo "$(tput bold)$(tput setaf 6)LINKS:$(tput sgr0)"
-		echo "$(tput setaf 6)Check out links stored in .links file!$(tput sgr0)"
-	fi;
+    echo "$(tput bold)$(tput setaf 6)LINKS:$(tput sgr0)"
+    echo "$(tput setaf 6)Check out links stored in .links file!$(tput sgr0)"
+  fi;
 }
 
 __load_dir_messages() {
   local file=$1/.msg
 
   if [[ -f $file && -s $file ]]; then
-		echo "$(tput bold)$(tput setaf 32)MESSAGE:$(tput sgr0)"
-		echo -n "$(tput setaf 32)"
-		cat $file
-		echo -n "$(tput sgr0)"
-	fi;
+    echo "$(tput bold)$(tput setaf 32)MESSAGE:$(tput sgr0)"
+    echo -n "$(tput setaf 32)"
+    cat $file
+    echo -n "$(tput sgr0)"
+  fi;
 }
 
 __load_dir_todos() {
   local file=$1/.todo
 
   if [[ -f $file && -s $file ]]; then
-		echo "$(tput bold)$(tput setaf 3)TODO:$(tput sgr0)"
-		echo -n "$(tput setaf 3)"
-		cat $file
-		echo -n "$(tput sgr0)"
-	fi;
+    echo "$(tput bold)$(tput setaf 3)TODO:$(tput sgr0)"
+    echo -n "$(tput setaf 3)"
+    cat $file
+    echo -n "$(tput sgr0)"
+  fi;
 }
 
 __load_dir_aliases() {

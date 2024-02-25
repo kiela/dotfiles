@@ -28,6 +28,7 @@ alias ff='find . -type f'
 alias fd='find . -type d'
 alias first='head -n 1'
 alias last='tail -n 1'
+alias len='wc -c'
 alias cp='cp -i'
 alias mv='mv -i'
 alias toff="__tmux::turn_off"

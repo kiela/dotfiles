@@ -6,6 +6,7 @@ if type docker &> /dev/null; then
   alias di='docker image'
   alias dp='docker pull'
   alias dr='docker run'
+  alias dri='docker run -it'
   alias dsvc='docker service'
   alias dstk='docker stack'
   alias ds='docker system'

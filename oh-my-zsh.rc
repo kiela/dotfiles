@@ -15,6 +15,7 @@ COMPLETION_WAITING_DOTS="true"
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
 plugins=()
 
+# TODO: move it to custom plugin
 if [[ "$OSTYPE" == darwin* ]]; then
   # Homebrew
   # TODO: find a better way for checking if brew is installed
@@ -33,6 +34,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
   fi
 fi
 
+# TODO: move it to custom plugin
+# TODO: find a better way for checking if tmux is installed
 if (type /opt/homebrew/bin/tmux &> /dev/null); then
   plugins+=(tmux)
   # tmux plugin configuration
@@ -61,6 +64,7 @@ zstyle :omz:plugins:ssh-agent agent-forwarding yes
 # remind about OMZ updates
 zstyle ':omz:update' mode reminder
 
+# TODO: move it to custom plugin
 # load zsh configuration specific for given machine
 if test -e "${HOME}/.zshrc.local"; then
   source "${HOME}/.zshrc.local"

@@ -4,25 +4,25 @@ call pathogen#helptags()
 let mapleader = ','
 
 syntax on
-"syntax enable " TODO wtf is that for?
+"syntax enable " TODO: wtf is that for?
 filetype plugin indent on
 
 set encoding=utf-8 " output encoding that is shown in the terminal
 set fileencoding=utf-8 " output encoding of the file that is written
-set backspace=2 " TODO make backspace work like most other apps
+set backspace=2 " TODO: make backspace work like most other apps
 set ruler " show current row and number at the right bottom of the screen
 set number " display line numbers
 set numberwidth=5 " reserve 5 characters for number line
 set pastetoggle=<F2> " bind setting 'paste' on and off to F2 key
-set nobackup " TODO do not create any backaup files
-set noswapfile " TODO do not create any swap files
-set nowritebackup" TODO wtf is that for?
-"set fencs=utf-8 " TODO wtf is that for?
-"set mouse= " TODO wtf is that for?
-set autowrite " TODO automatically :write before running commands
-set nojoinspaces " TODO use one space, not two, after punctuation
+set nobackup " TODO: do not create any backaup files
+set noswapfile " TODO: do not create any swap files
+set nowritebackup" TODO: wtf is that for?
+"set fencs=utf-8 " TODO: wtf is that for?
+"set mouse= " TODO: wtf is that for?
+set autowrite " TODO: automatically :write before running commands
+set nojoinspaces " TODO: use one space, not two, after punctuation
 set diffopt+=vertical " always use vertical diffs
-"set hidden " TODO switch between buffers without errors
+"set hidden " TODO: switch between buffers without errors
 set maxmempattern=4000 " increase mximum amount of memory (in Kbyte) to use for pattern matching
 set modeline " allow to set variables specific to a file
 set modelines=5 " numer of lines that are checked for set commands

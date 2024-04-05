@@ -80,11 +80,17 @@ let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeShowHidden=1
 let g:NERDTreeIgnore=['\.DS_Store$', '\.git$']
-" open a NERDTree automatically when vim starts without any file
 if has("autocmd")
   " Start NERDTree when Vim is started without file arguments.
   autocmd StdinReadPre * let s:std_in=1
   autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+
+  " Colors
+  autocmd VimEnter * highlight NERDTreeDir guifg=NONE ctermfg=cyan
+  autocmd VimEnter * highlight NERDTreeFile guifg=NONE ctermfg=NONE
+  autocmd VimEnter * highlight NERDTreeLinkTarget guifg=NONE ctermfg=NONE
+  autocmd VimEnter * highlight NERDTreeLinkFile guifg=NONE ctermfg=magenta
+  autocmd VimEnter * highlight NERDTreeExecFile guifg=NONE ctermfg=red
 end
 
 " shortcut to rapidly toggle `set list`

@@ -1,30 +1,30 @@
-# Use extended color palette if available
-if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
-	local turquoise="%F{81}"
-	local orange="%F{166}"
-	local purple="%F{135}"
-	local hotpink="%F{161}"
-	local limegreen="%F{118}"
-	local green="%F{2}"
-	local blue="%F{21}"
-	local default_color="%f"
-else
-	local turquoise="$fg[cyan]"
-	local orange="$fg[yellow]"
-	local purple="$fg[magenta]"
-	local hotpink="$fg[red]"
-	local limegreen="$fg[green]"
-	local green="$fg[green]"
-	local blue="$fg[blue]"
-	local default_color=$reset_color
+# Exit when extended color palette is not available
+if [[ ! $TERM =~ '256color' ]]; then
+    echo "Terminal does not support 256 colors."
+    exit 1
 fi
 
+
+export LSCOLORS="gxfxcxdxbxegedabagacad"
+export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;46:su=30:sg=30:tw=30:ow=30"
+
+# NOTE: 
+#   %F{code} for foreground colors
+#   %K{code} for background colors
+local turquoise="%F{81}"
+local orange="%F{166}"
+local purple="%F{135}"
+local hotpink="%F{161}"
+local limegreen="%F{118}"
+local green="%F{2}"
+local reset_color="%f"
+
 time_prompt() {
-	echo "%(?.%{$limegreen%}.%{$hotpink%})%D{%H:%M:%S}%{$default_color%}"
+	echo "%(?.%{$limegreen%}.%{$hotpink%})%D{%H:%M:%S}%{$reset_color%}"
 }
 
 user_prompt() {
-	echo "%{$purple%}%n@%m%{$default_color%}"
+	echo "%{$purple%}%n@%m%{$reset_color%}"
 }
 
 git_prompt() {
@@ -36,11 +36,11 @@ git_prompt() {
 }
 
 pwd_prompt() {
-	echo "%{$blue%}%~%{$default_color%}"
+	echo "%{$fg[cyan]%}%~%{$reset_color%}"
 }
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[green]%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$default_color%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY=""
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}✹"

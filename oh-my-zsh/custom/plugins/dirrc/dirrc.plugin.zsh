@@ -30,37 +30,87 @@ __load_dir_todos() {
 }
 
 __load_dir_aliases() {
-  local file=$1/${2:-".aliases"}
+  local __dir=${1:-$PWD}
+  local __filename=${2:-".aliases"}
+  local __filepath
 
-  if [[ -d $file ]]; then
-    __load_dir_aliases $file "_load"
-  elif [[ -f $file && -s $file ]]; then
-    source $file
-    echo "$(tput setaf 2)Directory aliases loaded$(tput sgr0)"
+  if [[ -d $__dir/$__filename ]]; then
+    __load_dir_aliases "$__dir/$__filename" "_load"
+  else
+    __filepath=$(__find_dir_file $__dir $__filename)
+
+    if [[ $? -eq 0 ]]; then
+      if [[ -f $__filepath && -s $__filepath ]]; then
+        source $__filepath
+        echo "$(tput setaf 2)Directory aliases loaded$(tput sgr0)"
+      fi
+    else
+      echo "$(tput setaf 2)Directory aliases not loaded$(tput sgr0)"
+    fi
   fi;
 }
 
 __load_dir_envs() {
-  local file=$1/.env
+  local __dir=${1:-$PWD}
+  local __filename=".env"
+  local __filepath
 
-  if [[ -f $file && -s $file ]]; then
-    while read i
-    do
-      if [[ ($i[1] != '#') && (-n $i[1]) ]]; then
-        export ${i//[\'\"\`]}
-      fi;
-    done < $file
-    echo "$(tput setaf 2)Directory ENVs loaded$(tput sgr0)"
-  fi;
+  __filepath=$(__find_dir_file $__dir $__filename)
+
+  if [[ $? -eq 0 ]]; then
+    if [[ -f $__filepath && -s $__filepath ]]; then
+      while read i
+      do
+        if [[ ($i[1] != '#') && (-n $i[1]) ]]; then
+          export ${i//[\'\"\`]}
+        fi;
+      done < $__filepath
+      echo "$(tput setaf 2)Directory ENVs loaded$(tput sgr0)"
+    fi
+  else
+    echo "$(tput setaf 1)Directory ENVs not loaded$(tput sgr0)"
+  fi
 }
 
 __load_dir_rc() {
-  local file=$1/.dirrc
+  local __dir=${1:-$PWD}
+  local __filename=".dirrc"
+  local __filepath
 
-  if [[ -f $file && -s $file ]]; then
-    source $file
-    echo "$(tput setaf 2)Directory configuration loaded$(tput sgr0)"
+
+  __filepath=$(__find_dir_file $__dir $__filename)
+
+  if [[ $? -eq 0 ]]; then
+    if [[ -f $__filepath && -s $__filepath ]]; then
+      source $__filepath
+      echo "$(tput setaf 2)Directory configuration loaded$(tput sgr0)"
+    fi
+  else
+    echo "$(tput setaf 1)WARNING: Directory configuration not loaded$(tput sgr0)"
   fi;
+}
+
+__find_dir_file() {
+  local __start_dir=$1
+  local __filename=$2
+  local __previous_dir=""
+
+  if [[ -z "$__start_dir" || -z "$__filename" ]]; then
+    echo "$(tput setaf 1)WARNING: __find_dir_file(): Required arguments are missing$(tput sgr0)"
+    return 1
+  fi
+
+  while [[ "$__start_dir" != "$__previous_dir" ]]; do
+    local __filepath="$__start_dir/$__filename"
+
+    if [[ -f "$__filepath" ]]; then
+      echo "$__filepath"
+      return 0
+    else
+      __previous_dir=$__start_dir
+      __start_dir=$(dirname "$__start_dir")
+    fi
+  done
 }
 
 dirrc() {

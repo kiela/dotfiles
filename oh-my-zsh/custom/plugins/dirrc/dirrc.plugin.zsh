@@ -1,30 +1,30 @@
 __load_dir_links() {
-  local file=$1/.links
+  local __file="$1/.links"
 
-  if [[ -f $file && -s $file ]]; then
+  if [[ -f $__file && -s $__file ]]; then
     echo "$(tput bold)$(tput setaf 6)LINKS:$(tput sgr0)"
     echo "$(tput setaf 6)Check out links stored in .links file!$(tput sgr0)"
   fi;
 }
 
 __load_dir_messages() {
-  local file=$1/.msg
+  local __file="$1/.msg"
 
-  if [[ -f $file && -s $file ]]; then
+  if [[ -f $__file && -s $__file ]]; then
     echo "$(tput bold)$(tput setaf 32)MESSAGE:$(tput sgr0)"
     echo -n "$(tput setaf 32)"
-    cat $file
+    cat $__file
     echo -n "$(tput sgr0)"
   fi;
 }
 
 __load_dir_todos() {
-  local file=$1/.todo
+  local __file="$1/.todo"
 
-  if [[ -f $file && -s $file ]]; then
+  if [[ -f $__file && -s $__file ]]; then
     echo "$(tput bold)$(tput setaf 3)TODO:$(tput sgr0)"
     echo -n "$(tput setaf 3)"
-    cat $file
+    cat $__file
     echo -n "$(tput sgr0)"
   fi;
 }
@@ -114,17 +114,17 @@ __find_dir_file() {
 }
 
 dirrc() {
-  local dir=${1:-$PWD}
+  local __dir=${1:-$PWD}
 
   # Directory information
-  __load_dir_links $dir
-  __load_dir_messages $dir
-  __load_dir_todos $dir
+  __load_dir_links $__dir
+  __load_dir_messages $__dir
+  __load_dir_todos $__dir
 
   # Directory runtime configuration
-  __load_dir_aliases $dir
-  __load_dir_envs $dir
-  __load_dir_rc $dir
+  __load_dir_aliases $__dir
+  __load_dir_envs $__dir
+  __load_dir_rc $__dir
 }
 
 autoload -U add-zsh-hook

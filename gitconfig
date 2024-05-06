@@ -38,6 +38,7 @@
 	s = stash save
 	sa = stash apply
 	sd = stash drop
+	sh = show
 	sl = stash list
 	sls = log --pretty=format:'%C(red)%h%C(reset) %C(green)%cr%C(reset) %x09 %C(bold blue)%an%C(reset) %x09 %s'
 	sp = stash pop

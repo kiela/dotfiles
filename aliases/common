@@ -36,6 +36,7 @@ alias ton="__tmux::turn_on"
 alias v="vim"
 alias vo="vim -o"
 alias vO="vim -O"
+alias less="less -I"
 
 __tmux::turn_off()
 {

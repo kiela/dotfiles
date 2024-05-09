@@ -25,7 +25,7 @@ else
   echo "-----"
 fi
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(dirrc docker docker-compose docker-machine git tmux)
+plugins=(dirrc git tmux)
 # remind about OMZ updates
 zstyle ':omz:update' mode reminder
 

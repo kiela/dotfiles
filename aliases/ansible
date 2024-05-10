@@ -5,4 +5,6 @@ if (type ansible &> /dev/null); then
   alias ag="ansible-galaxy"
   alias ap="ansible-playbook"
   alias av="ansible-vault"
+  alias ave="ansible-vault edit"
+  alias avv="ansible-vault view"
 fi

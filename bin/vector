@@ -2,15 +2,13 @@
 
 V=${V:-false}
 
-__debug()
-{
+__debug() {
   if $V; then
     echo "DEBUG: $@"
   fi
 }
 
-__execute()
-{
+__execute() {
   __debug "$@"
   eval "$@"
 }

@@ -1,0 +1,37 @@
+#!/bin/sh
+
+if [[ ! $TERM =~ '256color' ]]; then
+  echo "Terminal does not support 256 colors."
+  exit 1
+fi
+
+# This function will print a color block with its code
+print_color_block() {
+  printf "\e[48;5;%sm %3d \e[0m" "$1" "$1"
+}
+
+# Print 256-color palette in a sorted manner
+echo "Approximate sorted 256-color palette with codes:"
+echo
+
+for i in {0..15}; do  # Standard colors
+  print_color_block $i
+done
+echo
+echo
+
+for i in {16..231}; do  # 6x6x6 Color cube
+  print_color_block $i
+  if (( (i - 15) % 6 == 0 )); then
+    echo
+  fi
+done
+echo
+
+for i in {232..255}; do  # Grayscale from black to white
+  print_color_block $i
+  if (( (i - 231) % 24 == 0 )); then
+    echo
+  fi
+done
+echo

@@ -8,14 +8,14 @@ if [[ "$OSTYPE" == darwin* ]]; then
   alias of='open -a Finder'
 
   ost() {
-    current_dir=$(pwd)
+    local __current_dir=$(pwd)
 
-    while [ "$current_dir" != "/" ]; do
-      if [ -d "$current_dir/.git" ]; then
-        open -a SourceTree $current_dir
+    while [ "$__current_dir" != "/" ]; do
+      if [ -d "$__current_dir/.git" ]; then
+        open -a SourceTree $__current_dir
         return
       fi
-      current_dir=$(dirname "$current_dir")
+      __current_dir=$(dirname "$__current_dir")
     done
 
     echo "No Git repository found."

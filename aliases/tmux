@@ -3,8 +3,7 @@
 if (type tmux &> /dev/null); then
   alias t='__tmux::main'
 
-  __tmux::main()
-  {
+  __tmux::main() {
     case "$1" in
         "") tmux;;
         "a") tmux attach;;
@@ -15,8 +14,7 @@ if (type tmux &> /dev/null); then
     esac
   }
 
-  __tmux::turn_off()
-  {
+  __tmux::turn_off() {
     local __file="$HOME/.zsh_tmux_autostart_off"
 
     if [[ ! -e $__file ]]; then
@@ -31,8 +29,7 @@ if (type tmux &> /dev/null); then
     fi
   }
 
-  __tmux::turn_on()
-  {
+  __tmux::turn_on() {
     local __file="$HOME/.zsh_tmux_autostart_off"
 
     if [[ -e $__file ]]; then

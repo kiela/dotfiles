@@ -1,4 +1,14 @@
+V=${V:-false}
+#V=true
+
+__debug() {
+  if $V; then
+    echo "DEBUG: $1"
+  fi
+}
+
 __load_dir_links() {
+#  local __filepth=$1/.links
   local __file="$1/.links"
 
   if [[ -f $__file && -s $__file ]]; then
@@ -8,6 +18,7 @@ __load_dir_links() {
 }
 
 __load_dir_messages() {
+#  local __filepth=$1/.msg
   local __file="$1/.msg"
 
   if [[ -f $__file && -s $__file ]]; then
@@ -19,6 +30,7 @@ __load_dir_messages() {
 }
 
 __load_dir_todos() {
+#  local __filepth=$1/.todo
   local __file="$1/.todo"
 
   if [[ -f $__file && -s $__file ]]; then
@@ -34,10 +46,14 @@ __load_dir_aliases() {
   local __filename=${2:-".aliases"}
   local __filepath
 
+  __debug "__load_dir_aliases::\$__dir: $__dir"
+  __debug "__load_dir_aliases::\$__filename: $__filename"
+
   if [[ -d $__dir/$__filename ]]; then
     __load_dir_aliases "$__dir/$__filename" "_load"
   else
     __filepath=$(__find_dir_file $__dir $__filename)
+    __debug "__load_dir_aliases::\$__filepath: $__filepath"
 
     if [[ $? -eq 0 ]]; then
       if [[ -f $__filepath && -s $__filepath ]]; then
@@ -55,7 +71,11 @@ __load_dir_envs() {
   local __filename=".env"
   local __filepath
 
+  __debug "__load_dir_envs::\$__dir: $__dir"
+  __debug "__load_dir_envs::\$__filename: $__filename"
+
   __filepath=$(__find_dir_file $__dir $__filename)
+  __debug "__load_dir_envs::\$__filepath: $__filepath"
 
   if [[ $? -eq 0 ]]; then
     if [[ -f $__filepath && -s $__filepath ]]; then
@@ -77,8 +97,11 @@ __load_dir_rc() {
   local __filename=".dirrc"
   local __filepath
 
+  __debug "__load_dir_rc::\$__dir: $__dir"
+  __debug "__load_dir_rc::\$__filename: $__filename"
 
   __filepath=$(__find_dir_file $__dir $__filename)
+  __debug "__load_dir_rc::\$__filepath: $__filepath"
 
   if [[ $? -eq 0 ]]; then
     if [[ -f $__filepath && -s $__filepath ]]; then
@@ -122,6 +145,9 @@ dirrc() {
   __load_dir_todos $__dir
 
   # Directory runtime configuration
+  # load global aliases and directory aliases as well
+  #__load_dir_aliases $HOME
+  #__load_dir_aliases $PWD
   __load_dir_aliases $__dir
   __load_dir_envs $__dir
   __load_dir_rc $__dir

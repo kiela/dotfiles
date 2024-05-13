@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+if (type terraform &> /dev/null); then
+  alias tf='terraform'
+  alias tfa='terraform apply'
+  alias tfd='terraform destroy'
+  alias tff='terraform fmt'
+  alias tfi='terraform import'
+  alias tfp='terraform plan'
+  alias tfs='terraform show'
+  alias tfv='terraform validate'
+  alias tfw='terraform workspace'
+  alias trg='grep --exclude-dir=terraform.tfstate.d --exclude-dir=.terraform --exclude=terraform.tfstate --exclude=terraform.tfstate.backup'
+
+  alias ctfp='clear && terraform plan'
+  alias ctrg='clear && trg -rin'
+fi

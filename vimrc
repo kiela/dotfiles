@@ -91,7 +91,7 @@ endfunction
 set wildignore=*.dll,*.o,*.obj,*.bak,*.pyc,*.swp
 
 " Plugins
-
+""" DONE
 " NERDTree
 map <silent> <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeDirArrowExpandable = '▸'
@@ -110,6 +110,7 @@ if has("autocmd")
   autocmd VimEnter * highlight NERDTreeLinkFile guifg=NONE ctermfg=magenta
   autocmd VimEnter * highlight NERDTreeExecFile guifg=NONE ctermfg=red
 end
+""" EOF DONE
 
 " shortcut to rapidly toggle `set list`
 nmap <C-l> :set list!<CR>

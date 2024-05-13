@@ -1,8 +1,7 @@
 #!/usr/bin/env sh
 
 if ! (type setvar &> /dev/null); then
-  setvar()
-  {
+  setvar() {
     local _variable_to_be_set="$1"
     local _value_to_be_set="$2"
 
@@ -64,143 +63,138 @@ if (type kubectl &> /dev/null); then
   alias ks='kubectl scale'
   alias ke='__kubectl::execute'
   alias kl='kubectl logs'
-  alias klog='__kubectl::get_pod_logs'
-  alias ketcd='__kubectl::etcdctl'
+alias klog='__kubectl::get_pod_logs'
+alias ketcd='__kubectl::etcdctl'
 
-  alias ck='clear && k'
-  alias cka='clear && ka'
-  alias ckcfg='clear && kcfg'
-  alias ckd='clear && kd'
-  alias ckg='clear && kg'
-  alias cke='clear && ke'
-  alias ckl='clear && kl'
+alias ck='clear && k'
+alias cka='clear && ka'
+alias ckcfg='clear && kcfg'
+alias ckd='clear && kd'
+alias ckg='clear && kg'
+alias cke='clear && ke'
+alias ckl='clear && kl'
 
-  if (type kubectx &> /dev/null); then
-    alias kctx='kubectx'
-    alias kns='kubens'
+if (type kubectx &> /dev/null); then
+  alias kctx='kubectx'
+  alias kns='kubens'
+fi
+
+if (type watch &> /dev/null); then
+  alias wkg='watch -n 1 kubectl get'
+  alias wkge='watch -n 1 "kubectl get events --sort-by=\".firstTimestamp\" | tail -n 10"'
+  alias wkd='watch -n 1 kubectl describe'
+fi
+
+__kubectl::get_decoded_secret() {
+  local _name=$1
+
+  if ! (type jq &> /dev/null); then
+    echo "ERROR: Please install jq to use this feature"
+    echo "-----"
+    exit 1
   fi
 
-  if (type watch &> /dev/null); then
-    alias wkg='watch -n 1 kubectl get'
-    alias wkge='watch -n 1 "kubectl get events --sort-by=\".firstTimestamp\" | tail -n 10"'
-    alias wkd='watch -n 1 kubectl describe'
+  for __k __v in $(kubectl get secret $_name -o json | jq -r '.data | to_entries[] | "\(.key): \(.value)"'); do
+    echo -n $__k" "
+    echo $__v | base64 --decode
+    echo
+  done
+}
+
+__kubectl::get_pod_name_by_label() {
+  local __var __label __value __args __result
+
+  if [[ $# -gt 2 ]]; then
+    __var="$1"
+    shift
+  fi
+  __label="$1"
+  __value="$2"
+  __args=${@:3}
+
+  if [[ ! -z "$__label" ]]; then
+    __result=$(kubectl get pod -l $__label=$__value -o jsonpath='{.items[0].metadata.name}' $__args | head -n 1)
+  else
+    # TODO: can it be done using jsonpath without jq?
+    __result=$(kubectl get pods -o json | jq -r '.items[] | select(.metadata.labels[] | tostring | contains("'$__value'")) | .metadata.name' $__args | head -n 1)
   fi
 
-  __kubectl::get_decoded_secret()
-  {
-    local _name=$1
+  # TODO: add debug method for those:
+  #echo "var:\t$__var"
+  #echo "label:\t$__label"
+  #echo "value:\t$__value"
+  #echo "args:\t$__args"
+  #echo "result:\t$__result"
+  #echo "-----"
 
-    if ! (type jq &> /dev/null); then
-      echo "ERROR: Please install jq to use this feature"
-      echo "-----"
-      exit 1
-    fi
+  setvar "$__var" "$__result"
+}
 
-    for __k __v in $(kubectl get secret $_name -o json | jq -r '.data | to_entries[] | "\(.key): \(.value)"'); do
-      echo -n $__k" "
-      echo $__v | base64 --decode
-      echo
-    done
-  }
+__kubectl::get_pod_name_by_name() {
 
-  __kubectl::get_pod_name_by_label()
-  {
-    local __var __label __value __args __result
+  local __var __value __args __result
 
-    if [[ $# -gt 2 ]]; then
-      __var="$1"
-      shift
-    fi
-    __label="$1"
-    __value="$2"
-    __args=${@:3}
+  if [[ $# -gt 1 ]]; then
+    __var="$1"
+    shift
+  fi
+  __value="$1"
+  __args=${@:2}
 
-    if [[ ! -z "$__label" ]]; then
-      __result=$(kubectl get pod -l $__label=$__value -o jsonpath='{.items[0].metadata.name}' $__args | head -n 1)
-    else
-      # TODO: can it be done using jsonpath without jq?
-      __result=$(kubectl get pods -o json | jq -r '.items[] | select(.metadata.labels[] | tostring | contains("'$__value'")) | .metadata.name' $__args | head -n 1)
-    fi
+  # TODO: does it search by pod name?
+  __result=$(kubectl get pods -o json | jq -r '.items[] | select(any(.metadata.labels[]; test("'$__value'.*"))) | "\(.metadata.name)"' $__args | head -n 1)
 
-    # TODO: add debug method for those:
-    #echo "var:\t$__var"
-    #echo "label:\t$__label"
-    #echo "value:\t$__value"
-    #echo "args:\t$__args"
-    #echo "result:\t$__result"
-    #echo "-----"
+  setvar "$__var" "$__result"
+}
 
-    setvar "$__var" "$__result"
-  }
+__kubectl::delete_all_objects() {
+  local _object=$1
 
-  __kubectl::get_pod_name_by_name()
-  {
-    local __var __value __args __result
+  for _o in $(kubectl get $_object --no-headers -o custom-columns=':metadata.name'); do
+    kubectl delete $_object --force --grace-period 0 $_o
+  done
+}
 
-    if [[ $# -gt 1 ]]; then
-      __var="$1"
-      shift
-    fi
-    __value="$1"
-    __args=${@:2}
+__kubectl::execute() {
+  local _name=$1
+  local __pod
+  local __kubectl_args=""
+  local __pod_args="bash"
 
-    # TODO: does it search by pod name?
-    __result=$(kubectl get pods -o json | jq -r '.items[] | select(any(.metadata.labels[]; test("'$__value'.*"))) | "\(.metadata.name)"' $__args | head -n 1)
+  if [[ -z "${_name:-}" ]]; then
+    echo "Please provide pod name or label"
+    return 1
+  else
+    shift
+  fi
 
-    setvar "$__var" "$__result"
-  }
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --)
+        shift
+        __pod_args="$@"
+        break
+        ;;
+      *)
+        __kubectl_args="$__kubectl_args $1"
+        shift
+        ;;
+    esac
+  done
 
-  __kubectl::delete_all_objects()
-  {
-    local _object=$1
+  # Trim leading and trailing spaces
+  __kubectl_args="${__kubectl_args#"${__kubectl_args%%[![:space:]]*}"}"
+  __kubectl_args="${__kubectl_args%"${__kubectl_args##*[![:space:]]}"}"
+  __pod_args="${__pod_args#"${__pod_args%%[![:space:]]*}"}"
+  __pod_args="${__pod_args%"${__pod_args##*[![:space:]]}"}"
 
-    for _o in $(kubectl get $_object --no-headers -o custom-columns=':metadata.name'); do
-      kubectl delete $_object --force --grace-period 0 $_o
-    done
-  }
+  __kubectl::get_pod_name_by_name "__pod" $_name
+  [[ -z "$__pod" ]] && __kubectl::get_pod_name_by_label "__pod" $_name
 
-  __kubectl::execute()
-  {
-    local _name=$1
-    local __pod
-    local __kubectl_args=""
-    local __pod_args="bash"
+  kubectl exec -it $__pod $__kubectl_args -- sh -c "\"$__pod_args\""
+}
 
-    if [[ -z "${_name:-}" ]]; then
-      echo "Please provide pod name or label"
-      return 1
-    else
-      shift
-    fi
-
-    while [[ $# -gt 0 ]]; do
-      case "$1" in
-        --)
-          shift
-          __pod_args="$@"
-          break
-          ;;
-        *)
-          __kubectl_args="$__kubectl_args $1"
-          shift
-          ;;
-      esac
-    done
-
-    # Trim leading and trailing spaces
-    __kubectl_args="${__kubectl_args#"${__kubectl_args%%[![:space:]]*}"}"
-    __kubectl_args="${__kubectl_args%"${__kubectl_args##*[![:space:]]}"}"
-    __pod_args="${__pod_args#"${__pod_args%%[![:space:]]*}"}"
-    __pod_args="${__pod_args%"${__pod_args##*[![:space:]]}"}"
-
-    __kubectl::get_pod_name_by_name "__pod" $_name
-    [[ -z "$__pod" ]] && __kubectl::get_pod_name_by_label "__pod" $_name
-
-    kubectl exec -it $__pod $__kubectl_args -- sh -c "\"$__pod_args\""
-  }
-
-  __kubectl::get_pod_logs()
-  {
+__kubectl::get_pod_logs() {
     local _label=${1:-api}
     local _args="${@:2}"
     local _pod
@@ -210,8 +204,7 @@ if (type kubectl &> /dev/null); then
     kubectl logs $_pod $_args
   }
 
-  __kubectl::etcdctl()
-  {
+  __kubectl::etcdctl() {
     local _args="$@"
     local _pod
 
@@ -226,8 +219,7 @@ if (type kubectl &> /dev/null); then
     "
   }
 
-  __kubectl::get_containers()
-  {
+  __kubectl::get_containers() {
     local $_cmd
 
     cmd="kubectl get pods -o jsonpath='{range .items[*]}{\"\n\"}{.metadata.name}{\"\t\"}{.metadata.namespace}{\"\t\"}{range .spec.containers[*]}{.name}{\"=>\"}{.image}{\",\"}{end}{end}' | sort #|column -t"

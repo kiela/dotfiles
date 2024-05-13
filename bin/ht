@@ -3,21 +3,18 @@
 V=${V:-false}
 CLEAR=${CLEAR:-true}
 
-__debug()
-{
+__debug() {
   if $V; then
     echo "DEBUG: $1"
   fi
 }
 
-__execute()
-{
+__execute() {
   __debug "$1"
   eval "$1"
 }
 
-__install()
-{
+__install() {
   local _chart_name=$1
   local _args=$2
 
@@ -25,8 +22,7 @@ __install()
   __execute "helm install $_chart_name . --namespace $_chart_name --create-namespace $args"
 }
 
-__upgrade()
-{
+__upgrade() {
   local _chart_name=$1
   local _args=$2
 
@@ -34,8 +30,7 @@ __upgrade()
   __execute "helm upgrade $_chart_name . --namespace $_chart_name --create-namespace $args"
 }
 
-__uninstall()
-{
+__uninstall() {
   local _chart_name=$1
   local _delete_namespace=false
   local _resource_count
@@ -74,8 +69,7 @@ __uninstall()
   done
 }
 
-__template_render()
-{
+__template_render() {
   local _output_dir=$1
   local _args=${@:2}
 
@@ -96,8 +90,7 @@ __template_render()
         -f values.yaml $_args ."
 }
 
-__help()
-{
+__help() {
   echo "$0 install|upgrade|uninstall|render|help <args>"
 }
 

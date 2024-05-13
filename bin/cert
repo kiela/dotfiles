@@ -2,21 +2,18 @@
 
 V=${V:-false}
 
-__debug()
-{
+__debug() {
 	if $V; then
 		echo "DEBUG: $1"
 	fi
 }
 
-__execute()
-{
+__execute() {
 		__debug "$1"
 		eval "$1"
 }
 
-__command_result_message()
-{
+__command_result_message() {
 	if [[ $? -eq 0 ]]; then
 		echo "ok"
 	else
@@ -25,8 +22,7 @@ __command_result_message()
 	fi
 }
 
-__file_find_by_type()
-{
+__file_find_by_type() {
 	local _path=$1
 	local _type=$2
 	local _result
@@ -36,8 +32,7 @@ __file_find_by_type()
 	echo $_result
 }
 
-__file_find_by_extension()
-{
+__file_find_by_extension() {
 	local _path=$1
 	local _extensions=${@:2}
 	local _extension
@@ -58,8 +53,7 @@ __file_find_by_extension()
 	echo $_result
 }
 
-__password_generate()
-{
+__password_generate() {
 	local _file=$1
 	local _generate=false
 	local _generator_website="https://www.passwordrandom.com/query?command=password&scheme=C!vNV!vV-!cN!-NnC-vC!-NvN!Cv"
@@ -85,8 +79,7 @@ __password_generate()
 	fi
 }
 
-__password_load()
-{
+__password_load() {
 	local _file=$1
 	local _result
 
@@ -95,8 +88,7 @@ __password_load()
 	echo $_result
 }
 
-__cert_encode()
-{
+__cert_encode() {
 	local _password_file="$1"
 	local _keystore_base64_file="$2"
 	local _keystore_file="$3"
@@ -131,8 +123,7 @@ __cert_encode()
 
 }
 
-__cert_decode()
-{
+__cert_decode() {
 	local _password_file=$1
 	local _keystore_base64_file=$2
 	local _keystore_file=$3
@@ -178,8 +169,7 @@ __cert_decode()
 	fi
 }
 
-__cert_p12_generate()
-{
+__cert_p12_generate() {
 	local _password_file=$1
 	local _cert_pem_file=$2
 	local _cert_priv_key_file=$3
@@ -202,8 +192,7 @@ __cert_p12_generate()
 	fi
 }
 
-__cert_seal()
-{
+__cert_seal() {
 	local _ask_to_generate_password=$1
 	local _password_file=$2
 	local _password
@@ -243,8 +232,7 @@ __cert_seal()
 	done
 }
 
-__cert_info()
-{
+__cert_info() {
 	local _cert_file=$1
 	local _cert_file_type
 	local _openssl_cmd
@@ -275,8 +263,7 @@ __cert_info()
 	echo "  DEC: $_dec_number"
 }
 
-__usage()
-{
+__usage() {
 	echo "V=true to debug"
 }
 
@@ -334,8 +321,7 @@ cert_p12_file=$(printf "%q" "$cert_p12_file")
 keystore_file=$path/keystore.jks
 keystore_base64_file=$path/keystore.jks.base64
 
-__debug_files()
-{
+__debug_files() {
 	__debug
 	__debug "----------"
 	__debug "password_file: $password_file"

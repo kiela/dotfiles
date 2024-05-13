@@ -8,13 +8,13 @@ if (type docker &> /dev/null); then
   alias dsc='docker scout'
   alias dv='docker volume'
 
-  if [[ "$(uname -m)" == "arm64" ]]; then
-    alias db='docker build --platform=linux/amd64'
-    alias dr='docker run --platform=linux/amd64'
-    alias dri='docker run -it  --platform=linux/amd64'
-  else
+#  if [[ "$(uname -m)" == "arm64" ]]; then
+#    alias db='docker build --platform=linux/amd64'
+#    alias dr='docker run --platform=linux/amd64'
+#    alias dri='docker run -it  --platform=linux/amd64'
+#  else
     alias db='docker build'
     alias dr='docker run'
     alias dri='docker run -it'
-  fi
+#  fi
 fi

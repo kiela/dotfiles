@@ -20,6 +20,9 @@
 	cl = clone
 	co = checkout
 	cp = cherry-pick
+	cpa = cherry-pick --abort
+	cpc = cherry-pick --continue
+	cps = cherry-pick --skip
 	d = diff
 	dl = pull
 	dla = all-repos pull

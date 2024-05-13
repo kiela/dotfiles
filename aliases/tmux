@@ -1,8 +1,49 @@
 #!/usr/bin/env sh
 
-if type tmux &> /dev/null; then
-  alias t='tmux'
-  alias ta='tmux apply'
-  alias tls='tmux ls'
-  alias tat='tmux apply -t'
+if (type tmux &> /dev/null); then
+  alias t='__tmux::main'
+
+  __tmux::main()
+  {
+    case "$1" in
+        "") tmux;;
+        "a") tmux attach;;
+        "ls") tmux ls;;
+        "off") __tmux::turn_off;;
+        "on") __tmux::turn_on;;
+        *) tmux "$@";;
+    esac
+  }
+
+  __tmux::turn_off()
+  {
+    local __file="$HOME/.zsh_tmux_autostart_off"
+
+    if [[ ! -e $__file ]]; then
+      touch $__file
+      if [[ $? -eq 0 ]]; then
+        echo "Tmux has been turned off"
+      else
+        echo "Cannot turn off Tmux"
+      fi
+    else
+      echo "Tmux is already turned off"
+    fi
+  }
+
+  __tmux::turn_on()
+  {
+    local __file="$HOME/.zsh_tmux_autostart_off"
+
+    if [[ -e $__file ]]; then
+      rm $__file >/dev/null 2>&1
+      if [[ $? -eq 0 ]]; then
+        echo "Tmux has been turned back on"
+      else
+        echo "Cannot turn Tmux back on"
+      fi
+    else
+      echo "Tmux is already turned on"
+    fi
+  }
 fi

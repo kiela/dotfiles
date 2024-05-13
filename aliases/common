@@ -31,44 +31,10 @@ alias last='tail -n 1'
 alias len='wc -c'
 alias cp='cp -i'
 alias mv='mv -i'
-alias toff="__tmux::turn_off"
-alias ton="__tmux::turn_on"
 alias v="vim"
 alias vo="vim -o"
 alias vO="vim -O"
 alias less="less -I"
-
-__tmux::turn_off()
-{
-  local __file="$HOME/.zsh_tmux_autostart_off"
-
-  if [[ ! -e $__file ]]; then
-    touch $__file
-    if [[ $? -eq 0 ]]; then
-      echo "Tmux has been turned off"
-    else
-      echo "Cannot turn off Tmux"
-    fi
-  else
-    echo "Tmux is already turned off"
-  fi
-}
-
-__tmux::turn_on()
-{
-  local __file="$HOME/.zsh_tmux_autostart_off"
-
-  if [[ -e $__file ]]; then
-    rm $__file >/dev/null 2>&1
-    if [[ $? -eq 0 ]]; then
-      echo "Tmux has been turned back on"
-    else
-      echo "Cannot turn Tmux back on"
-    fi
-  else
-    echo "Tmux is already turned on"
-  fi
-}
 
 if type youtube-dl &> /dev/null; then
   alias youtube-dl="youtube-dl -f best"

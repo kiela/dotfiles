@@ -2,34 +2,31 @@
 
 if [[ "$OSTYPE" == darwin* ]]; then
   # open an app
-  alias ot='open -a TextEdit'
+  alias of='open -a Finder'
   alias ok='open -a Kaleidoscope'
   alias om='open -a MacDown'
-  alias of='open -a Finder'
 
-  function ost() {
-    current_dir=$(pwd)
+  alias ot='open -a TextEdit'
+  tot() {
+    touch $1 && open -a TextEdit $1
+  }
 
-    while [ "$current_dir" != "/" ]; do
-      if [ -d "$current_dir/.git" ]; then
-        open -a SourceTree $current_dir
+  ost() {
+    local __current_dir=$(pwd)
+
+    while [ "$__current_dir" != "/" ]; do
+      if [ -d "$__current_dir/.git" ]; then
+        open -a SourceTree $__current_dir
         return
       fi
-      current_dir=$(dirname "$current_dir")
+      __current_dir=$(dirname "$__current_dir")
     done
 
     echo "No Git repository found."
   }
 
-  function tot() {
-    touch $1 && open -a TextEdit $1
-  }
-
   # http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/
-  function brew-all-deps() {
+  brew-all-deps() {
     brew list | while read cask; do echo -n $fg[blue] $cask $fg[white]; brew deps $cask | awk '{printf(" %s ", $0)}'; echo ''; done
   }
-
-  alias bi='brew install'
-  alias bs='brew search'
 fi

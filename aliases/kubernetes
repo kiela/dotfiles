@@ -116,6 +116,7 @@ __kubectl::get_pod_name_by_label() {
     __result=$(kubectl get pod -l $__label=$__value -o jsonpath='{.items[0].metadata.name}' $__args | head -n 1)
   else
     # TODO: can it be done using jsonpath without jq?
+    #  app.kubernetes.io/instance maybe?
     __result=$(kubectl get pods -o json | jq -r '.items[] | select(.metadata.labels[] | tostring | contains("'$__value'")) | .metadata.name' $__args | head -n 1)
   fi
 

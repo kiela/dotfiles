@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-git-all-repos()
-{
-	local current_dir=$1
-	local git_cmd=$2
-	local git_args=${@:3}
+git-all-repos() {
+	local __current_dir=$1
+	local __git_cmd=$2
+	local __git_args=${@:3}
 
 	echo "Pulling in latest changes for all repositories..."
 
@@ -14,15 +13,15 @@ git-all-repos()
 		if [ $(git remote | wc -l) -gt 0 ]; then
 			echo ""
 			echo "$(tput setaf 2)"$repo"$(tput sgr0)"
-			if [ -z "$git_args" ]
+			if [ -z "$__git_args" ]
 			then
-				git branch | awk '{print $2}' | xargs git $git_cmd origin
+				git branch | awk '{print $2}' | xargs git $__git_cmd origin
 			else
-				git $git_cmd $git_args
+				git $__git_cmd $__git_args
 			fi
 		fi
 
-		cd $current_dir
+		cd $__current_dir
 	done
 
 	echo ""

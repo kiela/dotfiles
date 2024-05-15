@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+if (type minikube &> /dev/null); then
+  #source <(minikube completion zsh)
+  alias mk='minikube'
+fi

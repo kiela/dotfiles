@@ -1,5 +1,15 @@
+V=${V:-false}
+
+__debug() {
+  if $V; then
+    echo "DEBUG: $1"
+  fi
+}
+
 __load_dir_links() {
   local __file="$1/.links"
+
+  __debug "__load_dir_links::\$__file: $__file"
 
   if [[ -f $__file && -s $__file ]]; then
     echo "$(tput bold)$(tput setaf 6)LINKS:$(tput sgr0)"
@@ -9,6 +19,8 @@ __load_dir_links() {
 
 __load_dir_messages() {
   local __file="$1/.msg"
+
+  __debug "__load_dir_messages::\$__file: $__file"
 
   if [[ -f $__file && -s $__file ]]; then
     echo "$(tput bold)$(tput setaf 32)MESSAGE:$(tput sgr0)"
@@ -20,6 +32,8 @@ __load_dir_messages() {
 
 __load_dir_todos() {
   local __file="$1/.todo"
+
+  __debug "__load_dir_todos::\$__file: $__file"
 
   if [[ -f $__file && -s $__file ]]; then
     echo "$(tput bold)$(tput setaf 3)TODO:$(tput sgr0)"
@@ -34,12 +48,17 @@ __load_dir_aliases() {
   local __filename=${2:-".aliases"}
   local __filepath
 
+  __debug "__load_dir_aliases::\$__dir: $__dir"
+  __debug "__load_dir_aliases::\$__filename: $__filename"
+
   if [[ -d $__dir/$__filename ]]; then
     __load_dir_aliases "$__dir/$__filename" "_load"
   else
     __filepath=$(__find_dir_file $__dir $__filename)
+    local __found=$?
+    __debug "__load_dir_aliases::\$__filepath: $__filepath"
 
-    if [[ $? -eq 0 ]]; then
+    if [[ $__found -eq 0 ]]; then
       if [[ -f $__filepath && -s $__filepath ]]; then
         source $__filepath
         echo "$(tput setaf 2)Directory aliases loaded$(tput sgr0)"
@@ -55,9 +74,14 @@ __load_dir_envs() {
   local __filename=".env"
   local __filepath
 
-  __filepath=$(__find_dir_file $__dir $__filename)
+  __debug "__load_dir_envs::\$__dir: $__dir"
+  __debug "__load_dir_envs::\$__filename: $__filename"
 
-  if [[ $? -eq 0 ]]; then
+  __filepath=$(__find_dir_file $__dir $__filename)
+  local __found=$?
+  __debug "__load_dir_envs::\$__filepath: $__filepath"
+
+  if [[ $__found -eq 0 ]]; then
     if [[ -f $__filepath && -s $__filepath ]]; then
       while read i
       do
@@ -77,10 +101,14 @@ __load_dir_rc() {
   local __filename=".dirrc"
   local __filepath
 
+  __debug "__load_dir_rc::\$__dir: $__dir"
+  __debug "__load_dir_rc::\$__filename: $__filename"
 
   __filepath=$(__find_dir_file $__dir $__filename)
+  local __found=$?
+  __debug "__load_dir_rc::\$__filepath: $__filepath"
 
-  if [[ $? -eq 0 ]]; then
+  if [[ $__found -eq 0 ]]; then
     if [[ -f $__filepath && -s $__filepath ]]; then
       source $__filepath
       echo "$(tput setaf 2)Directory configuration loaded$(tput sgr0)"

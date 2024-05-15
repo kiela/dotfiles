@@ -205,8 +205,7 @@ if (type kubectl &> /dev/null); then
     "
   }
 
-  __kubectl::get_containers()
-  {
+  __kubectl::get_containers() {
     local _cmd
 
     _cmd="kubectl get pods -o jsonpath='{range .items[*]}{\"\n\"}{.metadata.name}{\"\t\"}{.metadata.namespace}{\"\t\"}{range .spec.containers[*]}{.name}{\"=>\"}{.image}{\",\"}{end}{end}' | sort #|column -t"

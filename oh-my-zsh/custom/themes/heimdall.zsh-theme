@@ -20,25 +20,25 @@ local green="%F{2}"
 local reset_color="%f"
 
 time_prompt() {
-	echo "%(?.%{$limegreen%}.%{$hotpink%})%D{%H:%M:%S}%{$reset_color%}"
+  echo "%(?.%{$limegreen%}.%{$hotpink%})%D{%H:%M:%S}%{$reset_color%}"
 }
 
 user_prompt() {
-	echo "%{$purple%}%n@%m%{$reset_color%}"
+  echo "%{$purple%}%n@%m%{$reset_color%}"
 }
 
 git_prompt() {
-	if { type git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/null }; then
-		# NOTE: https://github.com/ohmyzsh/ohmyzsh/issues/12328
-		#echo "$(git_prompt_status) $(git_prompt_info)"
-		echo "$(_omz_git_prompt_status) $(_omz_git_prompt_info)"
-	else
-		echo ""
-	fi
+  if { type git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/null }; then
+    # NOTE: https://github.com/ohmyzsh/ohmyzsh/issues/12328
+    #echo "$(git_prompt_status) $(git_prompt_info)"
+    echo "$(_omz_git_prompt_status) $(_omz_git_prompt_info)"
+  else
+    echo ""
+  fi
 }
 
 pwd_prompt() {
-	echo "%{$fg[cyan]%}%~%{$reset_color%}"
+  echo "%{$fg[cyan]%}%~%{$reset_color%}"
 }
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[green]%}"

@@ -2,10 +2,14 @@
 
 if [[ "$OSTYPE" == darwin* ]]; then
   # open an app
-  alias ot='open -a TextEdit'
+  alias of='open -a Finder'
   alias ok='open -a Kaleidoscope'
   alias om='open -a MacDown'
-  alias of='open -a Finder'
+
+  alias ot='open -a TextEdit'
+  tot() {
+    touch $1 && open -a TextEdit $1
+  }
 
   ost() {
     local __current_dir=$(pwd)
@@ -19,10 +23,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
     done
 
     echo "No Git repository found."
-  }
-
-  tot() {
-    touch $1 && open -a TextEdit $1
   }
 
   # http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/

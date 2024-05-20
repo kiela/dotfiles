@@ -70,6 +70,7 @@ autocmd Filetype gitcommit setlocal spell
 nnoremap <silent> <F6> :g/^$/d<CR>
 nnoremap <silent> <F5> :call <SID>StripTrailingSpaces()<CR>
 
+""" DONE
 function! <SID>StripTrailingSpaces()
   " save last search, and cursor position.
   let _s=@/
@@ -86,6 +87,60 @@ augroup StripTrailingSpaces
   autocmd!
   autocmd BufWritePre *.erl,*.rb,*.py,*.yml,*.yaml call <SID>StripTrailingSpaces()
 augroup END
+""" EOF DONE
+
+
+
+
+"if has("autocmd")
+"  augroup StripTrailingSpaces
+"    autocmd!
+"    autocmd BufWritePre *.erl,*.rb,*.yml,*.yaml call <SID>StripTrailingSpaces()
+"  augroup END
+"
+"  augroup FileTypeSettings
+"    autocmd!
+"    autocmd FileType markdown setlocal spell
+"    autocmd FileType python setlocal tabstop=4 shiftwidth=4 expandtab
+"    autocmd BufNewFile,BufRead *.myext setfiletype myfiletype
+"  augroup END
+"
+"  augroup GeneralOperations
+"    autocmd!
+"    autocmd BufWritePre * call mkdir(expand('<afile>:p:h'), 'p')
+"    autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=200}
+"  augroup END
+"endif
+"
+"" Group for stripping trailing spaces
+"augroup StripTrailingSpaces
+"  autocmd!
+"  autocmd BufWritePre *.erl,*.rb,*.yml,*.yaml call <SID>StripTrailingSpaces()
+"augroup END
+"
+"" Group for setting file-specific settings
+"augroup FileTypeSettings
+"  autocmd!
+"  " Enable spell check for Markdown files
+"  autocmd FileType markdown setlocal spell
+"  " Set tab width for Python files
+"  autocmd FileType python setlocal tabstop=4 shiftwidth=4 expandtab
+"  " Enable syntax highlighting for specific file extensions
+"  autocmd BufNewFile,BufRead *.myext setfiletype myfiletype
+"augroup END
+"
+"" Group for general file operations
+"augroup GeneralOperations
+"  autocmd!
+"  " Automatically create directories when saving files
+"  autocmd BufWritePre * call mkdir(expand('<afile>:p:h'), 'p')
+"  " Highlight on yank
+"  autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=200}
+"augroup END
+
+
+
+
 
 
 

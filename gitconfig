@@ -3,6 +3,8 @@
   all = all-repos
   bl = blame
   br = branch
+# list only repos which have different branch than default one
+# bra -q = GIT_SSH_COMMAND="ssh -o LogLevel=QUIET" git remote show origin | grep 'HEAD branch:' | cut -d ':' -f 2 | trim
   bra = all-repos symbolic-ref --short HEAD
   ci = commit
   cia = commit --amend
@@ -20,6 +22,7 @@
   l = log --show-signature
   lf = log --show-signature --graph --all --name-status --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s%n'
   ls = log --pretty=format:'%C(red)%h%C(reset) %C(green)%cr%C(reset) %x09 %C(bold blue)%an%C(reset) %x09 %s'
+# lsa= git log --format='%ae' | sort | uniq
   m = merge --commit --no-ff --verify-signatures
   ma = merge --abort
   pl = "!git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done"

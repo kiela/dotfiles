@@ -49,25 +49,23 @@ set tabstop=2 softtabstop=2 shiftwidth=2
 set expandtab
 set shiftround
 
-if has("autocmd")
-  autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
-  autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType sh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType zsh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
+autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType sh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType zsh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
-  autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType groovy setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-  autocmd FileType erlang setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-  autocmd BufNewFile,BufRead *.app,*.app.src setfiletype erlang
+autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType groovy setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+autocmd FileType erlang setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+autocmd BufNewFile,BufRead *.app,*.app.src setfiletype erlang
 
-  autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
-  autocmd BufRead,BufNewFile Jenkinsfile* set filetype=groovy
+autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
+autocmd BufRead,BufNewFile Jenkinsfile* set filetype=groovy
 
-  autocmd BufNewFile,BufRead *.sls setfiletype yaml
+autocmd BufNewFile,BufRead *.sls setfiletype yaml
 
-  autocmd Filetype gitcommit setlocal textwidth=72
-  autocmd Filetype gitcommit setlocal spell
-endif
+autocmd Filetype gitcommit setlocal textwidth=72
+autocmd Filetype gitcommit setlocal spell
 
 nnoremap <silent> <F6> :g/^$/d<CR>
 nnoremap <silent> <F5> :call <SID>StripTrailingSpaces()<CR>

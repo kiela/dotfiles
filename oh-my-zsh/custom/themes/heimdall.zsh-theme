@@ -28,7 +28,9 @@ function user_prompt() {
 
 function git_prompt() {
   if { type git &> /dev/null && git rev-parse --is-inside-work-tree &> /dev/null }; then
-    echo "$(git_prompt_status) $(git_prompt_info)"
+    # NOTE: https://github.com/ohmyzsh/ohmyzsh/issues/12328
+    #echo "$(git_prompt_status) $(git_prompt_info)"
+    echo "$(_omz_git_prompt_status) $(_omz_git_prompt_info)"
   else
     echo ""
   fi

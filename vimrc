@@ -63,8 +63,6 @@ if has("autocmd")
   autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
   autocmd BufRead,BufNewFile Jenkinsfile* set filetype=groovy
 
-  autocmd BufWritePre *.erl,*.rb,*.py :call <SID>StripTrailingSpaces()
-
   autocmd BufNewFile,BufRead *.sls setfiletype yaml
 
   autocmd Filetype gitcommit setlocal textwidth=72
@@ -73,6 +71,7 @@ endif
 
 nnoremap <silent> <F6> :g/^$/d<CR>
 nnoremap <silent> <F5> :call <SID>StripTrailingSpaces()<CR>
+
 function! <SID>StripTrailingSpaces()
   " save last search, and cursor position.
   let _s=@/
@@ -84,6 +83,11 @@ function! <SID>StripTrailingSpaces()
   let @/=_s
   call cursor(l, c)
 endfunction
+
+augroup StripTrailingSpaces
+  autocmd!
+  autocmd BufWritePre *.erl,*.rb,*.py,*.yml,*.yaml call <SID>StripTrailingSpaces()
+augroup END
 
 
 

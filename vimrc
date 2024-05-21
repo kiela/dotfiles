@@ -31,24 +31,22 @@ set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 " after 3 spaces and pressing tab it will be 4 spaces - not 5
 set shiftround
 
-if has("autocmd")
-	autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
-	autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
+autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
-	autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType erlang setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-	autocmd BufNewFile,BufRead *.app,*.app.src setfiletype erlang
+autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType erlang setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+autocmd BufNewFile,BufRead *.app,*.app.src setfiletype erlang
 
-	autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType haml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType sass setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-	autocmd FileType coffee setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType haml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType css setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType sass setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType coffee setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
-	autocmd Filetype gitcommit setlocal textwidth=72
-	autocmd Filetype gitcommit setlocal spell
-endif
+autocmd Filetype gitcommit setlocal textwidth=72
+autocmd Filetype gitcommit setlocal spell
 
 nnoremap <silent> <F6> :g/^$/d<CR>
 nnoremap <silent> <F5> :call <SID>StripTrailingSpaces()<CR>
@@ -84,18 +82,17 @@ let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeShowHidden=1
 let g:NERDTreeIgnore=['\.DS_Store$', '\.git$']
-if has("autocmd")
-  " Start NERDTree when Vim is started without file arguments.
-  autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 
-  " Colors
-  autocmd VimEnter * highlight NERDTreeDir guifg=NONE ctermfg=cyan
-  autocmd VimEnter * highlight NERDTreeFile guifg=NONE ctermfg=NONE
-  autocmd VimEnter * highlight NERDTreeLinkTarget guifg=NONE ctermfg=NONE
-  autocmd VimEnter * highlight NERDTreeLinkFile guifg=NONE ctermfg=magenta
-  autocmd VimEnter * highlight NERDTreeExecFile guifg=NONE ctermfg=red
-end
+" Start NERDTree when Vim is started without file arguments.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+
+" Colors
+autocmd VimEnter * highlight NERDTreeDir guifg=NONE ctermfg=cyan
+autocmd VimEnter * highlight NERDTreeFile guifg=NONE ctermfg=NONE
+autocmd VimEnter * highlight NERDTreeLinkTarget guifg=NONE ctermfg=NONE
+autocmd VimEnter * highlight NERDTreeLinkFile guifg=NONE ctermfg=magenta
+autocmd VimEnter * highlight NERDTreeExecFile guifg=NONE ctermfg=red
 
 " shortcut to rapidly toggle `set list`
 nmap <C-l> :set list!<CR>

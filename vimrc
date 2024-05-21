@@ -46,25 +46,29 @@ if has("autocmd")
 	autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 	autocmd FileType coffee setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
-	autocmd BufWritePre *.erl,*.rb :call <SID>StripTrailingSpaces()
-
 	autocmd Filetype gitcommit setlocal textwidth=72
 	autocmd Filetype gitcommit setlocal spell
 endif
 
 nnoremap <silent> <F6> :g/^$/d<CR>
 nnoremap <silent> <F5> :call <SID>StripTrailingSpaces()<CR>
+
 function! <SID>StripTrailingSpaces()
-	" save last search, and cursor position.
-	let _s=@/
-	let l = line(".")
-	let c = col(".")
-	" strip trailing spaces
-	%s/\s\+$//e
-	" restore previous search history, and cursor position
-	let @/=_s
-	call cursor(l, c)
+  " save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " strip trailing spaces
+  %s/\s\+$//e
+  " restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
 endfunction
+
+augroup StripTrailingSpaces
+  autocmd!
+  autocmd BufWritePre *.erl,*.rb,*.py,*.yml,*.yaml call <SID>StripTrailingSpaces()
+augroup END
 
 
 set nu

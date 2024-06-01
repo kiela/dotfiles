@@ -1,16 +1,21 @@
 #!/usr/bin/env sh
 
 if [[ "$OSTYPE" == darwin* ]]; then
-  # open an app
   alias of='open -a Finder'
   alias ok='open -a Kaleidoscope'
   alias om='open -a MacDown'
-
   alias ot='open -a TextEdit'
+
+  # Create a new file with the given name and open it with TextEdit.
+  # Arguments:
+  #   $1: Name of the file
   tot() {
     touch $1 && open -a TextEdit $1
   }
 
+  # Open SourceTree for the specified git repository.
+  # Arguments:
+  #   None
   ost() {
     local __current_dir=$(pwd)
 

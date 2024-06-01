@@ -1,16 +1,22 @@
 #!/usr/bin/env sh
 
 if [[ "$OSTYPE" == darwin* ]]; then
-  # open an app
+  alias brew-all-deps='brew deps --tree --installed'
   alias of='open -a Finder'
   alias ok='open -a Kaleidoscope'
   alias om='open -a MacDown'
-
   alias ot='open -a TextEdit'
+
+  # Create a new file with the given name and open it with TextEdit.
+  # Arguments:
+  #   $1: Name of the file
   tot() {
     touch $1 && open -a TextEdit $1
   }
 
+  # Open SourceTree for the specified git repository.
+  # Arguments:
+  #   None
   ost() {
     local __current_dir=$(pwd)
 
@@ -23,10 +29,5 @@ if [[ "$OSTYPE" == darwin* ]]; then
     done
 
     echo "No Git repository found."
-  }
-
-  # http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/
-  brew-all-deps() {
-    brew list | while read cask; do echo -n $fg[blue] $cask $fg[white]; brew deps $cask | awk '{printf(" %s ", $0)}'; echo ''; done
   }
 fi

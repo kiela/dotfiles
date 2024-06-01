@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 if [[ "$OSTYPE" == darwin* ]]; then
+  alias brew-all-deps='brew deps --tree --installed'
   alias of='open -a Finder'
   alias ok='open -a Kaleidoscope'
   alias om='open -a MacDown'
@@ -28,10 +29,5 @@ if [[ "$OSTYPE" == darwin* ]]; then
     done
 
     echo "No Git repository found."
-  }
-
-  # http://zanshin.net/2014/02/03/how-to-list-brew-dependencies/
-  brew-all-deps() {
-    brew list | while read cask; do echo -n $fg[blue] $cask $fg[white]; brew deps $cask | awk '{printf(" %s ", $0)}'; echo ''; done
   }
 fi

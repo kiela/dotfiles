@@ -50,8 +50,8 @@ if (type kubectl &> /dev/null); then
   alias kg='kubectl get'
   alias kge="kubectl get events --sort-by='.firstTimestamp'"
   alias kgs="__kubectl::get_decoded_secret"
-  alias kgy='kubectl get -o yaml'
-  alias kgj='kubectl get -o json'
+  alias kgy='kubectl get -o yaml "$@" | yh'
+  alias kgj='kubectl get -o json "$@" | jq'
   alias kpf='kubectl port-forward'
   alias kr='kubectl run'
   alias kro='kubectl rollout'

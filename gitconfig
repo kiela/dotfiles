@@ -59,3 +59,5 @@
 	autocorrect = 1
 [push]
 	default = simple
+[init]
+	defaultBranch = master

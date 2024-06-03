@@ -3,8 +3,8 @@
   all = all-repos
   bl = blame
   br = branch
-# list only repos which have different branch than default one
-# bra -q = GIT_SSH_COMMAND="ssh -o LogLevel=QUIET" git remote show origin | grep 'HEAD branch:' | cut -d ':' -f 2 | trim
+  # list only repos which have different branch than default one
+  # bra -q = GIT_SSH_COMMAND="ssh -o LogLevel=QUIET" git remote show origin | grep 'HEAD branch:' | cut -d ':' -f 2 | trim
   bra = all-repos symbolic-ref --short HEAD
   ci = commit
   cia = commit --amend
@@ -13,6 +13,7 @@
   cp = cherry-pick
   cpa = cherry-pick --abort
   cpc = cherry-pick --continue
+  cps = cherry-pick --skip
   d = diff
   dl = pull
   dla = all-repos pull
@@ -20,8 +21,8 @@
   fa = all-repos fetch --all --prune --tags
   i = "!gi() { curl -L -s https://www.gitignore.io/api/$@; }; gi"
   l = log --show-signature
-  lf = log --show-signature --graph --all --name-status --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s%n'
-  ls = log --pretty=format:'%C(red)%h%C(reset) %C(green)%cr%C(reset) %x09 %C(bold blue)%an%C(reset) %x09 %s'
+  lf = log --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s%n' --graph --name-status
+  ls = log --pretty=format:'%c(red)%h%c(reset) %c(green)%cr%c(reset) %x09 %c(bold blue)%an%c(reset) %x09 %s'
 # lsa= git log --format='%ae' | sort | uniq
   m = merge --commit --no-ff --verify-signatures
   ma = merge --abort
@@ -60,6 +61,9 @@
   attributesfile = ~/.gitattributes
   editor = vim
   excludesfile = ~/.gitignore
+[difftool "sourcetree"]
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
 [filter "lfs"]
   clean = git-lfs clean -- %f
   process = git-lfs filter-process
@@ -69,18 +73,17 @@
   program = gpg
 [help]
   autocorrect = 1
+[init]
+  defaultBranch = master
+[mergetool "sourcetree"]
+  cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
 [pull]
   rebase = false
 [push]
   default = simple
-	autoSetupRemote = true
+  autoSetupRemote = true
 [user]
   email = kamil@kieliszczyk.net
   name = Kamil Kieliszczyk
   signingkey = 0010B692
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true

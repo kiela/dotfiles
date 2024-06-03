@@ -22,7 +22,7 @@
   i = "!gi() { curl -L -s https://www.gitignore.io/api/$@; }; gi"
   l = log --show-signature
   lf = log --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s%n' --graph --name-status
-  ls = log --pretty=format:'%c(red)%h%c(reset) %c(green)%cr%c(reset) %x09 %c(bold blue)%an%c(reset) %x09 %s'
+  ls = log --pretty=format:'%C(red)%h%C(reset) %C(green)%cr%C(reset) %x09 %C(bold blue)%an%C(reset) %x09 %s'
 # lsa= git log --format='%ae' | sort | uniq
   m = merge --commit --no-ff --verify-signatures
   ma = merge --abort

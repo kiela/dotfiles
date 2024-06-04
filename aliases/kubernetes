@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+# check https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/kubectl/kubectl.plugin.zsh
+
 if ! (type setvar &> /dev/null); then
   setvar() {
     local _variable_to_be_set="$1"

@@ -49,6 +49,7 @@
   ui = true
 [commit]
   gpgsign = true
+  template = ~/.gitcommitmsg
 [core]
   editor = vim
   excludesfile = ~/.gitignore

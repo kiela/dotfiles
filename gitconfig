@@ -26,6 +26,8 @@
   pla = "!echo 'not implemnented...'"
   r = reset
   rb = rebase
+  rba = rebase --abort
+  rbc = rebase --continue
   rh = reset --hard HEAD~1
   rs = reset --soft HEAD~1
   s = stash save

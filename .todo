@@ -1,0 +1,14 @@
+tmux:
+- movie tmux aliases to tmux plugin
+- move "$HOME/.zsh_tmux_autostart_off" functionality to tmux plugin
+
+todo:
+- add todo -a for ading new entries
+- add todo -l for listing new entries
+- add todo -e for editing entrties
+- add todo -d for deleting enrties
+- add todo -p for pruning all entries
+- add todo -l command to show all dirs and subddirs with .todo file
+- add todo -a command to display all dirs and subddirs .todo files contents
+- add g pla alias/function
+- add g sta for listing all and g sta -q for listing only repos which have changes

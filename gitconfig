@@ -20,7 +20,7 @@
   i = "!gi() { curl -L -s https://www.gitignore.io/api/$@; }; gi"
   l = log --show-signature
   lf = log --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s%n' --graph --name-status
-  ls = log --graph --all --pretty=format:'%C(red)%h%C(reset) %x09 %C(green)%cr%C(reset) %x09 %C(bold blue)%an%C(reset) %x08 %C(yellow)%d%C(reset) %s'
+  ls = log --pretty=format:'%C(red)%h%C(reset) %C(green)%cr%C(reset) %x09 %C(bold blue)%an%C(reset) %x09 %s'
   m = merge --commit --no-ff --verify-signatures
   pl = "!git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done"
   pla = "!echo 'not implemnented...'"
@@ -33,7 +33,7 @@
   sd = stash drop
   sh = show
   sl = stash list
-  sls = log --pretty=format:'%C(red)%h%C(reset) %C(green)%cr%C(reset) %x09 %C(bold blue)%an%C(reset) %x09 %s'
+  sls = log --graph --all --pretty=format:'%C(red)%h%C(reset) %x09 %C(green)%cr%C(reset) %x09 %C(bold blue)%an%C(reset) %x08 %C(yellow)%d%C(reset) %s'
   sp = stash pop
   spark = "!gspark() { git log --format=format:%ad --date=short | uniq -c | awk '{print $1}' | spark; }; gspark"
   ss = stash show --patch

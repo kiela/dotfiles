@@ -1,3 +1,5 @@
+dirrc and loading files from parents
+
 tmux:
 - movie tmux aliases to tmux plugin
 - move "$HOME/.zsh_tmux_autostart_off" functionality to tmux plugin

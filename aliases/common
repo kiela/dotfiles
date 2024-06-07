@@ -17,6 +17,8 @@ alias x='exit'
 alias df='df -h'
 alias du='du -h'
 alias duh='du -H'
+# TODO: check https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/git.plugin.zsh
+alias g='git'
 alias grpe='grep' # I'm just sloppy sometimes
 alias gi='grep -in'
 alias rg='grep -rin'

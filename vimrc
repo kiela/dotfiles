@@ -64,6 +64,7 @@ autocmd BufRead,BufNewFile Jenkinsfile* set filetype=groovy
 
 autocmd BufNewFile,BufRead *.sls setfiletype yaml
 
+autocmd BufRead,BufNewFile *.gitconfig setlocal noexpandtab tabstop=4 shiftwidth=4
 autocmd Filetype gitcommit setlocal textwidth=72
 autocmd Filetype gitcommit setlocal spell
 

@@ -45,6 +45,7 @@ autocmd FileType sass setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 autocmd FileType scss setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 autocmd FileType coffee setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
+autocmd BufRead,BufNewFile *.gitconfig setlocal noexpandtab tabstop=4 shiftwidth=4
 autocmd Filetype gitcommit setlocal textwidth=72
 autocmd Filetype gitcommit setlocal spell
 

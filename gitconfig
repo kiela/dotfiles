@@ -79,7 +79,7 @@
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [pull]
-	rebase = false
+	rebase = true
 [push]
 	default = simple
 	autoSetupRemote = true

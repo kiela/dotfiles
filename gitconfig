@@ -41,6 +41,7 @@
 	spark = "!gspark() { git log --format=format:%ad --date=short | uniq -c | awk '{print $1}' | spark; }; gspark"
 	ss = stash show --patch
 	st = status
+	sta = all-repos status
 	sub = submodule
 	t = tag
 	unpushed = log --branches --not --remotes --color --graph --pretty=format:'%C(red)%h%C(reset) %C(bold magenta)%G?%C(reset) %C(bold blue)<%an>%C(reset) %C(yellow)%d%C(reset) %C(green)(%cr)%C(reset)%n%w(80,8,8)%s' --abbrev-commit

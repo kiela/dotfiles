@@ -17,7 +17,7 @@ if (type kubectl &> /dev/null); then
   alias kd='kubectl describe'
   alias kg='kubectl get'
   alias kge="kubectl get events --sort-by='.firstTimestamp'"
-  alias kgs="__kubectl::get_decoded_secret"a
+  alias kgs="__kubectl::get_decoded_secret"
   # TODO: make a function which checks if yh is installed
   alias kgy='kubectl get -o yaml "$@" | yh'
   # TODO: make a function which checks if jq is installed

@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+if (type helm &> /dev/null); then
+  source <(helm completion zsh)
+
+  alias h='helm'
+  alias hr='helm repo'
+  alias hrup='helm repo update'
+  alias hs='helm search'
+fi

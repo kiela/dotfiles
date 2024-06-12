@@ -10,6 +10,7 @@ source $HOME/.aliases/groovy
 source $HOME/.aliases/helm
 source $HOME/.aliases/kubernetes
 source $HOME/.aliases/macos
+source $HOME/.aliases/minikube
 source $HOME/.aliases/okd
 source $HOME/.aliases/terraform
 source $HOME/.aliases/tmux

@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+set -euo pipefail
+
 # Idea taken from:
 # https://stackoverflow.com/a/46726373
 

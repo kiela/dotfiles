@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 killemall () {
 	if [ -z $1 ]; then
 		echo "No argument passed.."

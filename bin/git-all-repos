@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 git-all-repos() {
 	local __current_dir=$1
 	local __git_cmd=$2

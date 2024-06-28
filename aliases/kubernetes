@@ -27,8 +27,8 @@ if (type kubectl &> /dev/null); then
   alias kd='kubectl describe'
   alias kg='kubectl get'
   alias kge="kubectl get events --sort-by='.firstTimestamp'"
-  alias kgy='kubectl get -o yaml'
-  alias kgj='kubectl get -o json'
+  alias kgj='__kubectl::get_resource_output_json'
+  alias kgy='__kubectl::get_resource_output_yaml'
   alias kpf='kubectl port-forward'
   alias kr='kubectl run'
   alias kro='kubectl rollout'
@@ -61,6 +61,37 @@ if (type kubectl &> /dev/null); then
     alias wkge='watch -n 1 "kubectl get events --sort-by=\".firstTimestamp\" | tail -n 10"'
     alias wkd='watch -n 1 kubectl describe'
   fi
+
+  __kubectl::get_resource_output_json() {
+    __kubectl::get_resource_output_formated "json" "jq" "$@"
+  }
+
+  __kubectl::get_resource_output_yaml() {
+    __kubectl::get_resource_output_formated "yaml" "yh" "$@"
+  }
+
+  __kubectl::get_resource_output_formated() {
+    local __format=${1}
+    local __formatter=${2}
+    local __resource=${3}
+    local __name __formatter_args
+
+    if [[ "$__resource" == *"/"* ]]; then
+      __name=""
+      __formatter_args="${@:4}"
+    else
+      __name=${4}
+      __formatter_args="${@:5}"
+    fi
+
+    if (type $__formatter &> /dev/null); then
+      kubectl get -o $__format $__resource $__name | $__formatter $__formatter_args
+    else
+      echo "NOTICE: Consider installing ${__format} to fully use this feature"
+      echo ""
+      kubectl get -o $__format $__resource $__name
+    fi
+  }
 
   __kubectl::get_pod_name_by_label() {
     local __var __label __value __args __result

@@ -87,7 +87,7 @@ if (type kubectl &> /dev/null); then
     if (type $__formatter &> /dev/null); then
       kubectl get -o $__format $__resource $__name | $__formatter $__formatter_args
     else
-      echo "NOTICE: Consider installing ${__format} to fully use this feature"
+      echo "NOTICE: Consider installing ${__formatter} to fully use this feature"
       echo ""
       kubectl get -o $__format $__resource $__name
     fi

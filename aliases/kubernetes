@@ -63,33 +63,34 @@ if (type kubectl &> /dev/null); then
   fi
 
   __kubectl::get_resource_output_json() {
-    __kubectl::get_resource_output_formated "json" "jq" "$@"
+    __kubectl::get_resource_output_formated "json" "$@"
   }
 
   __kubectl::get_resource_output_yaml() {
-    __kubectl::get_resource_output_formated "yaml" "yh" "$@"
+    __kubectl::get_resource_output_formated "yaml" "$@"
   }
 
   __kubectl::get_resource_output_formated() {
     local __format=${1}
-    local __formatter=${2}
-    local __resource=${3}
-    local __name __formatter_args
+    local __formatter="qq"
+    local __formatter_args
+    local __resource_type=${2}
+    local __resource_name
 
-    if [[ "$__resource" == *"/"* ]]; then
-      __name=""
-      __formatter_args="${@:4}"
+    if [[ "$__resource_type" == *"/"* ]]; then
+      __resource_name=""
+      __formatter_args="${@:3}"
     else
-      __name=${4}
-      __formatter_args="${@:5}"
+      __resource_name=${3}
+      __formatter_args="${@:4}"
     fi
 
     if (type $__formatter &> /dev/null); then
-      kubectl get -o $__format $__resource $__name | $__formatter $__formatter_args
+      kubectl get -o $__format $__resource_type $__resource_name | $__formatter -i $__format $__formatter_args
     else
       echo "NOTICE: Consider installing ${__formatter} to fully use this feature"
       echo ""
-      kubectl get -o $__format $__resource $__name
+      kubectl get -o $__format $__resource_type $__resource_name
     fi
   }
 

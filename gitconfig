@@ -1,6 +1,7 @@
 [alias]
 	a = add
 	all = all-repos
+  authors = "!git log --all --format='%ae' | sort | uniq"
 	bl = blame
 	br = branch
 	# list only repos which have different branch than default one

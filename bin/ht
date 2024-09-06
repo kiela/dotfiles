@@ -96,7 +96,13 @@ __help() {
   echo "$0 install|upgrade|uninstall|render|help <args>"
 }
 
-option=$1
+option=${1:-}
+
+if [ -z "$option" ]; then
+  __help
+  exit 1
+fi
+
 shift
 
 chart_name=$(basename "$(pwd)")

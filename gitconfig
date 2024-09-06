@@ -10,6 +10,7 @@
 	ci = commit
 	cia = commit --amend
 	cl = clone
+	cleanup = "!git reset --hard && git clean -fd"
 	co = checkout
 	cp = cherry-pick
 	cpa = cherry-pick --abort

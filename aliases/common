@@ -25,9 +25,9 @@ alias rg='grep -rin'
 alias crg='clear && grep -rin'
 alias rm='rm -v'
 alias netcons='lsof -i -nP'
-alias wr='cd $HOME/workspace'
 alias ff='find . -type f'
 alias fd='find . -type d'
+alias wr='__cd::workspace'
 alias first='head -n 1'
 alias last='tail -n 1'
 alias len='wc -c'
@@ -41,3 +41,13 @@ alias less="less -I"
 if (type youtube-dl &> /dev/null); then
   alias youtube-dl="youtube-dl -f best"
 fi
+
+__cd::workspace() {
+  local __home="${HOME}/workspace"
+
+  if [ $# -eq 0 ]; then
+    cd $__home
+  else
+    cd $__home/"$@"
+  fi
+}

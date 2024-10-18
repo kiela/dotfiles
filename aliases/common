@@ -51,3 +51,15 @@ __cd::workspace() {
     cd $__home/"$@"
   fi
 }
+
+__cd::workspace::completion() {
+  local __home="${HOME}/workspace"
+
+  if [[ -d "$__home" ]]; then
+    _files -/ -W "$__home" -/
+  else
+    return 0
+  fi
+}
+
+compdef __cd::workspace::completion __cd::workspace

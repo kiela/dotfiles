@@ -80,11 +80,15 @@ __kubectl::get_decoded_secret() {
     exit 1
   fi
 
-  for __k __v in $(kubectl get secret $_name -o json | jq -r '.data | to_entries[] | "\(.key): \(.value)"'); do
-    echo -n $__k" "
-    echo $__v | base64 --decode
-    echo
-  done
+  if [[ -z "$_name" ]]; then
+    kubectl get secret
+  else
+    for __k __v in $(kubectl get secret $_name -o json | jq -r '.data | to_entries[] | "\(.key): \(.value)"'); do
+      echo -n $__k" "
+      echo $__v | base64 --decode
+      echo
+    done
+  fi
 }
 
 __kubectl::get_resource_output_json() {

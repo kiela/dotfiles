@@ -157,3 +157,33 @@ endfunction
 "
 " " Enable highlighting for the cursor line
 " set cursorline
+
+" Function to disable syntax highlighting based on 'maxmempattern'
+function! DisableSyntaxBasedOnPatternMemory()
+    " Retrieve 'maxmempattern' value (in KB)
+    let max_pat_mem_kb = &maxmempattern
+
+    " Define a multiplier to set file size threshold.
+    let multiplier = 512  " Adjust as needed
+
+    " Calculate file-size threshold (heuristic scaling, not an exact
+    " KB-to-byte conversion)
+    let threshold = max_pat_mem_kb * multiplier
+
+    " Get the current file size in bytes
+    let file_size = getfsize(expand("%"))
+
+    " Ensure file_size is valid
+    if file_size == -1
+        return
+    endif
+
+    " Check if file size exceeds the threshold
+    if file_size > threshold
+        syntax off
+        echo "Syntax highlighting disabled for large file (" . printf("%.2f KB", file_size / 1024) . ")."
+    endif
+endfunction
+
+" Automatically call the function before reading a buffer
+autocmd BufReadPre * call DisableSyntaxBasedOnPatternMemory()

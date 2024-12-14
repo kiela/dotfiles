@@ -2,6 +2,7 @@
 
 alias c='clear'
 alias cc='clear'
+alias ccat='clear && cat'
 alias sl='ls'
 alias sls='ls'
 alias la='ls -a'
@@ -36,10 +37,15 @@ alias mv='mv -i'
 alias v="vim"
 alias vo="vim -o"
 alias vO="vim -O"
+alias vimrc="vim ~/.vimrc"
 alias less="less -I"
 
 if (type youtube-dl &> /dev/null); then
   alias youtube-dl="youtube-dl -f best"
+fi
+
+if (type pbcopy &> /dev/null); then
+  alias pbc="pbcopy"
 fi
 
 __cd::workspace() {

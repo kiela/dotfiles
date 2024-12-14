@@ -29,6 +29,7 @@ alias netcons='lsof -i -nP'
 alias ff='find . -type f'
 alias fd='find . -type d'
 alias wr='__cd::workspace'
+alias cwr='clear && __cd::workspace'
 alias first='head -n 1'
 alias last='tail -n 1'
 alias len='wc -c'
@@ -38,6 +39,7 @@ alias v="vim"
 alias vo="vim -o"
 alias vO="vim -O"
 alias vimrc="vim ~/.vimrc"
+alias vR="vim -R"
 alias less="less -I"
 
 if (type youtube-dl &> /dev/null); then

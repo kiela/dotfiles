@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+repo_url=$(git remote get-url origin 2>/dev/null)
+
+if [[ -z "$repo_url" ]]; then
+  echo "Error: Could not retrieve the repository URL."
+  exit 1
+fi
+
+if [[ "$repo_url" =~ github\.com ]] || [[ "$repo_url" =~ gitlab\.com ]]; then
+  https_url=$(echo "$repo_url" | sed -e 's/^git@github.com:/https:\/\/github.com\//' \
+                                         -e 's/^git@gitlab.com:/https:\/\/gitlab.com\//' \
+                                         -e 's/\.git$//')
+  open $https_url
+else
+  echo "Non-GitHub/GitLab repository detected:"
+  echo $repo_url
+fi

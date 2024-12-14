@@ -108,11 +108,11 @@ __cert_encode() {
 	__command_result_message
 
 	printf "Export cert to PKCS #12: "
-	openssl pkcs12 -export -in $_cert_pem_file -inkey $_cert_priv_key_file -out $_cert_p12_file -name mykey -password "pass:$_password"
+	openssl pkcs12 -export -in $_cert_pem_file -inkey $_cert_priv_key_file -out $_cert_p12_file -name 1 -password "pass:$_password"
 	__command_result_message
 
 	printf "Generate keystore: "
-	keytool -importkeystore -srckeystore $_cert_p12_file -srcstoretype pkcs12 -srcstorepass $_password -srcalias mykey -destkeystore $_keystore_file -deststoretype pkcs12 -deststorepass $_password -destalias mykey >> /dev/null 2>&1
+	keytool -importkeystore -srckeystore $_cert_p12_file -srcstoretype pkcs12 -srcstorepass $_password -srcalias 1 -destkeystore $_keystore_file -deststoretype pkcs12 -deststorepass $_password -destalias 1 >> /dev/null 2>&1
 	__command_result_message
 
 	printf "Check generated keystore status: "

@@ -141,3 +141,19 @@ function! Cheat(command)
   execute 'silent $read !cheat '.escape(a:command,'%#')
   setlocal nomodifiable
 endfunction
+
+" Enable cursorline when starting a search
+"augroup SearchCursorLine
+"  autocmd!
+"  autocmd CmdlineEnter /,\? set cursorline
+"  autocmd CmdlineLeave /,\? set nocursorline
+"augroup END
+"
+" Change the background color of the current search match
+" highlight Search ctermbg=red guibg=red
+"
+" " Change the background color of the current cursor line
+" highlight CursorLine cterm=none ctermbg=blue guibg=blue
+"
+" " Enable highlighting for the cursor line
+" set cursorline

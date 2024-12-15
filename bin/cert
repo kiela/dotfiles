@@ -247,7 +247,7 @@ __cert_info() {
 		_openssl_cmd='req'
 	fi
 
-	_cn=$(openssl $_openssl_cmd -noout -subject -in $_cert_file | sed -n 's/.*CN = \([^,]*\).*/\1/p' | awk '{$1=$1};1')
+	_cn=$(openssl $_openssl_cmd -noout -subject -in $_cert_file | grep -o 'CN=[^,]*' | cut -d '=' -f 2)
 	_san=$(openssl $_openssl_cmd -text -in $_cert_file | grep -A1 'X509v3 Subject Alternative Name' | tail -n1 | sed 's/, /\n/g' | awk '{$1=$1};1')
 
 	echo

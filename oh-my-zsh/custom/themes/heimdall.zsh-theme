@@ -9,7 +9,7 @@ export LSCOLORS="gxfxcxdxbxegedabagacad"
 #export LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
 export LS_COLORS="di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;46:su=30:sg=30:tw=30:ow=30"
 
-# NOTE: 
+# NOTE:
 #   %F{code} for foreground colors
 #   %K{code} for background colors
 local turquoise="%F{81}"
@@ -46,8 +46,8 @@ ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[green]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY=""
 ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}✹"
 ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg[yellow]%}✹"
+ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}✹"
 ZSH_THEME_GIT_PROMPT_DELETED="%{$fg[red]%}✹"
 ZSH_THEME_GIT_PROMPT_RENAMED="%{$fg[yellow]%}✹"
 ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[magenta]%}✹"

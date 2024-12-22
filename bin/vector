@@ -32,12 +32,8 @@ else
   shift
 
   for _arg in "$@"; do
-    if [[ $_arg == *.yaml || $_arg == *.yml ]]; then
-      _args+=("/etc/vector/$_arg")
-    else
-      _args+=("$_arg")
-    fi
+    _args+=("$_arg")
   done
 fi
 
-__execute "docker run -i -v $(pwd)/:/etc/vector/ --rm timberio/vector:0.31.0-alpine $_cmd ${_args[@]}"
+__execute "docker run -i -v $(pwd):/vector --workdir /vector --rm timberio/vector:0.32.1-distroless-libc $_cmd ${_args[@]}"

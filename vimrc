@@ -85,7 +85,7 @@ endfunction
 
 augroup StripTrailingSpaces
   autocmd!
-  autocmd BufWritePre *.erl,*.rb,*.py,*.yml,*.yaml call <SID>StripTrailingSpaces()
+  autocmd BufWritePre * if &filetype != 'markdown' | call <SID>StripTrailingSpaces() | endif
 augroup END
 
 

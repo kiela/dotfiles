@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+echo "TODO: show information like branch, remote branch, difference between local and remote brnaches etc"

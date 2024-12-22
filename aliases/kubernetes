@@ -101,25 +101,16 @@ __kubectl::get_resource_output_yaml() {
 
 __kubectl::get_resource_output_formated() {
   local __format=${1}
-  local __formatter="qq"
-  local __formatter_args
-  local __resource_type=${2}
-  local __resource_name
-
-  if [[ "$__resource_type" == *"/"* ]]; then
-    __resource_name=""
-    __formatter_args="${@:3}"
-  else
-    __resource_name=${3}
-    __formatter_args="${@:4}"
-  fi
+  local __resource=${2}
+  local __formatter="qq" # TODO test yq https://github.com/mikefarah/yq
+  local __formatter_args="${@:3}"
 
   if (type $__formatter &> /dev/null); then
-    kubectl get -o $__format $__resource_type $__resource_name | $__formatter -i $__format $__formatter_args
+    kubectl get -o $__format $__resource | $__formatter -i $__format -o $__format $__formatter_args
   else
-    echo "NOTICE: Consider installing ${__formatter} to fully use this feature"
+    echo "NOTICE: Consider installing ${__formatter} (https://github.com/JFryy/qq) to fully use this feature"
     echo ""
-    kubectl get -o $__format $__resource_type $__resource_name
+    kubectl get -o $__format $__resource
   fi
 }
 

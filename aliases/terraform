@@ -5,6 +5,6 @@ if (type terraform &> /dev/null); then
   alias tfa='terraform apply'
   alias tff='terraform fmt'
   alias tfp='terraform plan'
-  alias trg='grep --exclude-dir=terraform.tfstate.d --exclude-dir=.terraform --exclude=terraform.tfstate --exclude=terraform.tfstate.backup'
-  alias ctrg='clear && trg -rin'
+  alias trg='grep -irn --exclude-dir=terraform.tfstate.d --exclude-dir=.terraform --exclude=terraform.tfstate --exclude=terraform.tfstate.backup'
+  alias ctrg='clear && trg'
 fi

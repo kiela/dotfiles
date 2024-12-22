@@ -41,6 +41,7 @@ alias vO="vim -O"
 alias vimrc="vim ~/.vimrc"
 alias vR="vim -R"
 alias less="less -I"
+alias cdln="__cd::ln"
 
 if (type youtube-dl &> /dev/null); then
   alias youtube-dl="youtube-dl -f best"
@@ -50,6 +51,43 @@ if (type pbcopy &> /dev/null); then
   alias pbc="pbcopy"
 fi
 
+__cd::ln() {
+  local __link="$1"
+  local __target __dir
+
+  if [[ $# -eq 0 ]]; then
+    echo "Error: No symbolic link provided."
+    echo "Usage: cdln <symbolic_link>"
+    exit 1
+  fi
+
+  __target=$(readlink "$__link")
+
+  #__debug "\$__link: $__link"
+  #__debug "\$__target: $__target"
+
+  if [ -z "$__target" ]; then
+      __target=$(which "$__link")
+      # TODO: check if __target is a symbolic link again
+      #__debug "\$__target: $__target"
+      if [[ -z "$__target" ]]; then
+          echo "Error: Neither a valid symbolic link nor a command found for '$__link'."
+          exit 1
+      fi
+  fi
+
+  __dir="$(dirname "$__target")"
+  #__debug "\$__dir: $__dir"
+
+  cd "$__dir"
+  #|| {
+  #    echo "Error: Could not change directory to $__dir."
+  #    exit 1
+  #}
+
+  echo "Current directory changed to: $(pwd)"
+}
+
 __cd::workspace() {
   local __home="${HOME}/workspace"
 
@@ -58,6 +96,8 @@ __cd::workspace() {
   else
     cd $__home/"$@"
   fi
+
+  echo "Current directory changed to: $(pwd)"
 }
 
 __cd::workspace::completion() {

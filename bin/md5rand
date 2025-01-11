@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+#openssl rand -base64 24 | tr -dc 'A-Za-z0-9' | head -c 31 | pbcopy
+
 random_string=$(openssl rand -base64 12)
 if type md5 &> /dev/null; then
   md5_hash=$(echo -n "$random_string" | md5 -q)

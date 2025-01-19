@@ -14,6 +14,13 @@ if [[ "$OSTYPE" == darwin* ]]; then
     touch $1 && open -a TextEdit $1
   }
 
+  # Read piped input and pass it to TextEdit.
+  # Arguments:
+  #   None
+  cot() {
+    cat | xargs -0 echo | open -f -a TextEdit
+  }
+
   # Open SourceTree for the specified git repository.
   # Arguments:
   #   None

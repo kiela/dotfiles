@@ -10,6 +10,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
   # Create a new file with the given name and open it with TextEdit.
   # Arguments:
   #   $1: Name of the file
+  # Usage:
+  #   tot name_of_file.abc
   tot() {
     touch $1 && open -a TextEdit $1
   }
@@ -17,6 +19,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
   # Read piped input and pass it to TextEdit.
   # Arguments:
   #   None
+  # Usage:
+  #   any_command | cot
   cot() {
     cat | xargs -0 echo | open -f -a TextEdit
   }
@@ -24,6 +28,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
   # Open SourceTree for the specified git repository.
   # Arguments:
   #   None
+  # Usage:
+  #   ost
   ost() {
     local __current_dir=$(pwd)
 

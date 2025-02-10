@@ -51,6 +51,14 @@ if (type pbcopy &> /dev/null); then
   alias pbc="pbcopy"
 fi
 
+
+# FIXME:
+# $ pwd
+# /Users/kiela/workspace/dir_name1/dir_name2/dir_name3
+# $ wr dotfiles/aliases/macos
+# __cd::workspace:cd:6: not a directory: /Users/kiela/workspace/dotfiles/aliases/macos
+# Current directory changed to: /Users/kiela/workspace/dir_name1/dir_name2/dir_name3
+
 __cd::ln() {
   local __link="$1"
   local __target __dir

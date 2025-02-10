@@ -13,7 +13,14 @@ if [[ "$OSTYPE" == darwin* ]]; then
   # Usage:
   #   tot name_of_file.abc
   tot() {
-    touch $1 && open -a TextEdit $1
+    local __input="$1"
+
+    if [ -z "$__input" ]; then
+      echo "No input provided."
+      return 1
+    fi
+
+    touch $__input && open -a TextEdit $__input
   }
 
   # Read piped input and pass it to TextEdit.
@@ -22,6 +29,11 @@ if [[ "$OSTYPE" == darwin* ]]; then
   # Usage:
   #   any_command | cot
   cot() {
+    if [ -t 0 ]; then
+      echo "No input provided. Please use this function with a pipe, e.g., 'ls | cot'."
+      return 1
+    fi
+
     cat | xargs -0 echo | open -f -a TextEdit
   }
 
@@ -42,5 +54,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
     done
 
     echo "No Git repository found."
+    return 1
   }
 fi

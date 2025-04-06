@@ -1,3 +1,6 @@
+# custom git
+.gitskip
+
 # dirrc ZSH plugin
 .dirrc
 .env

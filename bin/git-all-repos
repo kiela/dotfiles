@@ -12,6 +12,14 @@ git-all-repos() {
   find . -type d -name ".git" -print0 | \
   while IFS= read -r -d '' _repo; do
     _dir=$(dirname "$_repo")
+
+    if [ -f "$_dir/.gitskip" ]; then
+      echo ""
+      echo "Skipping $_dir due to .gitskip"
+      echo "-----"
+      continue
+    fi
+
     cd "$_dir" || { echo "Failed to cd into: $_dir"; exit 1; }
 
     if [ $(git remote | wc -l) -gt 0 ]; then
@@ -26,6 +34,7 @@ git-all-repos() {
     fi
 
     cd "$__current_dir"
+    echo "-----"
   done
 
   echo ""

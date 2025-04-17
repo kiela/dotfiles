@@ -239,6 +239,7 @@ __cert_seal() {
 				kubectl -n $_ns create secret generic keystore_password --from-literal=keystore_password=$_password --dry-run=client -o yaml > $_keystore_pass_file
 
 				kubeseal --format yaml --scope namespace-wide < $_keystore_pass_file > $_sealed_keystore_pass_file
+				#kubeseal-v0.12.5+dirty --format yaml --scope namespace-wide < $_keystore_pass_file > $_sealed_keystore_pass_file
 				_question_extension=" for another namespace"
 				;;
 			[Nn]* ) break;;

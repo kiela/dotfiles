@@ -5,7 +5,7 @@ set -euo pipefail
 V=${V:-false}
 
 __debug() {
-  local __line=${1:-""}
+	local __line=${1:-""}
 
 	if $V; then
 		echo "DEBUG: ${__line}"
@@ -15,6 +15,22 @@ __debug() {
 __execute() {
 		__debug "$1"
 		eval "$1"
+}
+
+__print() {
+  local _message=${1:-"[empty]"}
+  local _new_line=$2
+
+  if $V; then
+    _new_line=true
+    _message="PRINT: $_message"
+  fi
+
+	if [[ "$_new_line" == "false" ]]; then
+    printf '%s' "$_message"
+  else
+    echo "$_message"
+  fi
 }
 
 __command_result_message() {
@@ -77,8 +93,8 @@ __password_generate() {
 	fi
 
 	if [[ "$_generate" == true ]]; then
-		printf "Generate 12-character-long password: "
-		curl -s -o $_file $_generator_website
+    __print "Generate 12-character-long password: " "false"
+    __execute "curl -s -o $_file $_generator_website"
 		__command_result_message
 	fi
 }
@@ -102,8 +118,8 @@ __cert_encode() {
 	local _password
 
 	__password_generate $_password_file
+	__print "Load password: " "false"
 
-	printf "Load password: "
 	_password=$(__password_load $_password_file)
 	__command_result_message
 

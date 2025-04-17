@@ -120,6 +120,7 @@ __cert_encode() {
 	__password_generate $_password_file
 	__print "Load password: " "false"
 
+	sleep 1
 	_password=$(__password_load $_password_file)
 	__command_result_message
 

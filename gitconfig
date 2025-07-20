@@ -28,8 +28,8 @@
 	# lsa= git log --format='%ae' | sort | uniq
 	m = merge --commit --no-ff --verify-signatures
 	ma = merge --abort
-	pl = "!git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done"
-	pla = "!echo 'not implemented...'"
+	pl = prune-local
+	pla = all-repos git-prune-local
 	r = reset
 	rb = rebase
 	rba = rebase --abort

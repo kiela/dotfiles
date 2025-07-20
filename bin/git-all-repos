@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 __git_all_repos() {
   local _current_dir=$1
-  local _git_cmd=$2
-  local _git_args=${@:3}
+  local _cmd=${@:2}
 
   echo "Walking through $_current_dir directory..."
   echo ""
@@ -26,12 +23,8 @@ __git_all_repos() {
 
     if [ $(git remote | wc -l) -gt 0 ]; then
       echo "$(tput setaf 2)"$__dir"$(tput sgr0)"
-      if [ -z "$_git_args" ]
-      then
-        git branch | awk '{print $2}' | xargs git $_git_cmd origin
-      else
-        git $_git_cmd $_git_args
-      fi
+
+      eval "$_cmd"
     else
       echo "$(tput setaf 3)"$__dir"$(tput sgr0)"
       echo "Skipping $__dir due to no remote repository"

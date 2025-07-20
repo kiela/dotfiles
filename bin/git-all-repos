@@ -2,43 +2,47 @@
 
 set -euo pipefail
 
-git-all-repos() {
-  local __current_dir=$1
-  local __git_cmd=$2
-  local __git_args=${@:3}
+__git_all_repos() {
+  local _current_dir=$1
+  local _git_cmd=$2
+  local _git_args=${@:3}
 
-  echo "Pulling in latest changes for all repositories..."
+  echo "Walking through $_current_dir directory..."
+  echo ""
 
   find . -type d -name ".git" -print0 | \
-  while IFS= read -r -d '' _repo; do
-    _dir=$(dirname "$_repo")
+  while IFS= read -r -d '' __repo; do
+    __dir=$(dirname "$__repo")
 
-    if [ -f "$_dir/.gitskip" ]; then
-      echo ""
-      echo "Skipping $_dir due to .gitskip"
+    if [ -f "$__dir/.gitskip" ]; then
+      echo "$(tput setaf 3)"$__dir"$(tput sgr0)"
+      echo "Skipping $__dir due to .gitskip"
       echo "-----"
+      echo ""
       continue
     fi
 
-    cd "$_dir" || { echo "Failed to cd into: $_dir"; exit 1; }
+    cd "$__dir" || { echo "Failed to cd into: $__dir"; exit 1; }
 
     if [ $(git remote | wc -l) -gt 0 ]; then
-      echo ""
-      echo "$(tput setaf 2)"$_dir"$(tput sgr0)"
-      if [ -z "$__git_args" ]
+      echo "$(tput setaf 2)"$__dir"$(tput sgr0)"
+      if [ -z "$_git_args" ]
       then
-        git branch | awk '{print $2}' | xargs git $__git_cmd origin
+        git branch | awk '{print $2}' | xargs git $_git_cmd origin
       else
-        git $__git_cmd $__git_args
+        git $_git_cmd $_git_args
       fi
+    else
+      echo "$(tput setaf 3)"$__dir"$(tput sgr0)"
+      echo "Skipping $__dir due to no remote repository"
     fi
 
-    cd "$__current_dir"
+    cd "$_current_dir"
     echo "-----"
+    echo ""
   done
 
-  echo ""
   echo "Completed!"
 }
 
-git-all-repos $(pwd) $@
+__git_all_repos $(pwd) $@

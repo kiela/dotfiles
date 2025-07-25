@@ -7,10 +7,44 @@ if [[ -z "$repo_url" ]]; then
   exit 1
 fi
 
-if [[ "$repo_url" =~ github ]] || [[ "$repo_url" =~ gitlab ]]; then
-  https_url=$(echo "$repo_url" | sed -e 's/\:/\//' -e 's/^git\@/https:\/\//' -e 's/\.git$//')
-  open -u $https_url
-else
-  echo "Non-GitHub/GitLab repository detected:"
-  echo $repo_url
+current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+if [[ -z "$current_branch" ]]; then
+  echo "Error: Could not determine current branch."
+  exit 1
 fi
+
+default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+
+if [[ -z "$default_branch" ]]; then
+  echo "Error: Could not determine the default branch."
+  exit 1
+fi
+
+if [[ "$current_branch" == "$default_branch" ]]; then
+  is_default_branch=true
+else
+  is_default_branch=false
+fi
+
+if [[ "$repo_url" =~ github\.com ]]; then
+  https_url=$(echo "$repo_url" | sed -e 's/^git@github.com:/https:\/\/github.com\//' \
+                                         -e 's/\.git$//')
+  if [[ "$is_default_branch" == false ]]; then
+    https_url="$https_url/tree/$current_branch"
+  fi
+elif [[ "$repo_url" =~ gitlab\.com ]]; then
+  https_url=$(echo "$repo_url" | sed -e 's/^git@gitlab.com:/https:\/\/gitlab.com\//' \
+                                         -e 's/\.git$//')
+  if [[ "$is_default_branch" == false ]]; then
+    # TODO: check if remote branch exists and then add this:
+    https_url="$https_url/-/tree/$current_branch"
+  fi
+else
+  echo "Error: Non-GitHub/GitLab repository detected:"
+  echo $repo_url
+  exit 1
+fi
+
+echo "Open: $https_url"
+open "$https_url"

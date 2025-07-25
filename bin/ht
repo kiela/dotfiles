@@ -84,7 +84,7 @@ __template_render() {
     __execute "rm -rf Chart.lock charts $_output_dir"
   fi
 
-  __execute "helm repo update"
+  #__execute "helm repo update"
   __execute "helm template \
         --debug \
         --dependency-update \

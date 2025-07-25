@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 echo "TODO: show information like branch, remote branch, difference between local and remote brnaches etc"

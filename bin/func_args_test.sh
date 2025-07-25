@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 # Explanation of Different Argument Capture Methods:
 #  - $*: Expands to a single string with all arguments concatenated (losing separation).
 #  - $@: Expands arguments but behaves differently when quoted.

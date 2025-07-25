@@ -92,14 +92,14 @@ __kubectl::get_decoded_secret() {
 }
 
 __kubectl::get_resource_output_json() {
-  __kubectl::get_resource_output_formated "json" "$@"
+  __kubectl::get_resource_output_formatted "json" "$@"
 }
 
 __kubectl::get_resource_output_yaml() {
-  __kubectl::get_resource_output_formated "yaml" "$@"
+  __kubectl::get_resource_output_formatted "yaml" "$@"
 }
 
-__kubectl::get_resource_output_formated() {
+__kubectl::get_resource_output_formatted() {
   local __format=${1}
   local __resource=${2}
   local __formatter="qq" # TODO test yq https://github.com/mikefarah/yq

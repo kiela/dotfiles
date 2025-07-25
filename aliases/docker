@@ -2,6 +2,7 @@
 
 if (type docker &> /dev/null); then
   alias d='docker'
+  alias dctn='docker container'
   alias di='docker image'
   alias dps='docker ps'
   alias ds='docker system'

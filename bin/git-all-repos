@@ -4,12 +4,12 @@ set -euo pipefail
 
 __git_all_repos() {
   local _current_dir=$1
-  local _cmd=${@:2}
+  shift
+  local _cmd="$@"
 
   echo "Walking through $_current_dir directory..."
   echo ""
 
-  find . -type d -name ".git" -print0 | \
   while IFS= read -r -d '' __repo; do
     __dir=$(dirname "$__repo")
 
@@ -23,7 +23,7 @@ __git_all_repos() {
 
     cd "$__dir" || { echo "Failed to cd into: $__dir"; exit 1; }
 
-    if [ $(git remote | wc -l) -gt 0 ]; then
+    if [ "$(git remote | wc -l)" -gt 0 ]; then
       echo "$(tput setaf 2)"$__dir"$(tput sgr0)"
 
       eval "$_cmd"
@@ -35,9 +35,9 @@ __git_all_repos() {
     cd "$_current_dir"
     echo "-----"
     echo ""
-  done
+  done < <(find . -type d -name ".git" -print0)
 
   echo "Completed!"
 }
 
-__git_all_repos $(pwd) $@
+__git_all_repos "$(pwd)" "$@"

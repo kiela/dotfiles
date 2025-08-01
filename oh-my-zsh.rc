@@ -13,7 +13,7 @@ DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
 
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins=()
+plugins=(alias-finder)
 
 # TODO: move it to custom plugin
 if [[ "$OSTYPE" == darwin* ]]; then
@@ -71,6 +71,11 @@ if test -e "${HOME}/.zshrc.local"; then
 fi
 
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+
+zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
+zstyle ':omz:plugins:alias-finder' longer yes # disabled by default
+zstyle ':omz:plugins:alias-finder' exact yes # disabled by default
+zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
 
 # load oh-my-zsh as the last step
 source "$ZSH/oh-my-zsh.sh"

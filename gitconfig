@@ -6,7 +6,7 @@
 	br = branch
 	bra = all-repos "git symbolic-ref --short HEAD"
 	# list only repos which have different branch than default one
-	# bra -q = GIT_SSH_COMMAND="ssh -o LogLevel=QUIET" git remote show origin | grep 'HEAD branch:' | cut -d ':' -f 2 | trim
+	braq = all-repos "GIT_SSH_COMMAND='ssh -o LogLevel=QUIET' git remote show origin | grep 'HEAD branch:' | cut -d ':' -f 2 | trim"
 	ci = commit
 	cia = commit --amend
 	cl = clone

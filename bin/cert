@@ -127,25 +127,28 @@ __cert_encode() {
   __password_generate $_password_file
   __print "Load password: " "false"
 
-  sleep 1
   _password=$(__password_load $_password_file)
   __command_result_message
 
-  printf "Export cert to PKCS #12: "
-  openssl pkcs12 -export -in $_cert_pem_file -inkey $_cert_priv_key_file -out $_cert_p12_file -name 1 -password "pass:$_password"
-  __command_result_message
+  if __should_proceed "$_cert_pem_file" "Overwrite PKCS #12 file?"; then
+    printf "Export cert to PKCS #12: "
+    openssl pkcs12 -export -in $_cert_pem_file -inkey $_cert_priv_key_file -out $_cert_p12_file -name 1 -password "pass:$_password" >> /dev/null 2>&1
+    __command_result_message
+  fi
 
-  printf "Generate keystore: "
-  keytool -importkeystore -srckeystore $_cert_p12_file -srcstoretype pkcs12 -srcstorepass $_password -srcalias 1 -destkeystore $_keystore_file -deststoretype pkcs12 -deststorepass $_password -destalias 1 >> /dev/null 2>&1
-  __command_result_message
+  if __should_proceed "$_keystore_file" "Overwrite keystore files?"; then
+    printf "Generate keystore: "
+    keytool -importkeystore -srckeystore $_cert_p12_file -srcstoretype pkcs12 -srcstorepass $_password -srcalias 1 -destkeystore $_keystore_file -deststoretype pkcs12 -deststorepass $_password -destalias 1 >> /dev/null 2>&1
+    __command_result_message
 
-  printf "Check generated keystore status: "
-  keytool -list -keystore $_keystore_file -storepass $_password >> /dev/null 2>&1
-  __command_result_message
+    printf "Check generated keystore status: "
+    keytool -list -keystore $_keystore_file -storepass $_password >> /dev/null 2>&1
+    __command_result_message
 
-  printf "Generate base64 of the keystore: "
-  base64 -i $_keystore_file -o $_keystore_base64_file
-  __command_result_message
+    printf "Generate base64 of the keystore: "
+    base64 -i $_keystore_file -o $_keystore_base64_file
+    __command_result_message
+  fi
 }
 
 __cert_decode() {

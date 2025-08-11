@@ -34,12 +34,12 @@ __print() {
 }
 
 __should_proceed() {
-  local _file="$1"
-  local _prompt="$2"
+  local _prompt="$1"
+  local _file="${2:-}"
   local _yn
   local _proceed=false
 
-  if [ -s "$_file" ]; then
+  if [ -z "$_file" ] || [ -s "$_file" ]; then
     while true; do
       read -p "$_prompt (y/n) " _yn
       case "$_yn" in
@@ -99,7 +99,7 @@ __password_generate() {
   local _file=$1
   local _generator_website="https://www.passwordrandom.com/query?command=password&scheme=C!vNV!vV-!cN!-NnC-vC!-NvN!Cv"
 
-  if __should_proceed "$_file" "Overwrite existing password?"; then
+  if __should_proceed "Overwrite existing password?" "$_file"; then
     __print "Generate 12-character-long password: " "false"
     __execute "curl -s -o $_file $_generator_website"
     __command_result_message
@@ -130,13 +130,13 @@ __cert_encode() {
   _password=$(__password_load $_password_file)
   __command_result_message
 
-  if __should_proceed "$_cert_pem_file" "Overwrite PKCS #12 file?"; then
+  if __should_proceed "Overwrite PKCS #12 file?" "$_cert_pem_file"; then
     printf "Export cert to PKCS #12: "
     openssl pkcs12 -export -in $_cert_pem_file -inkey $_cert_priv_key_file -out $_cert_p12_file -name 1 -password "pass:$_password" >> /dev/null 2>&1
     __command_result_message
   fi
 
-  if __should_proceed "$_keystore_file" "Overwrite keystore files?"; then
+  if __should_proceed "Overwrite keystore files?" "$_keystore_file"; then
     printf "Generate keystore: "
     keytool -importkeystore -srckeystore $_cert_p12_file -srcstoretype pkcs12 -srcstorepass $_password -srcalias 1 -destkeystore $_keystore_file -deststoretype pkcs12 -deststorepass $_password -destalias 1 >> /dev/null 2>&1
     __command_result_message

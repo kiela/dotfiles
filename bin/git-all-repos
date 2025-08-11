@@ -35,7 +35,7 @@ __git_all_repos() {
     cd "$_current_dir"
     echo "-----"
     echo ""
-  done < <(find . -type d -name ".git" -print0)
+  done < <(find . -type d -name ".git" -print0 | sort -z)
 
   echo "Completed!"
 }

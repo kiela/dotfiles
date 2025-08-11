@@ -33,6 +33,28 @@ __print() {
   fi
 }
 
+__should_proceed() {
+	local _file="$1"
+	local _prompt="$2"
+	local _yn
+	local _proceed=false
+
+	if [ -s "$_file" ]; then
+		while true; do
+			read -p "$_prompt (y/n) " _yn
+			case "$_yn" in
+				[Yy]* ) _proceed=true; break ;;
+				[Nn]* ) break ;;
+				* ) echo "Please answer yes (Y/y) or no (N/n)." ;;
+			esac
+		done
+	else
+		_proceed=true
+	fi
+
+	[ "$_proceed" = true ]
+}
+
 __command_result_message() {
 	if [[ $? -eq 0 ]]; then
 		echo "ok"
@@ -75,26 +97,11 @@ __file_find_by_extension() {
 
 __password_generate() {
 	local _file=$1
-	local _generate=false
 	local _generator_website="https://www.passwordrandom.com/query?command=password&scheme=C!vNV!vV-!cN!-NnC-vC!-NvN!Cv"
-	local _yn
 
-	if [[ -s $_file ]]; then
-		while true; do
-			read -p "Overwrite existing password? (y/n) " _yn
-			case $_yn in
-				[Yy]* ) _generate=true; break;;
-				[Nn]* ) break;;
-				* ) echo "Please answer yes (Y/y) or no (N/n).";;
-			esac
-		done
-	else
-		_generate=true
-	fi
-
-	if [[ "$_generate" == true ]]; then
-    __print "Generate 12-character-long password: " "false"
-    __execute "curl -s -o $_file $_generator_website"
+	if __should_proceed "$_file" "Overwrite existing password?"; then
+		__print "Generate 12-character-long password: " "false"
+		__execute "curl -s -o $_file $_generator_website"
 		__command_result_message
 	fi
 }

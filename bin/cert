@@ -127,6 +127,10 @@ __cert_encode() {
   __password_generate $_password_file
   __print "Load password: " "false"
 
+  # For some reason it needs to sleep for 1 second. Otherwise, script does not
+  # find newly created password file.
+  sleep 1
+
   _password=$(__password_load $_password_file)
   __command_result_message
 

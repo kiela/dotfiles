@@ -23,28 +23,37 @@ if [[ -z "$default_branch" ]]; then
   exit 1
 fi
 
+is_default_branch=false
 if [[ "$current_branch" == "$default_branch" ]]; then
   is_default_branch=true
-else
-  is_default_branch=false
 fi
 
-if [[ "$repo_url" =~ github\.com ]]; then
-  https_url=$(echo "$repo_url" | sed -e 's/^git@github.com:/https:\/\/github.com\//' \
-                                         -e 's/\.git$//')
+# Convert SSH to HTTPS
+if [[ "$repo_url" =~ ^git@([^:]+):(.+)$ ]]; then
+  domain="${BASH_REMATCH[1]}"
+  path="${BASH_REMATCH[2]%.git}"
+  https_url="https://${domain}/${path}"
+elif [[ "$repo_url" =~ ^https?://([^/]+)/(.+)$ ]]; then
+  domain="${BASH_REMATCH[1]}"
+  path="${BASH_REMATCH[2]%.git}"
+  https_url="https://${domain}/${path}"
+else
+  echo "Error: Unsupported repository URL format:"
+  echo "$repo_url"
+  exit 1
+fi
+# Add branch path if not on default
+if [[ "$domain" =~ gitlab ]]; then
+  if [[ "$is_default_branch" == false ]]; then
+    https_url="$https_url/-/tree/$current_branch"
+  fi
+elif [[ "$domain" =~ github ]]; then
   if [[ "$is_default_branch" == false ]]; then
     https_url="$https_url/tree/$current_branch"
   fi
-elif [[ "$repo_url" =~ gitlab\.com ]]; then
-  https_url=$(echo "$repo_url" | sed -e 's/^git@gitlab.com:/https:\/\/gitlab.com\//' \
-                                         -e 's/\.git$//')
-  if [[ "$is_default_branch" == false ]]; then
-    # TODO: check if remote branch exists and then add this:
-    https_url="$https_url/-/tree/$current_branch"
-  fi
 else
   echo "Error: Non-GitHub/GitLab repository detected:"
-  echo $repo_url
+  echo "$repo_url"
   exit 1
 fi
 

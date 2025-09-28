@@ -42,6 +42,7 @@ alias vimrc="vim ~/.vimrc"
 alias vR="vim -R"
 alias less="less -I"
 alias cdln="__cd::ln"
+alias w1="watch -n 1"
 
 if (type youtube-dl &> /dev/null); then
   alias youtube-dl="youtube-dl -f best"

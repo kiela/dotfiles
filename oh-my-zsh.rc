@@ -13,7 +13,7 @@ DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
 
 # list of plugins (all can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(alias-finder)
+plugins=()
 
 # TODO: move it to custom plugin
 if [[ "$OSTYPE" == darwin* ]]; then

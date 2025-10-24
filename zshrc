@@ -1,5 +1,6 @@
 # Global configuration
 export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:/usr/local/sbin"
 export LC_ALL=en_US.UTF-8

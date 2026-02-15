@@ -35,6 +35,7 @@
 	rb = rebase
 	rba = rebase --abort
 	rbc = rebase --continue
+	refresh = "!grefresh() { git f && git dl && git pl; }; grefresh"
 	rh = reset --hard HEAD~1
 	rs = reset --soft HEAD~1
 	s = stash save

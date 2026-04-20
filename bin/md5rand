@@ -2,13 +2,12 @@
 
 set -euo pipefail
 
-#openssl rand -base64 24 | tr -dc 'A-Za-z0-9' | head -c 31 | pbcopy
-
-random_string=$(openssl rand -base64 12)
-if type md5 &> /dev/null; then
-  md5_hash=$(echo -n "$random_string" | md5 -q)
+if command -v openssl &>/dev/null; then
+    openssl rand -base64 64 | tr -dc 'A-Za-z0-9' | head -c 32 | pbcopy
+elif command -v md5sum &>/dev/null; then
+    random_string=$(dd if=/dev/urandom bs=16 count=1 2>/dev/null | base64)
+    echo -n "$(echo -n "$random_string" | md5sum | awk '{print $1}')" | pbcopy
 else
-  md5_hash=$(echo -n "$random_string" | md5sum | awk '{print $1}')
+    echo 'error: openssl and md5sum are both unavailable' >&2
+    exit 1
 fi
-echo -n "$md5_hash" | pbcopy
-echo $md5_hash

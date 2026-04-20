@@ -83,6 +83,7 @@ if (type kubectl &> /dev/null); then
   fi
 
 if (type watch &> /dev/null); then
+  alias wk='watch -n 1 kubectl'
   alias wkg='watch -n 1 kubectl get'
   alias wkge='watch -n 1 "kubectl get events --sort-by=\".firstTimestamp\" | tail -n 10"'
   alias wkd='watch -n 1 kubectl describe'

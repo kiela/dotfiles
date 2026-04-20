@@ -46,6 +46,18 @@ alias cdln="__cd::ln"
 alias w1="watch -n 1"
 alias randline='shuf -n 1'
 
+pwd() {
+  if [ $# -eq 0 ]; then
+    builtin pwd
+  else
+    if [ ! -d "$1" ]; then
+      echo "pwd: $1: Not a directory" >&2
+      return 1
+    fi
+    realpath "$1"
+  fi
+}
+
 if (type youtube-dl &> /dev/null); then
   alias youtube-dl="youtube-dl -f best"
 fi

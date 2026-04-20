@@ -66,6 +66,7 @@
 	attributesfile = ~/.gitattributes
 	editor = vim
 	excludesfile = ~/.gitignore
+	hooksPath = ~/.config/git/hooks
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =

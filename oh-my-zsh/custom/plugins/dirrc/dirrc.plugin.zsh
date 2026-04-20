@@ -86,7 +86,7 @@ __load_dir_envs() {
       while read i
       do
         if [[ ($i[1] != '#') && (-n $i[1]) ]]; then
-          eval "export ${i//[\'\"\`]}"
+          typeset -x ${i//[\'\"\`]}
         fi;
       done < $__filepath
       echo "$(tput setaf 2)Directory ENVs loaded$(tput sgr0)"

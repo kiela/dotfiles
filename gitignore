@@ -534,3 +534,5 @@ pyrightconfig.json
 **/charts/*.tgz
 
 # End of https://www.toptal.com/developers/gitignore/api/helm
+
+**/.claude/settings.local.json

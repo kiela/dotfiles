@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [-R owner/repo] [-d|--debug] [PR_NUMBER]
+
+Print every Codex review comment on a GitHub PR that is still actionable —
+i.e. the review thread is neither outdated (anchor lost) nor resolved.
+Output format:
+
+  file: <path>:<line>
+  comment: <body>
+
+Options:
+  -R, --repo owner/repo   Target repository (default: auto-detect from cwd).
+  -d, --debug             Dump every review thread the API returned with
+                          its isResolved/isOutdated flags, author logins,
+                          and the first line of each comment body. Use
+                          this to figure out why an expected comment is
+                          being filtered out (resolved, outdated, or
+                          author login doesn't match "codex").
+  -h, --help              Show this help and exit.
+
+If PR_NUMBER is omitted, you'll be prompted for it.
+EOF
+}
+
+repo=""
+pr=""
+debug=0
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -R|--repo) repo="$2"; shift 2 ;;
+    -d|--debug) debug=1; shift ;;
+    -h|--help) usage; exit 0 ;;
+    --) shift; pr="${1:-}"; shift || true ;;
+    -*) echo "Unknown flag: $1" >&2; usage >&2; exit 2 ;;
+    *) pr="$1"; shift ;;
+  esac
+done
+
+for bin in gh jq; do
+  command -v "$bin" >/dev/null 2>&1 || { echo "Missing dependency: $bin" >&2; exit 1; }
+done
+
+prompted=0
+if [[ -z "$pr" ]]; then
+  read -rp "PR number: " pr
+  prompted=1
+fi
+if ! [[ "$pr" =~ ^[0-9]+$ ]]; then
+  [[ $prompted -eq 1 ]] && echo
+  echo "'$pr' is not a valid PR number — expected a positive integer." >&2
+  exit 1
+fi
+
+if [[ -z "$repo" ]]; then
+  if ! repo=$(gh repo view --json nameWithOwner -q .nameWithOwner 2>/dev/null); then
+    [[ $prompted -eq 1 ]] && echo
+    echo "Not inside a GitHub repository — pass -R owner/repo to specify one." >&2
+    exit 1
+  fi
+fi
+
+owner="${repo%%/*}"
+name="${repo##*/}"
+
+gh_raw=$(gh api graphql --paginate \
+    -F owner="$owner" -F repo="$name" -F pr="$pr" \
+    -f query='
+      query($owner: String!, $repo: String!, $pr: Int!, $endCursor: String) {
+        repository(owner: $owner, name: $repo) {
+          pullRequest(number: $pr) {
+            reviewThreads(first: 100, after: $endCursor) {
+              pageInfo { hasNextPage endCursor }
+              nodes {
+                isResolved
+                isOutdated
+                comments(first: 50) {
+                  pageInfo { hasNextPage }
+                  nodes {
+                    path
+                    line
+                    originalLine
+                    body
+                    author { login }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }' 2>/dev/null) || true
+
+if [[ -z "$gh_raw" ]] \
+  || ! printf '%s' "$gh_raw" | jq -se '.[0].data.repository.pullRequest != null' >/dev/null 2>&1; then
+  [[ $prompted -eq 1 ]] && echo
+  echo "PR #$pr not found in $repo (or you don't have access)." >&2
+  exit 1
+fi
+
+truncated=$(printf '%s' "$gh_raw" | jq -rs '
+  [ .[].data.repository.pullRequest.reviewThreads.nodes[]
+    | select(.comments.pageInfo.hasNextPage == true)
+  ] | length
+')
+if [[ "$truncated" -gt 0 ]]; then
+  echo "Warning: $truncated review thread(s) have more than 50 replies; some comments were not fetched." >&2
+fi
+
+if [[ $debug -eq 1 ]]; then
+  [[ $prompted -eq 1 ]] && echo
+  echo "DEBUG: all review threads on PR #$pr in $repo" >&2
+  printf '%s' "$gh_raw" | jq -s '
+    [ .[].data.repository.pullRequest.reviewThreads.nodes[] ]
+    | to_entries
+    | .[]
+    | {
+        thread: (.key + 1),
+        isResolved: .value.isResolved,
+        isOutdated: .value.isOutdated,
+        comments: [ .value.comments.nodes[]
+                    | { author: .author.login,
+                        path,
+                        line: (.line // .originalLine),
+                        body_first_line: (.body | split("\n")[0]) } ]
+      }
+  ' >&2
+  exit 0
+fi
+
+output=$(printf '%s' "$gh_raw" | jq -rs '
+  def clean:
+    gsub("(?m)^.*<sub\\b[^>]*>.*$\\n?"; "")
+    | gsub("(?m)^.*</sub>.*$\\n?"; "")
+    | gsub("(?m)^[[:space:]]*Useful\\? React with .*$\\n?"; "")
+    | gsub("(?m)^---+[[:space:]]*$\\n?"; "")
+    | gsub("\\n{3,}"; "\n\n")
+    | sub("^[[:space:]\\n]+"; "")
+    | sub("[[:space:]\\n]+$"; "");
+  [ .[].data.repository.pullRequest.reviewThreads.nodes[]
+    | select(.isResolved == false and .isOutdated == false)
+    | .comments.nodes[]
+    | select(.author.login | test("codex"; "i"))
+    | "file: \(.path):\(.line // .originalLine)\ncomment: \(.body | clean)"
+  ] | join("\n\n")
+')
+
+if [[ -z "$output" ]]; then
+  [[ $prompted -eq 1 ]] && echo
+  echo "PR #$pr in $repo has no actionable Codex comments (resolved and outdated comments are excluded)." >&2
+  exit 0
+fi
+
+[[ $prompted -eq 1 ]] && echo
+printf 'Codex review:\n\n%s\n' "$output"

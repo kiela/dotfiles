@@ -4,7 +4,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
   alias brew-all-deps='brew deps --tree --installed'
   alias of='open -a Finder'
   alias ok='open -a Kaleidoscope'
-  alias om='open -a MacDown'
+  alias om='open -a "MacDown 3000"'
   alias ot='open -a TextEdit'
 
   # Create a new file with the given name and open it with TextEdit.

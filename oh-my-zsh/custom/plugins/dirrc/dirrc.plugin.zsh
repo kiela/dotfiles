@@ -19,6 +19,10 @@ __dirrc_trusted() {
   # resolved path, so trust never takes effect.
   local __dir="${1:A}"
 
+  # A path containing a newline would occupy several lines in the trust file
+  # and grep -Fx would match each independently, so never treat one as trusted.
+  [[ "$__dir" == *$'\n'* ]] && return 1
+
   # the home directory and the dotfiles-managed aliases are always trusted
   if [[ "$__dir" == "${HOME:A}" || "$__dir" == "${HOME:A}/.aliases" ]]; then
     return 0
@@ -46,6 +50,11 @@ dirrc-trust() {
 
   if [[ ! -d "$__dir" ]]; then
     echo "dirrc-trust: $__dir: not a directory" >&2
+    return 1
+  fi
+
+  if [[ "$__dir" == *$'\n'* ]]; then
+    echo "dirrc-trust: refusing to trust a path containing a newline" >&2
     return 1
   fi
 

@@ -2,13 +2,32 @@
 
 set -euo pipefail
 
-killemall () {
-	if [ -z $1 ]; then
-		echo "No argument passed.."
-	else
-		ps aux | grep $1 | grep -v grep | awk '{print $2}' | xargs kill -9
-		echo "killed 'em all!"
-	fi
-}
+if [ -z "${1:-}" ]; then
+	echo "Usage: $(basename "$0") <pattern>" >&2
+	exit 1
+fi
 
-killemall $1
+pids=()
+
+for pid in $(pgrep -f "$1"); do
+	# Exclude this script, the shell that invoked it and this script's
+	# own forks - their command lines contain the pattern too.
+	if [ "$pid" = "$$" ] || [ "$pid" = "$PPID" ]; then
+		continue
+	fi
+	if [ "$(ps -o ppid= -p "$pid" 2> /dev/null | tr -d ' ')" = "$$" ]; then
+		continue
+	fi
+	if ! kill -0 "$pid" 2> /dev/null; then
+		continue
+	fi
+	pids+=("$pid")
+done
+
+if [ "${#pids[@]}" -gt 0 ]; then
+	# a matched process may exit on its own before the kill reaches it
+	kill -9 "${pids[@]}" 2> /dev/null || true
+	echo "killed 'em all!"
+else
+	echo "no matching processes found"
+fi

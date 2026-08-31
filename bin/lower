@@ -7,10 +7,7 @@ set -euo pipefail
 
 # Check to see if a pipe exists on stdin.
 if [[ -p /dev/stdin ]]; then
-  # If we want to read the input line by line
-  while IFS= read line; do
-    echo ${line} | tr '[:upper:]' '[:lower:]'
-  done
+  tr '[:upper:]' '[:lower:]'
 elif [[ $# -gt 0 ]]; then
-  echo $@ | tr '[:upper:]' '[:lower:]'
+  printf '%s\n' "$*" | tr '[:upper:]' '[:lower:]'
 fi

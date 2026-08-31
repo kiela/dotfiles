@@ -8,22 +8,22 @@ omz-init:: omz-install omz-backup-original omz-link-setup
 
 omz-install:
 	# URL: https://github.com/ohmyzsh/ohmyzsh#basic-installation
-	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	[ -d ~/.oh-my-zsh ] || sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 omz-backup-original:
-	mv ~/.oh-my-zsh/custom ~/.oh-my-zsh/custom.oh-my-zsh
-	mv ~/.zshrc ~/.zshrc.oh-my-zsh
+	[ -e ~/.oh-my-zsh/custom.oh-my-zsh ] || mv ~/.oh-my-zsh/custom ~/.oh-my-zsh/custom.oh-my-zsh
+	[ -e ~/.zshrc.oh-my-zsh ] || mv ~/.zshrc ~/.zshrc.oh-my-zsh
 
 omz-link-setup:
-	ln -s $(CURDIR)/oh-my-zsh/custom ~/.oh-my-zsh/custom
-	ln -s $(CURDIR)/aliases ~/.aliases
-	ln -s $(CURDIR)/zshrc ~/.zshrc
+	ln -sfn $(CURDIR)/oh-my-zsh/custom ~/.oh-my-zsh/custom
+	ln -sfn $(CURDIR)/aliases ~/.aliases
+	ln -sfn $(CURDIR)/zshrc ~/.zshrc
 
 tmux-link-conf:
-	ln -s $(CURDIR)/tmux.conf ~/.tmux.conf
+	ln -sfn $(CURDIR)/tmux.conf ~/.tmux.conf
 
 vim-link-conf:
-	ln -s $(CURDIR)/vimrc ~/.vimrc
+	ln -sfn $(CURDIR)/vimrc ~/.vimrc
 
 vim-link-conf-minimal:
-	ln -s $(CURDIR)/vimrc.minimal ~/.vimrc
+	ln -sfn $(CURDIR)/vimrc.minimal ~/.vimrc

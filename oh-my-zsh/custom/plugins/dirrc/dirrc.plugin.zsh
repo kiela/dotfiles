@@ -13,10 +13,14 @@ __debug() {
 DIRRC_TRUST_FILE="${DIRRC_TRUST_FILE:-$HOME/.dirrc_trusted}"
 
 __dirrc_trusted() {
-  local __dir="$1"
+  # Resolve symlinks so the comparison matches what dirrc-trust stores.
+  # Without this, entering a dir through a symlink (e.g. macOS /tmp -> /private/tmp,
+  # or a symlinked checkout) compares the unresolved path against the stored
+  # resolved path, so trust never takes effect.
+  local __dir="${1:A}"
 
   # the home directory and the dotfiles-managed aliases are always trusted
-  if [[ "$__dir" == "$HOME" || "$__dir" == "$HOME/.aliases" ]]; then
+  if [[ "$__dir" == "${HOME:A}" || "$__dir" == "${HOME:A}/.aliases" ]]; then
     return 0
   fi
 

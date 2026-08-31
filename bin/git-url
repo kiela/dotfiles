@@ -66,4 +66,11 @@ else
 fi
 
 echo "Open: $https_url"
-open "$https_url"
+if command -v open > /dev/null 2>&1; then
+  open "$https_url"
+elif command -v xdg-open > /dev/null 2>&1; then
+  xdg-open "$https_url"
+else
+  # no opener available (headless/CI): the URL was already printed above
+  :
+fi

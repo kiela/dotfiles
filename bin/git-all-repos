@@ -5,12 +5,17 @@ set -euo pipefail
 __git_all_repos() {
   local _current_dir=$1
   shift
-  local _cmd="$@"
+  # Callers pass one shell-command string (the gitconfig all-repos aliases
+  # rely on pipes/&&/$()), so eval it as-is; "$*" joins without SC2124.
+  local _cmd="$*"
 
   echo "Walking through $_current_dir directory..."
   echo ""
 
-  while IFS= read -r -d '' __repo; do
+  # Read the repo list on fd 3 so the walked command keeps the terminal as
+  # its own stdin (a command using read/prompting for a passphrase would
+  # otherwise swallow the list and corrupt the walk).
+  while IFS= read -r -d '' -u 3 __repo; do
     __dir=$(dirname "$__repo")
 
     if [ -f "$__dir/.gitskip" ]; then
@@ -26,7 +31,9 @@ __git_all_repos() {
     if [ "$(git remote | wc -l)" -gt 0 ]; then
       echo "$(tput setaf 2)"$__dir"$(tput sgr0)"
 
-      eval "$_cmd"
+      # keep going if the command fails in one repo instead of aborting
+      # the whole walk under set -e
+      eval "$_cmd" || echo "$(tput setaf 1)command failed in $__dir$(tput sgr0)"
     else
       echo "$(tput setaf 3)"$__dir"$(tput sgr0)"
       echo "Skipping $__dir due to no remote repository"
@@ -35,7 +42,7 @@ __git_all_repos() {
     cd "$_current_dir"
     echo "-----"
     echo ""
-  done < <(find . -type d -name ".git" -print0 | sort -z)
+  done 3< <(find . -type d -name ".git" -print0 | sort -z)
 
   echo "Completed!"
 }

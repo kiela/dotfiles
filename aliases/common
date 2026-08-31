@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
 alias c='clear'
-alias cc='clear'
 alias ccat='clear && cat'
 alias sl='ls'
 alias sls='ls'

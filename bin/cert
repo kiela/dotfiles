@@ -116,9 +116,9 @@ __password_load() {
   local _file=$1
   local _result
 
-  _result=$(cat $_file)
+  _result=$(cat "$_file")
 
-  echo $_result
+  echo "$_result"
 }
 
 __cert_encode() {
@@ -130,25 +130,25 @@ __cert_encode() {
   local _cert_priv_key_file="$6"
   local _password
 
-  __password_generate $_password_file
+  __password_generate "$_password_file"
   __print "Load password: " "false"
 
-  _password=$(__password_load $_password_file)
+  _password=$(__password_load "$_password_file")
   __command_result_message
 
   if __should_proceed "Overwrite PKCS #12 file?" "$_cert_pem_file"; then
     printf "Export cert to PKCS #12: "
-    openssl pkcs12 -export -in $_cert_pem_file -inkey $_cert_priv_key_file -out $_cert_p12_file -name 1 -password "pass:$_password" >> /dev/null 2>&1
+    openssl pkcs12 -export -in "$_cert_pem_file" -inkey "$_cert_priv_key_file" -out "$_cert_p12_file" -name 1 -password "pass:$_password" >> /dev/null 2>&1
     __command_result_message
   fi
 
   if __should_proceed "Overwrite keystore files?" "$_keystore_file"; then
     printf "Generate keystore: "
-    keytool -importkeystore -srckeystore $_cert_p12_file -srcstoretype pkcs12 -srcstorepass $_password -srcalias 1 -destkeystore $_keystore_file -deststoretype pkcs12 -deststorepass $_password -destalias 1 >> /dev/null 2>&1
+    keytool -importkeystore -srckeystore "$_cert_p12_file" -srcstoretype pkcs12 -srcstorepass "$_password" -srcalias 1 -destkeystore "$_keystore_file" -deststoretype pkcs12 -deststorepass "$_password" -destalias 1 >> /dev/null 2>&1
     __command_result_message
 
     printf "Check generated keystore status: "
-    keytool -list -keystore $_keystore_file -storepass $_password >> /dev/null 2>&1
+    keytool -list -keystore "$_keystore_file" -storepass "$_password" >> /dev/null 2>&1
     __command_result_message
 
     printf "Generate base64 of the keystore: "
@@ -167,7 +167,7 @@ __cert_decode() {
   local _password
 
   printf "Load password: "
-  _password=$(__password_load $_password_file)
+  _password=$(__password_load "$_password_file")
   __command_result_message
 
   if [[ -f $_keystore_base64_file && ! -f $_keystore_file ]]; then
@@ -178,20 +178,20 @@ __cert_decode() {
 
   if [[ -f $_keystore_file && ! -f $_cert_p12_file ]]; then
     printf "Retrieve PKCS#12 from keystore: "
-    keytool -importkeystore -srckeystore $_keystore_file -srcstorepass $_password -destkeystore $_cert_p12_file -deststoretype PKCS12 -deststorepass $_password -destkeypass $_password >/dev/null 2>&1
+    keytool -importkeystore -srckeystore "$_keystore_file" -srcstorepass "$_password" -destkeystore "$_cert_p12_file" -deststoretype PKCS12 -deststorepass "$_password" -destkeypass "$_password" >/dev/null 2>&1
     __command_result_message
   fi
 
   if [[ -f $_cert_p12_file ]]; then
     if [[ ! -f $_cert_pem_file ]]; then
       printf "Retrieve certificate in PEM format from PKCS#12 file: "
-      openssl pkcs12 -in $_cert_p12_file -out $_cert_pem_file -clcerts -nokeys -password "pass:$_password" >/dev/null 2>&1
+      openssl pkcs12 -in "$_cert_p12_file" -out "$_cert_pem_file" -clcerts -nokeys -password "pass:$_password" >/dev/null 2>&1
       __command_result_message
     fi
 
     if [[ ! -f $_cert_priv_key_file ]]; then
       printf "Retrieve private-key from PKCS#12 file: "
-      openssl pkcs12 -in $_cert_p12_file -out $_cert_priv_key_file -nocerts -nodes -password "pass:$_password" >/dev/null 2>&1
+      openssl pkcs12 -in "$_cert_p12_file" -out "$_cert_priv_key_file" -nocerts -nodes -password "pass:$_password" >/dev/null 2>&1
       __command_result_message
     fi
   fi
@@ -204,15 +204,15 @@ __cert_p12_generate() {
   local _cert_p12_file=$4
   local _password
 
-  __password_generate $_password_file
+  __password_generate "$_password_file"
 
   printf "Load password: "
-  _password=$(__password_load $_password_file)
+  _password=$(__password_load "$_password_file")
   __command_result_message
 
   if [[ ! -f $_cert_p12_file ]]; then
     printf "Generate PKCS#12 file: "
-    openssl pkcs12 -export -out $_cert_p12_file -inkey $_cert_priv_key_file -in $_cert_pem_file -password "pass:$_password"
+    openssl pkcs12 -export -out "$_cert_p12_file" -inkey "$_cert_priv_key_file" -in "$_cert_pem_file" -password "pass:$_password"
     __command_result_message
   else
     echo "PKCS#12 file already exists: $_cert_p12_file"
@@ -226,11 +226,11 @@ __cert_seal() {
   local _ns _keystore_pass_file _sealed_keystore_pass_file _yn _question_extension
 
   if [[ "$_ask_to_generate_password" == "true" ]]; then
-    __password_generate $_password_file
+    __password_generate "$_password_file"
   fi
 
   printf "Load password: "
-  _password=$(__password_load $_password_file)
+  _password=$(__password_load "$_password_file")
   __command_result_message
 
   _question_extension=""
@@ -269,19 +269,19 @@ __cert_info() {
   local _openssl_cmd
   local _cn _san _end_date _hex_number _dec_number
 
-  _cert_file_type=$(file $_cert_file | cut -d ':' -f 2 | awk '{$1=$1};1')
+  _cert_file_type=$(file "$_cert_file" | cut -d ':' -f 2 | awk '{$1=$1};1')
 
   if [[ $_cert_file_type != *request  ]]; then
     _openssl_cmd='x509'
-    _end_date=$(openssl x509 -enddate -noout -in $_cert_file)
-    _hex_number=$(openssl x509 -noout -serial -in $_cert_file | cut -d'=' -f2 | awk '{$1=$1};1')
+    _end_date=$(openssl x509 -enddate -noout -in "$_cert_file")
+    _hex_number=$(openssl x509 -noout -serial -in "$_cert_file" | cut -d'=' -f2 | awk '{$1=$1};1')
     _dec_number=$(echo "obase=10; ibase=16; $_hex_number" | bc)
   else
     _openssl_cmd='req'
   fi
 
-  _cn=$(openssl $_openssl_cmd -noout -subject -in $_cert_file | grep -o 'CN=[^,]*' | cut -d '=' -f 2)
-  _san=$(openssl $_openssl_cmd -text -in $_cert_file | grep -A1 'X509v3 Subject Alternative Name' | tail -n1 | sed 's/, /\n/g' | awk '{$1=$1};1')
+  _cn=$(openssl $_openssl_cmd -noout -subject -in "$_cert_file" | grep -o 'CN=[^,]*' | cut -d '=' -f 2)
+  _san=$(openssl $_openssl_cmd -text -in "$_cert_file" | grep -A1 'X509v3 Subject Alternative Name' | tail -n1 | sed 's/, /\n/g' | awk '{$1=$1};1')
 
   echo
   echo "File type: $_cert_file_type"
@@ -327,7 +327,6 @@ if [[ -z $cert_csr_file ]]; then
     cert_csr_file=$path/newfile.csr
   fi
 fi
-cert_csr_file=$(printf "%q" "$cert_csr_file")
 
 cert_pem_file=$(__file_find_by_type $path "PEM certificate$")
 if [[ -z $cert_pem_file ]]; then
@@ -336,7 +335,6 @@ if [[ -z $cert_pem_file ]]; then
     cert_pem_file=$path/newfile.cer
   fi
 fi
-cert_pem_file=$(printf "%q" "$cert_pem_file")
 
 cert_priv_key_file=$(__file_find_by_type $path "PEM RSA private key$")
 if [[ -z $cert_priv_key_file ]]; then
@@ -345,13 +343,11 @@ if [[ -z $cert_priv_key_file ]]; then
     cert_priv_key_file=$path/newfile.key
   fi
 fi
-cert_priv_key_file=$(printf "%q" "$cert_priv_key_file")
 
 cert_p12_file=$(__file_find_by_extension $path ".p12")
 if [[ -z $cert_p12_file ]]; then
   cert_p12_file=$path/newfile.p12
 fi
-cert_p12_file=$(printf "%q" "$cert_p12_file")
 
 keystore_file=$path/keystore.jks
 keystore_base64_file=$path/keystore.jks.base64
@@ -377,13 +373,13 @@ case $cmd in
     __cert_seal "false" "$password_file"
     ;;
   decode)
-    __cert_decode $password_file $keystore_base64_file $keystore_file $cert_p12_file $cert_pem_file $cert_priv_key_file
+    __cert_decode "$password_file" "$keystore_base64_file" "$keystore_file" "$cert_p12_file" "$cert_pem_file" "$cert_priv_key_file"
     ;;
   p12)
-    __cert_p12_generate $password_file $cert_pem_file $cert_priv_key_file $cert_p12_file
+    __cert_p12_generate "$password_file" "$cert_pem_file" "$cert_priv_key_file" "$cert_p12_file"
     ;;
   seal)
-    __cert_seal "true" $password_file
+    __cert_seal "true" "$password_file"
     ;;
   info)
     if [[ -e $cert_pem_file ]]; then

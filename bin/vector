@@ -10,30 +10,22 @@ __debug() {
   fi
 }
 
-__execute() {
-  __debug "$@"
-  eval "$@"
-}
-
 # Check if Docker Desktop is running
 if ! docker info &> /dev/null; then
   echo "Docker Desktop is not running..."
   exit 1
 fi
 
-
-_cmd=""
-_args=()
-
 if [[ $# -eq 0 ]]; then
-  _cmd="help"
-else
-  _cmd=$1
-  shift
-
-  for _arg in "$@"; do
-    _args+=("$_arg")
-  done
+  set -- help
 fi
 
-__execute "docker run -i -v $(pwd):/vector --workdir /vector --rm timberio/vector:0.32.1-distroless-libc $_cmd ${_args[*]}"
+_cmd=$1
+shift
+
+# Run docker directly rather than through eval: eval re-split $(pwd) and any
+# argument containing spaces/quotes, and the old ${_args[*]} expansion was an
+# "unbound variable" error under set -u on macOS bash 3.2 with no extra args.
+__debug "docker run -i -v $(pwd):/vector --workdir /vector --rm timberio/vector:0.32.1-distroless-libc $_cmd $*"
+docker run -i -v "$(pwd)":/vector --workdir /vector --rm \
+  timberio/vector:0.32.1-distroless-libc "$_cmd" "$@"

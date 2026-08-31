@@ -48,9 +48,6 @@ if (type kubectl &> /dev/null); then
 
   unset KUBECONFIG_FILES
 
-  # TODO: used at all?
-  export know="--force --grace-period 0"
-
   alias k='kubectl'
   alias ka='kubectl apply'
   #alias kan='kubectl annotate'

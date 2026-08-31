@@ -28,7 +28,9 @@ if (type kubectl &> /dev/null); then
 
   KUBECONFIG_FILES=()
 
-  for file in "$HOME"/.kube/*; do
+  # (N) is the zsh null-glob qualifier: expands to nothing (instead of the
+  # default NOMATCH error that aborts sourcing) when ~/.kube is empty or absent.
+  for file in "$HOME"/.kube/*(N); do
     # Skip if not a regular file or not readable
     [ -f "$file" ] && [ -r "$file" ] || continue
 

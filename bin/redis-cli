@@ -10,15 +10,11 @@ __debug() {
   fi
 }
 
-__execute() {
-  __debug "$@"
-  eval "$@"
-}
-
 # Check if Docker Desktop is running
 if ! docker info &> /dev/null; then
   echo "Docker Desktop is not running..."
   exit 1
 fi
 
-__execute "docker run -it --rm --platform=linux/amd64 redis:7-alpine redis-cli $@"
+__debug "docker run -it --rm --platform=linux/amd64 redis:7-alpine redis-cli $*"
+docker run -it --rm --platform=linux/amd64 redis:7-alpine redis-cli "$@"

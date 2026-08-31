@@ -19,7 +19,7 @@ __git_all_repos() {
     __dir=$(dirname "$__repo")
 
     if [ -f "$__dir/.gitskip" ]; then
-      echo "$(tput setaf 3)"$__dir"$(tput sgr0)"
+      echo "$(tput setaf 3)${__dir}$(tput sgr0)"
       echo "Skipping $__dir due to .gitskip"
       echo "-----"
       echo ""
@@ -29,13 +29,13 @@ __git_all_repos() {
     cd "$__dir" || { echo "Failed to cd into: $__dir"; exit 1; }
 
     if [ "$(git remote | wc -l)" -gt 0 ]; then
-      echo "$(tput setaf 2)"$__dir"$(tput sgr0)"
+      echo "$(tput setaf 2)${__dir}$(tput sgr0)"
 
       # keep going if the command fails in one repo instead of aborting
       # the whole walk under set -e
       eval "$_cmd" || echo "$(tput setaf 1)command failed in $__dir$(tput sgr0)"
     else
-      echo "$(tput setaf 3)"$__dir"$(tput sgr0)"
+      echo "$(tput setaf 3)${__dir}$(tput sgr0)"
       echo "Skipping $__dir due to no remote repository"
     fi
 

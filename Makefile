@@ -25,5 +25,5 @@ tmux-link-conf:
 vim-link-conf:
 	ln -s $(CURDIR)/vimrc ~/.vimrc
 
-vim-link-conf-minumal:
+vim-link-conf-minimal:
 	ln -s $(CURDIR)/vimrc.minimal ~/.vimrc

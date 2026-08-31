@@ -5,9 +5,10 @@ set -euo pipefail
 # Idea taken from:
 # https://stackoverflow.com/a/46726373
 
-# Check to see if a pipe exists on stdin.
-if [[ -p /dev/stdin ]]; then
-  tr '[:upper:]' '[:lower:]'
-elif [[ $# -gt 0 ]]; then
+# Explicit arguments win; otherwise read stdin whenever it is not a
+# terminal - a pipe, a redirected file (lower < notes) or a here-string.
+if [[ $# -gt 0 ]]; then
   printf '%s\n' "$*" | tr '[:upper:]' '[:lower:]'
+elif [[ ! -t 0 ]]; then
+  tr '[:upper:]' '[:lower:]'
 fi

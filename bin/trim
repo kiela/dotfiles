@@ -5,9 +5,10 @@ set -euo pipefail
 # Idea taken from:
 # https://stackoverflow.com/a/46726373
 
-# Check to see if a pipe exists on stdin.
-if [[ -p /dev/stdin ]]; then
-  awk '{$1=$1};1'
-elif [[ $# -gt 0 ]]; then
+# Explicit arguments win; otherwise read stdin whenever it is not a
+# terminal - a pipe, a redirected file (trim < notes) or a here-string.
+if [[ $# -gt 0 ]]; then
   printf '%s\n' "$*" | awk '{$1=$1};1'
+elif [[ ! -t 0 ]]; then
+  awk '{$1=$1};1'
 fi

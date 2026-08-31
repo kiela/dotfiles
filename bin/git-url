@@ -2,21 +2,29 @@
 
 set -euo pipefail
 
-repo_url=$(git remote get-url origin 2>/dev/null)
+# `|| true` keeps set -e from aborting on the failing command *before* the
+# -z checks below can report a friendly error.
+repo_url=$(git remote get-url origin 2>/dev/null || true)
 
 if [[ -z "$repo_url" ]]; then
   echo "Error: Could not retrieve the repository URL."
   exit 1
 fi
 
-current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)
 
 if [[ -z "$current_branch" ]]; then
   echo "Error: Could not determine the current branch."
   exit 1
 fi
 
-default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || true)
+
+if [[ -z "$default_branch" ]]; then
+  # origin/HEAD is only created by clone or `git remote set-head`, and is
+  # often absent in healthy repos; ask the remote as a fallback.
+  default_branch=$(git remote show origin 2>/dev/null | sed -n 's/.*HEAD branch: *//p' || true)
+fi
 
 if [[ -z "$default_branch" ]]; then
   echo "Error: Could not determine the default branch."

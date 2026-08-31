@@ -1,41 +1,24 @@
 #!/usr/bin/env sh
 
-#ALIAS_DIR="$HOME/.aliases"
-#OMIT_FILES="_load"
-#
-#if [ -d "$ALIAS_DIR" ]; then
-#  for file in "$ALIAS_DIR"/*; do
-#    basename=$(basename "$file")
-#    if [ -f "$file" ]; then
-#      skip=false
-#      for omit in $OMIT_FILES; do
-#        if [ "$basename" = "$omit" ]; then
-#          skip=true
-#          break
-#        fi
-#      done
-#      if [ "$skip" = false ]; then
-#        . "$file"
-#      fi
-#    fi
-#  done
-#else
-#  echo "WARNING: $ALIAS_DIR not found."
-#fi
+# Source every alias file in this directory. Files prefixed with an
+# underscore (like this loader) are skipped, so new alias files are
+# picked up without having to list them here.
 
-source $HOME/.aliases/common
-source $HOME/.aliases/ansible
-source $HOME/.aliases/docker
-source $HOME/.aliases/erlang
-source $HOME/.aliases/gcloud
-source $HOME/.aliases/gitlab
-source $HOME/.aliases/groovy
-source $HOME/.aliases/helm
-source $HOME/.aliases/kubernetes
-source $HOME/.aliases/macos
-source $HOME/.aliases/minikube
-source $HOME/.aliases/okd
-source $HOME/.aliases/terraform
-source $HOME/.aliases/tmux
-source $HOME/.aliases/vault
-source $HOME/.aliases/virtualbox
+ALIAS_DIR="$HOME/.aliases"
+
+if [ -d "$ALIAS_DIR" ]; then
+  for __alias_file in "$ALIAS_DIR"/*; do
+    case "$(basename "$__alias_file")" in
+      _*) continue ;;
+    esac
+
+    if [ -f "$__alias_file" ]; then
+      source "$__alias_file"
+    fi
+  done
+  unset __alias_file
+else
+  echo "WARNING: $ALIAS_DIR not found."
+fi
+
+unset ALIAS_DIR

@@ -1,7 +1,11 @@
 #!/usr/bin/env sh
 
 if (type oc &> /dev/null); then
-  source <(oc completion zsh)
+  if (type __completion::load &> /dev/null); then
+    __completion::load oc
+  else
+    source <(oc completion zsh)
+  fi
 
   alias ocls='oc projects'
   alias ocp='oc project'

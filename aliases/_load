@@ -6,6 +6,11 @@
 
 ALIAS_DIR="$HOME/.aliases"
 
+# helpers used by the alias files below
+if [ -f "$ALIAS_DIR/_completion" ]; then
+  source "$ALIAS_DIR/_completion"
+fi
+
 if [ -d "$ALIAS_DIR" ]; then
   for __alias_file in "$ALIAS_DIR"/*; do
     case "$(basename "$__alias_file")" in

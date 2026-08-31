@@ -20,7 +20,11 @@ fi
 
 if (type kubectl &> /dev/null); then
   # TODO: completion for zsh or dynamic based on shell?
-  source <(kubectl completion zsh)
+  if (type __completion::load &> /dev/null); then
+    __completion::load kubectl
+  else
+    source <(kubectl completion zsh)
+  fi
 
   KUBECONFIG_FILES=()
 

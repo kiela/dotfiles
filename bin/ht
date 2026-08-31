@@ -21,7 +21,7 @@ __install() {
   local _args=$2
 
   __execute "helm dependency build"
-  __execute "helm install $_chart_name . --namespace $_chart_name --create-namespace $args"
+  __execute "helm install $_chart_name . --namespace $_chart_name --create-namespace $_args"
 }
 
 __upgrade() {
@@ -29,7 +29,7 @@ __upgrade() {
   local _args=$2
 
   __execute "helm dependency update"
-  __execute "helm upgrade $_chart_name . --namespace $_chart_name --create-namespace $args"
+  __execute "helm upgrade $_chart_name . --namespace $_chart_name --create-namespace $_args"
 }
 
 __uninstall() {
@@ -72,8 +72,8 @@ __uninstall() {
 }
 
 __template_render() {
-  local _output_dir=$1
-  local _args=${@:2}
+  local _output_dir=${1:-}
+  local _args="${*:2}"
 
   if [[ -z $_output_dir ]]; then
     echo "No output dir passed..."
@@ -106,7 +106,7 @@ fi
 shift
 
 chart_name=$(basename "$(pwd)")
-args="$@"
+args="$*"
 
 case $option in
   i|install)
@@ -119,9 +119,9 @@ case $option in
     __uninstall $chart_name
     ;;
   r|render)
-    output_dir=$1
-    args="${@:2}"
-    __template_render $output_dir $args
+    output_dir=${1:-}
+    args="${*:2}"
+    __template_render "$output_dir" $args
     ;;
   *)
     __help

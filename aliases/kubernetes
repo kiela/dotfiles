@@ -127,19 +127,20 @@ __kubectl::get_resource_output_formatted() {
   local __format=${1}
   local __resource=${2}
   local __formatter="qq" # TODO test yq https://github.com/mikefarah/yq
-  local __formatter_args="${@:3}"
+  local -a __formatter_args=("${@:3}")
 
   if (type $__formatter &> /dev/null); then
-    kubectl get -o $__format $__resource | $__formatter -i $__format -o $__format $__formatter_args
+    kubectl get -o "$__format" "$__resource" | $__formatter -i "$__format" -o "$__format" "${__formatter_args[@]}"
   else
     echo "NOTICE: Consider installing ${__formatter} (https://github.com/JFryy/qq) to fully use this feature"
     echo ""
-    kubectl get -o $__format $__resource
+    kubectl get -o "$__format" "$__resource"
   fi
 }
 
 __kubectl::get_pod_name_by_label() {
-  local __var __label __value __args __result
+  local __var __label __value __result
+  local -a __args
 
   if [[ $# -gt 2 ]]; then
     __var="$1"
@@ -147,13 +148,13 @@ __kubectl::get_pod_name_by_label() {
   fi
   __label="$1"
   __value="$2"
-  __args=${@:3}
+  __args=("${@:3}")
 
   if [[ ! -z "$__label" ]]; then
-    __result=$(kubectl get pod -l $__label=$__value -o jsonpath='{.items[0].metadata.name}' $__args | head -n 1)
+    __result=$(kubectl get pod -l "$__label=$__value" -o jsonpath='{.items[0].metadata.name}' "${__args[@]}" | head -n 1)
   else
     # TODO: can it be done using jsonpath without jq?
-    __result=$(kubectl get pods -o json $__args | jq -r '.items[] | select(.metadata.labels[] | tostring | contains("'$__value'")) | .metadata.name' | head -n 1)
+    __result=$(kubectl get pods -o json "${__args[@]}" | jq -r '.items[] | select(.metadata.labels[] | tostring | contains("'$__value'")) | .metadata.name' | head -n 1)
   fi
 
   # TODO: add debug method for those:
@@ -169,16 +170,17 @@ __kubectl::get_pod_name_by_label() {
 
 __kubectl::get_pod_name_by_name() {
 
-  local __var __value __args __result
+  local __var __value __result
+  local -a __args
 
   if [[ $# -gt 1 ]]; then
     __var="$1"
     shift
   fi
   __value="$1"
-  __args=${@:2}
+  __args=("${@:2}")
 
-  __result=$(kubectl get pods -o json $__args | jq -r --arg v "$__value" '.items[] | select(.metadata.name | test($v + ".*")) | .metadata.name' | head -n 1)
+  __result=$(kubectl get pods -o json "${__args[@]}" | jq -r --arg v "$__value" '.items[] | select(.metadata.name | test($v + ".*")) | .metadata.name' | head -n 1)
 
   setvar "$__var" "$__result"
 }
@@ -194,7 +196,7 @@ __kubectl::delete_all_objects() {
 __kubectl::execute() {
   local _name=$1
   local __pod
-  local __kubectl_args=""
+  local -a __kubectl_args
   local __pod_args="bash"
 
   if [[ -z "${_name:-}" ]]; then
@@ -208,43 +210,41 @@ __kubectl::execute() {
     case "$1" in
       --)
         shift
-        __pod_args="$@"
+        __pod_args="$*"
         break
         ;;
       *)
-        __kubectl_args="$__kubectl_args $1"
+        __kubectl_args+=("$1")
         shift
         ;;
     esac
   done
 
-  # Trim leading and trailing spaces
-  __kubectl_args="${__kubectl_args#"${__kubectl_args%%[![:space:]]*}"}"
-  __kubectl_args="${__kubectl_args%"${__kubectl_args##*[![:space:]]}"}"
+  # Trim leading and trailing spaces from the remote command string
   __pod_args="${__pod_args#"${__pod_args%%[![:space:]]*}"}"
   __pod_args="${__pod_args%"${__pod_args##*[![:space:]]}"}"
 
-  __kubectl::get_pod_name_by_name "__pod" $_name
-  [[ -z "$__pod" ]] && __kubectl::get_pod_name_by_label "__pod" "app" $_name
+  __kubectl::get_pod_name_by_name "__pod" "$_name"
+  [[ -z "$__pod" ]] && __kubectl::get_pod_name_by_label "__pod" "app" "$_name"
 
-  kubectl exec -it $__pod $__kubectl_args -- sh -c "$__pod_args"
+  kubectl exec -it "$__pod" "${__kubectl_args[@]}" -- sh -c "$__pod_args"
 }
 
 __kubectl::get_pod_logs() {
     local _label=${1:-api}
-    local _args="${@:2}"
+    local -a _args=("${@:2}")
     local _pod
 
-    __kubectl::get_pod_name_by_label "_pod" "app" $_label
+    __kubectl::get_pod_name_by_label "_pod" "app" "$_label"
 
-    kubectl logs $_pod $_args
+    kubectl logs "$_pod" "${_args[@]}"
   }
 
   __kubectl::etcdctl() {
     local _args="$@"
     local _pod
 
-    __kubectl::get_pod_name_by_label "_pod" "component" "etcd" "-n kube-system"
+    __kubectl::get_pod_name_by_label "_pod" "component" "etcd" -n kube-system
 
     kubectl -n kube-system exec $_pod -it -- sh -c "\
       ETCDCTL_API=3 \

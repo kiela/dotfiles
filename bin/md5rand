@@ -2,11 +2,22 @@
 
 set -euo pipefail
 
+# Copy to the clipboard when pbcopy is available (macOS), otherwise
+# print to stdout so the script also works on Linux.
+__output() {
+    if command -v pbcopy &>/dev/null; then
+        pbcopy
+    else
+        cat
+        echo
+    fi
+}
+
 if command -v openssl &>/dev/null; then
-    openssl rand -base64 64 | tr -dc 'A-Za-z0-9' | head -c 32 | pbcopy
+    openssl rand -base64 64 | tr -dc 'A-Za-z0-9' | head -c 32 | __output
 elif command -v md5sum &>/dev/null; then
     random_string=$(dd if=/dev/urandom bs=16 count=1 2>/dev/null | base64)
-    echo -n "$(echo -n "$random_string" | md5sum | awk '{print $1}')" | pbcopy
+    echo -n "$(echo -n "$random_string" | md5sum | awk '{print $1}')" | __output
 else
     echo 'error: openssl and md5sum are both unavailable' >&2
     exit 1

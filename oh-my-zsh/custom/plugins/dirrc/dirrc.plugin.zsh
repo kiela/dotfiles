@@ -157,7 +157,9 @@ __load_dir_envs() {
 
   if [[ $__found -eq 0 ]]; then
     if [[ -f $__filepath && -s $__filepath ]] && __dirrc_check_trust "$__filepath"; then
-      while read i
+      # read -r keeps backslashes intact; the `|| [[ -n "$i" ]]` guard runs
+      # the body for a final line that has no trailing newline.
+      while read -r i || [[ -n "$i" ]]
       do
         if [[ ($i[1] != '#') && (-n $i[1]) ]]; then
           typeset -x ${i//[\'\"\`]}

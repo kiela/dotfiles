@@ -13,7 +13,6 @@ alias l='ls -CF'
 alias ..='cd ..'
 alias cd..='cd ..'
 alias scd='cd'
-alias .='cd $HOME'
 alias x='exit'
 alias df='df -h'
 alias du='du -h'
@@ -23,14 +22,20 @@ alias g='git'
 alias grpe='grep' # I'm just sloppy sometimes
 alias cgrep='clear && grep'
 alias gi='grep -in'
-alias rg='grep -rin'
+# do not shadow ripgrep when it is installed
+if ! (type rg &> /dev/null); then
+  alias rg='grep -rin'
+fi
 alias crg='clear && grep -rin'
 alias rm='rm -v'
 alias netcons='lsof -i -nP'
 alias wr='__cd::workspace'
 alias cwr='clear && __cd::workspace'
 alias ff='__find::file'
-alias fd='__find::dir'
+# do not shadow fd (fd-find) when it is installed
+if ! (type fd &> /dev/null); then
+  alias fd='__find::dir'
+fi
 alias first='head -n 1'
 alias last='tail -n 1'
 alias len='wc -c'

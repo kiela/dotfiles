@@ -67,13 +67,6 @@ if (type pbcopy &> /dev/null); then
 fi
 
 
-# FIXME:
-# $ pwd
-# /Users/kiela/workspace/dir_name1/dir_name2/dir_name3
-# $ wr dotfiles/aliases/macos
-# __cd::workspace:cd:6: not a directory: /Users/kiela/workspace/dotfiles/aliases/macos
-# Current directory changed to: /Users/kiela/workspace/dir_name1/dir_name2/dir_name3
-
 __cd::ln() {
   local __link="$1"
   local __target __dir
@@ -113,11 +106,18 @@ __cd::ln() {
 
 __cd::workspace() {
   local __home="${HOME}/workspace"
+  local __target="${1:-}"
 
-  if [ $# -eq 0 ]; then
-    cd $__home
+  if [ -z "$__target" ]; then
+    cd "$__home" || return 1
+  elif [ -d "$__home/$__target" ]; then
+    cd "$__home/$__target" || return 1
+  elif [ -e "$__home/$__target" ]; then
+    # a file was given - go to the directory that contains it
+    cd "$(dirname "$__home/$__target")" || return 1
   else
-    cd $__home/"$@"
+    echo "wr: $__target: No such file or directory" >&2
+    return 1
   fi
 
   echo "Current directory changed to: $(pwd)"

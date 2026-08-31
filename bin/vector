@@ -6,7 +6,7 @@ V=${V:-false}
 
 __debug() {
   if $V; then
-    echo "DEBUG: $@"
+    echo "DEBUG: $*"
   fi
 }
 
@@ -36,4 +36,4 @@ else
   done
 fi
 
-__execute "docker run -i -v $(pwd):/vector --workdir /vector --rm timberio/vector:0.32.1-distroless-libc $_cmd ${_args[@]}"
+__execute "docker run -i -v $(pwd):/vector --workdir /vector --rm timberio/vector:0.32.1-distroless-libc $_cmd ${_args[*]}"

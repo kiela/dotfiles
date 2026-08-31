@@ -320,13 +320,13 @@ while getopts "b:t:l:rh" opt; do
     b ) board_size="$OPTARG"
       let '(board_size>=3)&(board_size<=9)' || {
         printf "Invalid board size, please choose size between 3 and 9\n"
-        exit -1 
+        exit 1
       };;
     t ) target="$OPTARG"
       printf "obase=2;$target\n" | bc | grep -e '^1[^1]*$'
       let $? && {
         printf "Invalid target, has to be power of two\n"
-        exit -1 
+        exit 1
       };;
     r ) reload_flag="1";;
     h ) help $0

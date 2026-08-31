@@ -6,7 +6,7 @@ V=${V:-false}
 
 __debug() {
   if $V; then
-    echo "DEBUG: $@"
+    echo "DEBUG: $*"
   fi
 }
 

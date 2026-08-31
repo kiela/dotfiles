@@ -69,7 +69,10 @@ __file_find_by_type() {
   local _type=$2
   local _result
 
-  _result=$(find $_path -maxdepth 1 -exec sh -c "file '{}' | grep -q '$_type'" \; -print | head -1)
+  # Pass the match and the type as positional args ($1/$2) instead of
+  # interpolating {} and $_type into the sh -c string, where a crafted
+  # filename could break out and execute arbitrary commands.
+  _result=$(find "$_path" -maxdepth 1 -exec sh -c 'file "$1" | grep -q "$2"' _ {} "$_type" \; -print | head -1)
 
   echo $_result
 }

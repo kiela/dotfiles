@@ -81,29 +81,24 @@ __cd::ln() {
     return 1
   fi
 
-  __target=$(readlink "$__link")
-
-  #__debug "\$__link: $__link"
-  #__debug "\$__target: $__target"
-
-  if [ -z "$__target" ]; then
-      __target=$(which "$__link")
-      # TODO: check if __target is a symbolic link again
-      #__debug "\$__target: $__target"
-      if [[ -z "$__target" ]]; then
-          echo "Error: Neither a valid symbolic link nor a command found for '$__link'."
-          return 1
-      fi
+  # ${x:A} resolves the whole path to an absolute one, following symlink
+  # chains relative to each link's own location - unlike `readlink`, whose
+  # raw (often relative) output dirname was wrongly resolved against $PWD.
+  if [[ -L "$__link" ]]; then
+    __target="${__link:A}"
+  elif __target=$(command -v "$__link" 2> /dev/null) && [[ -n "$__target" ]]; then
+    __target="${__target:A}"
+  else
+    echo "Error: Neither a valid symbolic link nor a command found for '$__link'."
+    return 1
   fi
 
-  __dir="$(dirname "$__target")"
-  #__debug "\$__dir: $__dir"
+  __dir="${__target:h}"
 
-  cd "$__dir"
-  #|| {
-  #    echo "Error: Could not change directory to $__dir."
-  #    exit 1
-  #}
+  cd "$__dir" || {
+    echo "Error: Could not change directory to $__dir." >&2
+    return 1
+  }
 
   echo "Current directory changed to: $(pwd)"
 }

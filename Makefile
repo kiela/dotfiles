@@ -20,6 +20,7 @@ omz-link-setup:
 	ln -sfn $(CURDIR)/oh-my-zsh/custom ~/.oh-my-zsh/custom
 	ln -sfn $(CURDIR)/aliases ~/.aliases
 	ln -sfn $(CURDIR)/zshrc ~/.zshrc
+	ln -sfn $(CURDIR)/oh-my-zsh.rc ~/.oh-my-zsh.rc
 
 # zshrc puts ~/bin on PATH and several git aliases call scripts from it
 # (trim, spark, git-prune-local, git-all-repos), so link it by default.

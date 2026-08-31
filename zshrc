@@ -23,4 +23,8 @@ HISTSIZE=999999
 # Oh My ZSH
 if test -e "${HOME}/.oh-my-zsh.rc"; then
   source "${HOME}/.oh-my-zsh.rc"
+else
+  echo "WARNING: ${HOME}/.oh-my-zsh.rc not found; oh-my-zsh, plugins and aliases will not load"
+  echo "WARNING: run 'make omz-link-setup' from the dotfiles repo"
+  echo "-----"
 fi

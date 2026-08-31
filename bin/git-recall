@@ -137,14 +137,17 @@ fi
 # Log template.
 GIT_FORMAT="%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"
 
-# Log command.
-GIT_LOG="git log --pretty=format:'${GIT_FORMAT}'  
-           --author \"$AUTHOR\"
-           --since \"$SINCE\" --abbrev-commit --no-merges $BRANCH $SEARCH_PATH"
+# Build the log invocation as an argument array and run git directly. The
+# old code eval'd an interpolated string, so shell metacharacters in AUTHOR
+# (which defaults to git config user.name - settable by a hostile repo),
+# BRANCH or PATH broke the command or executed as code.
+_log_args=(log --pretty=format:"${GIT_FORMAT}" --author "$AUTHOR" --since "$SINCE" --abbrev-commit --no-merges)
+[[ -n "$BRANCH" ]] && _log_args+=("$BRANCH")
+[[ -n "$SEARCH_PATH" ]] && _log_args+=(-- "$SEARCH_PATH")
 
-# Change temporary the IFS to store GIT_LOG's output into an array.
+# Change temporary the IFS to store the output into an array.
 IFS=$'\n'
-COMMITS=($(eval ${GIT_LOG} 2>/dev/null))
+COMMITS=($(git "${_log_args[@]}" 2>/dev/null))
 unset IFS
 
 NI=${#COMMITS[@]}                             # Total number of items.
@@ -197,8 +200,11 @@ fi
 function get_diff() {
     ELT="$(echo "${COMMITS_UNCOL[$CP-1]}")"
     DIFF_TIP=${ELT:0:7}
-    DIFF_CMD="git show $DIFF_TIP --color=always $SEARCH_PATH"
-    DIFF=$(eval ${DIFF_CMD} 2>/dev/null)
+    if [[ -n "$SEARCH_PATH" ]]; then
+        DIFF=$(git show "$DIFF_TIP" --color=always -- "$SEARCH_PATH" 2>/dev/null)
+    else
+        DIFF=$(git show "$DIFF_TIP" --color=always 2>/dev/null)
+    fi
     tmp_diff="$(echo "$DIFF" | $SED_CMD)"
     off=$(echo "$tmp_diff" | grep -c ".\{$CN\}") # Number of lines in the diff that are longer than terminal width.
     DIFF_LINES_NUMBER="$(echo "$DIFF" | wc -l)"

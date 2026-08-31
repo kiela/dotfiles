@@ -1,0 +1,40 @@
+---
+name: Lint
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run shellcheck on bash and sh scripts
+        run: |
+          grep -rlE '^#!/(usr/bin/env )?(bash|sh)' bin \
+            | xargs shellcheck -S error
+
+  zsh-syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install zsh
+        run: sudo apt-get update && sudo apt-get install -y zsh
+      - name: Check zsh syntax
+        run: |
+          zsh -n zshrc
+          zsh -n oh-my-zsh.rc
+          for f in aliases/*; do zsh -n "$f"; done
+          find oh-my-zsh \
+            \( -name '*.zsh' -o -name '*.zsh-theme' -o -name '_*' \) \
+            -type f -print0 | xargs -0 -n1 zsh -n
+
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install yamllint
+        run: pip install yamllint
+      - name: Lint YAML files
+        run: yamllint -c yamllint .github

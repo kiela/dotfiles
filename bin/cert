@@ -149,7 +149,7 @@ __cert_encode() {
     __command_result_message
 
     printf "Generate base64 of the keystore: "
-    base64 -i $_keystore_file -o $_keystore_base64_file
+    base64 < "$_keystore_file" > "$_keystore_base64_file"
     __command_result_message
   fi
 }
@@ -169,7 +169,7 @@ __cert_decode() {
 
   if [[ -f $_keystore_base64_file && ! -f $_keystore_file ]]; then
     printf "Decode keystore from base64 form: "
-    base64 -d -i $_keystore_base64_file -o $_keystore_file
+    base64 -d < "$_keystore_base64_file" > "$_keystore_file"
     __command_result_message
   fi
 

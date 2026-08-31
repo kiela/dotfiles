@@ -50,5 +50,10 @@ Because those files execute code, a directory has to be allowed first:
 Local overrides
 ---------------
 
-Machine-specific zsh configuration goes into `~/.zshrc.local`, which is
-sourced if present.
+Machine-specific zsh configuration uses two hooks, both sourced if present:
+
+- `~/.zshrc.local` — sourced *before* oh-my-zsh loads. Put `plugins+=(...)`,
+  `ZSH_*` knobs and zstyles here.
+- `~/.zshrc.local.post` — sourced *after* oh-my-zsh loads. Put overrides that
+  must win over oh-my-zsh's own settings here (aliases, `PROMPT`, keybindings);
+  they would be clobbered if placed in `~/.zshrc.local`.

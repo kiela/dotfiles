@@ -303,8 +303,12 @@ if [[ -z $dir ]]; then
   exit 1
 fi
 
-path=$(readlink -f ./$dir)
-if [[ ! -d $path ]]; then
+# Resolve to an absolute physical path. `readlink -f ./$dir` prefixed ./
+# unconditionally (so an absolute arg like /opt/certs resolved against $PWD)
+# and readlink -f is absent on macOS before 12.3; cd + pwd -P is portable
+# and validates existence in one step.
+path=$(cd "$dir" 2> /dev/null && pwd -P)
+if [[ -z $path || ! -d $path ]]; then
   echo "Following directory does not exist: $dir"
   exit 1
 else

@@ -31,6 +31,7 @@ LESSKEY=false
 VERSION="1.2.4"
 BRANCH=""
 SEARCH_PATH=""
+LESS_KEYS_FILE=""     # per-run lesskey temp file (created with mktemp)
 
 # Set key bindings.
 au="`echo -e '\e[A'`" # arrow up
@@ -193,7 +194,8 @@ done
 
 # Create a temporary lesskey file to change the keybindings so the user can use the TAB key to quit less. (more convenient)  
 if [[ $LESSKEY = true ]]; then
-    echo "\t quit" | lesskey -o /tmp/lsh_less_keys_tmp -- - &> /dev/null
+    LESS_KEYS_FILE=$(mktemp "${TMPDIR:-/tmp}/git-recall-lesskey.XXXXXX")
+    echo "\t quit" | lesskey -o "$LESS_KEYS_FILE" -- - &> /dev/null
 fi
 
 # Get commit's diff.
@@ -217,8 +219,8 @@ function print_diff() {
     if [[ $(( TN + DIFF_LINES_NUMBER + OFFSET )) -ge $(( `tput lines` - 1 )) ]]; then
 	trap - INT
 	if [[ $LESSKEY = true ]]; then
-	    echo "$DIFF" | less -r -k /tmp/lsh_less_keys_tmp
-	else 
+	    echo "$DIFF" | less -r -k "$LESS_KEYS_FILE"
+	else
 	    echo "$DIFF" | less -r
 	fi
 	trap cleanup_and_exit INT
@@ -270,7 +272,7 @@ function calculate_offset {
 # Reset changes made by this script before exiting
 function cleanup_and_exit() {
     # remove temporary less keybindings
-    [[ $LESSKEY = true ]] && rm /tmp/lsh_less_keys_tmp
+    [[ -n "$LESS_KEYS_FILE" ]] && rm -f "$LESS_KEYS_FILE"
 
     tput cuu 1      # move cursor up one line. (remove extra line)
     tput cnorm      # unhide cursor

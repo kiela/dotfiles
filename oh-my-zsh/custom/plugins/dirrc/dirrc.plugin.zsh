@@ -96,7 +96,7 @@ __load_dir_messages() {
 
   __debug "__load_dir_messages::\$__file: $__file"
 
-  if [[ -f $__file && -s $__file ]]; then
+  if [[ -f $__file && -s $__file ]] && __dirrc_check_trust "$__file"; then
     echo "$(tput bold)$(tput setaf 32)MESSAGE:$(tput sgr0)"
     echo -n "$(tput setaf 32)"
     cat $__file
@@ -109,7 +109,7 @@ __load_dir_todos() {
 
   __debug "__load_dir_todos::\$__file: $__file"
 
-  if [[ -f $__file && -s $__file ]]; then
+  if [[ -f $__file && -s $__file ]] && __dirrc_check_trust "$__file"; then
     echo "$(tput bold)$(tput setaf 3)TODO:$(tput sgr0)"
     echo -n "$(tput setaf 3)"
     cat $__file

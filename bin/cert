@@ -97,11 +97,14 @@ __file_find_by_extension() {
 
 __password_generate() {
   local _file=$1
-  local _generator_website="https://www.passwordrandom.com/query?command=password&scheme=C!vNV!vV-!cN!-NnC-vC!-NvN!Cv"
 
   if __should_proceed "Overwrite existing password?" "$_file"; then
-    __print "Generate 12-character-long password: " "false"
-    __execute "curl -s -o $_file $_generator_website"
+    __print "Generate password: " "false"
+    # Generate locally rather than fetching from a third-party website: the
+    # remote service both generated and saw the secret, and `curl -s` without
+    # -f exits 0 on an HTTP error, so an error page silently became the
+    # keystore password. Alphanumeric-only keeps it safe in all pass: contexts.
+    LC_ALL=C tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 20 > "$_file"
     __command_result_message
   fi
 }
@@ -126,10 +129,6 @@ __cert_encode() {
 
   __password_generate $_password_file
   __print "Load password: " "false"
-
-  # For some reason it needs to sleep for 1 second. Otherwise, script does not
-  # find newly created password file.
-  sleep 1
 
   _password=$(__password_load $_password_file)
   __command_result_message

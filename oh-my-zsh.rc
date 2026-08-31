@@ -17,9 +17,14 @@ plugins=()
 
 # TODO: move it to custom plugin
 if [[ "$OSTYPE" == darwin* ]]; then
-  # Homebrew
-  # TODO: find a better way for checking if brew is installed
-  if (type /opt/homebrew/bin/brew &> /dev/null); then
+  # Homebrew - put it on PATH first (Apple Silicon or Intel location)
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+
+  if (type brew &> /dev/null); then
     plugins+=(brew)
     # NOTE: Why -z "$VAR" and not -z ${VAR+x}: https://stackoverflow.com/a/13864829
     # Check if $HOMEBREW_GITHUB_API_TOKEN is not set or set to an empty string
@@ -35,8 +40,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 # TODO: move it to custom plugin
-# TODO: find a better way for checking if tmux is installed
-if (type /opt/homebrew/bin/tmux &> /dev/null); then
+if (type tmux &> /dev/null); then
   plugins+=(tmux)
   # tmux plugin configuration
   if [[ ! -f "$HOME/.zsh_tmux_autostart_off" ]]; then
@@ -69,8 +73,6 @@ zstyle ':omz:update' mode reminder
 if test -e "${HOME}/.zshrc.local"; then
   source "${HOME}/.zshrc.local"
 fi
-
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 
 zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
 zstyle ':omz:plugins:alias-finder' longer yes # disabled by default

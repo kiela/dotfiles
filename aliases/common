@@ -47,8 +47,15 @@ alias vimrc="vim ~/.vimrc"
 alias vR="vim -R"
 alias less="less -I"
 alias cdln="__cd::ln"
-alias w1="watch -n 1"
-alias randline='shuf -n 1'
+# watch and shuf are not on stock macOS; guard like rg/fd above
+if (type watch &> /dev/null); then
+  alias w1="watch -n 1"
+fi
+if (type shuf &> /dev/null); then
+  alias randline='shuf -n 1'
+else
+  alias randline='sort -R | head -n 1'
+fi
 
 pwd() {
   # Pass the standard flags (-L/-P) straight through to the builtin.

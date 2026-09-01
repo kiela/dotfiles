@@ -11,25 +11,28 @@ __debug() {
   fi
 }
 
+# Run a command from separate arguments rather than a single string. The
+# string form needed eval to word-split the caller's extra flags, which
+# also re-split and glob-expanded the chart name and output paths.
 __execute() {
-  __debug "$1"
-  eval "$1"
+  __debug "$*"
+  "$@"
 }
 
 __install() {
   local _chart_name=$1
-  local _args=$2
+  shift
 
-  __execute "helm dependency build"
-  __execute "helm install $_chart_name . --namespace $_chart_name --create-namespace $_args"
+  __execute helm dependency build
+  __execute helm install "$_chart_name" . --namespace "$_chart_name" --create-namespace "$@"
 }
 
 __upgrade() {
   local _chart_name=$1
-  local _args=$2
+  shift
 
-  __execute "helm dependency update"
-  __execute "helm upgrade $_chart_name . --namespace $_chart_name --create-namespace $_args"
+  __execute helm dependency update
+  __execute helm upgrade "$_chart_name" . --namespace "$_chart_name" --create-namespace "$@"
 }
 
 __uninstall() {
@@ -37,7 +40,7 @@ __uninstall() {
   local _delete_namespace=false
   local _resource_count
 
-  __execute "helm delete $_chart_name"
+  __execute helm delete "$_chart_name"
 
   echo "Removing chart $_chart_name objects."
 
@@ -61,7 +64,7 @@ __uninstall() {
       done
 
       if [[ "$_delete_namespace" == true ]]; then
-        __execute "kubectl delete namespace $_chart_name"
+        __execute kubectl delete namespace "$_chart_name"
       else
         echo "Namespace $_chart_name is not removed."
       fi
@@ -73,12 +76,15 @@ __uninstall() {
 
 __template_render() {
   local _output_dir=${1:-}
-  local _args="${*:2}"
 
   if [[ -z $_output_dir ]]; then
     echo "No output dir passed..."
     exit 1
   fi
+
+  # safe: a non-empty _output_dir means there was at least one argument,
+  # and an unguarded shift on an empty list would abort under set -e
+  shift
 
   if $CLEAR; then
     # Run rm directly with a quoted path - never through eval, which would
@@ -87,12 +93,12 @@ __template_render() {
     rm -rf Chart.lock charts "$_output_dir"
   fi
 
-  #__execute "helm repo update"
-  __execute "helm template \
-        --debug \
-        --dependency-update \
-        --output-dir $_output_dir \
-        -f values.yaml $_args ."
+  #__execute helm repo update
+  __execute helm template \
+    --debug \
+    --dependency-update \
+    --output-dir "$_output_dir" \
+    -f values.yaml "$@" .
 }
 
 __help() {
@@ -109,22 +115,19 @@ fi
 shift
 
 chart_name=$(basename "$(pwd)")
-args="$*"
 
 case $option in
   i|install)
-    __install $chart_name "$args"
+    __install "$chart_name" "$@"
     ;;
   up|upgrade)
-    __upgrade $chart_name "$args"
+    __upgrade "$chart_name" "$@"
     ;;
   un|uninstall)
-    __uninstall $chart_name
+    __uninstall "$chart_name"
     ;;
   r|render)
-    output_dir=${1:-}
-    args="${*:2}"
-    __template_render "$output_dir" $args
+    __template_render "$@"
     ;;
   *)
     __help

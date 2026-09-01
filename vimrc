@@ -27,7 +27,7 @@ set nowritebackup" TODO: wtf is that for?
 set autowrite " TODO: automatically :write before running commands
 set nojoinspaces " TODO: use one space, not two, after punctuation
 set diffopt+=vertical " always use vertical diffs
-"set hidden " TODO: switch between buffers without errors
+set hidden " switch away from a modified buffer without saving it first
 set maxmempattern=8192 " increase mximum amount of memory (in Kbyte) to use for pattern matching
 set modeline " allow to set variables specific to a file i.e. # vim: ft=conf :
 set modelines=5 " numer of lines that are checked for set commands

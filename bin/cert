@@ -281,7 +281,7 @@ __cert_info() {
 
   _cert_file_type=$(file "$_cert_file" | cut -d ':' -f 2 | awk '{$1=$1};1')
 
-  if [[ $_cert_file_type != *request  ]]; then
+  if [[ $_cert_file_type != *request ]]; then
     _openssl_cmd='x509'
     _end_date=$(openssl x509 -enddate -noout -in "$_cert_file")
     _hex_number=$(openssl x509 -noout -serial -in "$_cert_file" | cut -d'=' -f2 | awk '{$1=$1};1')

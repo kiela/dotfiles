@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+#
+# git-recall - interactively browse your recent git commits.
+# Vendored from https://github.com/Fakerr/git-recall (MIT License).
+# Local modifications: argv-array git invocations, mktemp lesskey file.
+#
 
 # usage info
 usage() {

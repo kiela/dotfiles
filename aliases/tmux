@@ -10,8 +10,35 @@ if (type tmux &> /dev/null); then
         "ls") tmux ls;;
         "off") __tmux::turn_off;;
         "on") __tmux::turn_on;;
-        *) tmux "$@";;
+        *) __tmux::passthrough "$@";;
     esac
+  }
+
+  # Hand an unrecognised subcommand to tmux, but label anything it writes
+  # to stderr on failure - `t asd` otherwise reports "unknown command: asd"
+  # with no hint that the complaint came from tmux rather than from `t`.
+  # stdout and stdin are left untouched so interactive subcommands
+  # (attach, new) still work normally.
+  __tmux::passthrough() {
+    local __errfile __status __line
+    __errfile=$(mktemp)
+
+    tmux "$@" 2>"$__errfile"
+    __status=$?
+
+    if [[ -s $__errfile ]]; then
+      if [[ $__status -ne 0 ]]; then
+        while IFS= read -r __line; do
+          print -r -- "TMUX: $__line" >&2
+        done < "$__errfile"
+      else
+        cat "$__errfile" >&2
+      fi
+    fi
+
+    rm -f "$__errfile"
+
+    return $__status
   }
 
   __tmux::turn_off() {

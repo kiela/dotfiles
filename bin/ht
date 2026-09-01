@@ -81,7 +81,10 @@ __template_render() {
   fi
 
   if $CLEAR; then
-    __execute "rm -rf Chart.lock charts $_output_dir"
+    # Run rm directly with a quoted path - never through eval, which would
+    # re-split $_output_dir on spaces/globs and rm -rf unintended paths.
+    __debug "rm -rf Chart.lock charts $_output_dir"
+    rm -rf Chart.lock charts "$_output_dir"
   fi
 
   #__execute "helm repo update"

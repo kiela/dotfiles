@@ -23,8 +23,12 @@ __dirrc_trusted() {
   # and grep -Fx would match each independently, so never treat one as trusted.
   [[ "$__dir" == *$'\n'* ]] && return 1
 
-  # the home directory and the dotfiles-managed aliases are always trusted
-  if [[ "$__dir" == "${HOME:A}" || "$__dir" == "${HOME:A}/.aliases" ]]; then
+  # The home directory and the dotfiles-managed aliases are always trusted.
+  # ~/.aliases is itself a symlink into the dotfiles repo, so resolve it too
+  # ($__dir is already resolved) - otherwise the resolved real path never
+  # matches an unresolved ${HOME}/.aliases and alias loading silently breaks.
+  local __home_aliases="${HOME}/.aliases"
+  if [[ "$__dir" == "${HOME:A}" || "$__dir" == "${__home_aliases:A}" ]]; then
     return 0
   fi
 

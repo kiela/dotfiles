@@ -2,4 +2,16 @@
 
 set -euo pipefail
 
-openssl req -in "$1" -text -noout | grep -i 'Subject Alternative Name' -A1 | tail -n 1 | tr ',' '\n' | cut -d ':' -f 2 | sort
+if [ -z "${1:-}" ]; then
+  echo "Usage: $(basename "$0") <csr-file>" >&2
+  exit 1
+fi
+
+san=$(openssl req -in "$1" -text -noout | grep -iA1 'Subject Alternative Name' | tail -n 1 || true)
+
+if [ -z "$san" ]; then
+  echo "No Subject Alternative Name extension found in $1" >&2
+  exit 1
+fi
+
+echo "$san" | tr ',' '\n' | cut -d ':' -f 2 | awk '{$1=$1};1' | sort

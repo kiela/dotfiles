@@ -1,9 +1,10 @@
-" Only invoke pathogen when it is actually installed, so a fresh machine
-" without ~/.vim/autoload/pathogen.vim does not error on every startup.
-if exists('*pathogen#infect')
-  call pathogen#infect()
-  call pathogen#helptags()
-endif
+" Load pathogen when present, stay quiet when it is not. `silent!` still
+" triggers the autoload (so pathogen actually runs when installed) but
+" suppresses E117 on a fresh machine without ~/.vim/autoload/pathogen.vim -
+" unlike exists('*pathogen#infect'), which does not autoload and so was
+" always false, silently disabling pathogen and every bundle.
+silent! call pathogen#infect()
+silent! call pathogen#helptags()
 
 let mapleader = ','
 

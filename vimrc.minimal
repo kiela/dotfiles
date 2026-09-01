@@ -4,6 +4,7 @@ syntax on
 
 set encoding=utf-8 " output encoding that is shown in the terminal
 set fileencoding=utf-8 " output encoding of the file that is written
+set backspace=indent,eol,start " backspace over indent, line ends, insert start
 set ruler " show current row and number at the right bottom of the screen
 set number " display line numbers
 set numberwidth=5 " reserve 5 characters for number line

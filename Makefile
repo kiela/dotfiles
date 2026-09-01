@@ -25,8 +25,14 @@ omz-link-setup:
 
 # zshrc puts ~/bin on PATH and several git aliases call scripts from it
 # (trim, spark, git-prune-local, git-all-repos), so link it by default.
+# Link each script into ~/bin rather than symlinking the whole directory:
+# `ln -sfn bin ~/bin` would nest into an existing ~/bin, creating ~/bin/bin
+# and leaving the scripts off PATH. First drop a ~/bin that is our own
+# whole-dir symlink from an earlier run, then link the scripts individually.
 bin-link:
-	ln -sfn $(CURDIR)/bin ~/bin
+	@if [ -L ~/bin ] && [ "`readlink ~/bin`" = "$(CURDIR)/bin" ]; then rm ~/bin; fi
+	mkdir -p ~/bin
+	for f in $(CURDIR)/bin/*; do ln -sf "$$f" ~/bin/; done
 
 git-link-conf:
 	ln -sf $(CURDIR)/gitconfig ~/.gitconfig

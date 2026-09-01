@@ -16,5 +16,12 @@ if ! docker info &> /dev/null; then
   exit 1
 fi
 
-__debug "docker run -it --rm --platform=linux/amd64 redis:7-alpine redis-cli $*"
-docker run -it --rm --platform=linux/amd64 redis:7-alpine redis-cli "$@"
+# Only allocate a TTY when stdin and stdout are terminals; an unconditional
+# -t breaks piped or redirected input (echo 'PING' | redis-cli).
+flags=(-i)
+if [ -t 0 ] && [ -t 1 ]; then
+  flags+=(-t)
+fi
+
+__debug "docker run ${flags[*]} --rm --platform=linux/amd64 redis:7-alpine redis-cli $*"
+docker run "${flags[@]}" --rm --platform=linux/amd64 redis:7-alpine redis-cli "$@"

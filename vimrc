@@ -72,6 +72,7 @@ autocmd BufNewFile,BufRead *.sls setfiletype yaml
 autocmd BufRead,BufNewFile *.gitconfig setlocal noexpandtab tabstop=4 shiftwidth=4
 autocmd Filetype gitcommit setlocal textwidth=72
 autocmd Filetype gitcommit setlocal spell
+autocmd FileType markdown setlocal spell
 
 nnoremap <silent> <F6> :g/^$/d<CR>
 nnoremap <silent> <F5> :call <SID>StripTrailingSpaces()<CR>

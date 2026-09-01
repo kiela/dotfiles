@@ -113,6 +113,49 @@ augroup MkdirOnWrite
   autocmd BufWritePre * call <SID>MkdirOnWrite(expand('<afile>:p:h'))
 augroup END
 
+" Briefly highlight whatever was just yanked. Neovim has
+" vim.highlight.on_yank for this, Vim does not - so match the yanked
+" range by hand and drop the match again on a timer.
+if exists('##TextYankPost') && has('timers')
+  function! <SID>ClearYankHighlight(ids)
+    for l:id in a:ids
+      silent! call matchdelete(l:id)
+    endfor
+  endfunction
+
+  function! <SID>HighlightYank()
+    if get(v:event, 'operator', '') !=# 'y'
+      return
+    endif
+
+    let l:start = getpos("'[")
+    let l:end = getpos("']")
+
+    " a big yank would need one match per line, skip the flash instead
+    if l:end[1] - l:start[1] > 100
+      return
+    endif
+
+    let l:ids = []
+    if get(v:event, 'regtype', '') ==# 'v' && l:start[1] == l:end[1]
+      " charwise inside one line, so highlight just those columns
+      let l:pos = [l:start[1], l:start[2], l:end[2] - l:start[2] + 1]
+      call add(l:ids, matchaddpos('IncSearch', [l:pos]))
+    else
+      for l:lnum in range(l:start[1], l:end[1])
+        call add(l:ids, matchaddpos('IncSearch', [[l:lnum]]))
+      endfor
+    endif
+
+    call timer_start(200, {-> s:ClearYankHighlight(l:ids)})
+  endfunction
+
+  augroup HighlightYank
+    autocmd!
+    autocmd TextYankPost * call <SID>HighlightYank()
+  augroup END
+endif
+
 
 set nu
 

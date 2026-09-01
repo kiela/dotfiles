@@ -14,8 +14,14 @@ __completion::load() {
   mkdir -p "$__cache_dir"
 
   if [[ ! -s "$__cache_file" || "$__bin" -nt "$__cache_file" ]]; then
-    if ! "$__cmd" completion zsh > "$__cache_file" 2> /dev/null; then
-      rm -f "$__cache_file"
+    # Generate into a temp file and move it into place atomically, so an
+    # interrupted generation can never leave a truncated cache that then gets
+    # sourced (and errors) on every subsequent startup.
+    local __tmp="$__cache_file.$$.tmp"
+    if "$__cmd" completion zsh > "$__tmp" 2> /dev/null && [[ -s "$__tmp" ]]; then
+      mv "$__tmp" "$__cache_file"
+    else
+      rm -f "$__tmp"
       return 1
     fi
   fi

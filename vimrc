@@ -210,21 +210,29 @@ function! Cheat(command)
   setlocal nomodifiable
 endfunction
 
-" Enable cursorline when starting a search
-"augroup SearchCursorLine
-"  autocmd!
-"  autocmd CmdlineEnter /,\? set cursorline
-"  autocmd CmdlineLeave /,\? set nocursorline
-"augroup END
-"
-" Change the background color of the current search match
-" highlight Search ctermbg=red guibg=red
-"
-" " Change the background color of the current cursor line
-" highlight CursorLine cterm=none ctermbg=blue guibg=blue
-"
-" " Enable highlighting for the cursor line
-" set cursorline
+" Turn cursorline on only while a search command line is open, so the
+" cursor stays easy to spot while typing a pattern, then put the option
+" back the way it was.
+if exists('##CmdlineEnter')
+  function! <SID>SearchCursorLineOn()
+    let s:cursorline_before = &cursorline
+    set cursorline
+    redraw
+  endfunction
+
+  function! <SID>SearchCursorLineOff()
+    if exists('s:cursorline_before')
+      let &cursorline = s:cursorline_before
+      unlet s:cursorline_before
+    endif
+  endfunction
+
+  augroup SearchCursorLine
+    autocmd!
+    autocmd CmdlineEnter /,\? call <SID>SearchCursorLineOn()
+    autocmd CmdlineLeave /,\? call <SID>SearchCursorLineOff()
+  augroup END
+endif
 
 " Function to disable syntax highlighting based on 'maxmempattern'
 function! DisableSyntaxBasedOnPatternMemory()

@@ -94,6 +94,25 @@ augroup StripTrailingSpaces
   autocmd BufWritePre * if &filetype != 'markdown' | call <SID>StripTrailingSpaces() | endif
 augroup END
 
+" Create the parent directory of a new file on save, so writing
+" some/new/dir/file.txt does not fail with E212 just because the
+" directory does not exist yet.
+function! <SID>MkdirOnWrite(dir)
+  " skip unnamed buffers and non-file protocols (scp://, fugitive://, ...)
+  if empty(a:dir) || a:dir =~# '^\a\+://'
+    return
+  endif
+
+  if !isdirectory(a:dir)
+    call mkdir(a:dir, 'p')
+  endif
+endfunction
+
+augroup MkdirOnWrite
+  autocmd!
+  autocmd BufWritePre * call <SID>MkdirOnWrite(expand('<afile>:p:h'))
+augroup END
+
 
 set nu
 

@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-#set -euo pipefail
+# Deliberately -uo pipefail and not -e: every long-running step here is
+# followed by __command_result_message, which reads $? to print ok/fail.
+# Under -e a failing openssl/keytool aborts the script before that runs,
+# and since those commands are redirected to /dev/null the user is left
+# with a silent non-zero exit instead of "fail".
+set -uo pipefail
 
 # This script writes secrets to disk (the keystore password, the unencrypted
 # private key, the PKCS#12 bundle). Restrict new files to the owner so they
@@ -308,7 +313,7 @@ __usage() {
   echo "V=true to debug"
 }
 
-cmd=$1
+cmd=${1:-}
 shift
 dir=${1:-.}
 if [[ -z $dir ]]; then

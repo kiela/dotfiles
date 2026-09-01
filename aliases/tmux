@@ -6,10 +6,12 @@ if (type tmux &> /dev/null); then
   __tmux::main() {
     case "$1" in
         "") tmux;;
-        "a") tmux attach;;
-        "ls") tmux ls;;
+        # shorthand: expand to the real subcommand, keeping any extra
+        # arguments the caller passed after it
+        "a") __tmux::passthrough attach "${@:2}";;
         "off") __tmux::turn_off;;
         "on") __tmux::turn_on;;
+        # everything else, "ls" included, goes through unchanged
         *) __tmux::passthrough "$@";;
     esac
   }

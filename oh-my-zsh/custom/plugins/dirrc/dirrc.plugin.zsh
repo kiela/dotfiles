@@ -130,7 +130,19 @@ __load_dir_aliases() {
   __debug "__load_dir_aliases::\$__filename: $__filename"
 
   if [[ -d $__dir/$__filename ]]; then
-    __load_dir_aliases "$__dir/$__filename" "_load"
+    # A .aliases/ *directory* (holding a _load file): trust is decided by the
+    # containing dir ($__dir), not the .aliases subdirectory - so trusting the
+    # repo covers it. Gate on $__dir and load _load directly; re-checking the
+    # subdir (as the recursion used to) left it blocked even after dirrc-trust.
+    local __loadfile="$__dir/$__filename/_load"
+    if [[ -f $__loadfile && -s $__loadfile ]]; then
+      if __dirrc_trusted "$__dir"; then
+        source "$__loadfile"
+        echo "$(tput setaf 2)Directory aliases loaded$(tput sgr0)"
+      else
+        echo "$(tput setaf 1)Skipping untrusted $__loadfile (run 'dirrc-trust ${__dir:A}' to allow)$(tput sgr0)"
+      fi
+    fi
   else
     __filepath=$(__find_dir_file $__dir $__filename)
     local __found=$?

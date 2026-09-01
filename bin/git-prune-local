@@ -4,6 +4,14 @@ set -euo pipefail
 
 git fetch -p
 
+current=$(git rev-parse --abbrev-ref HEAD)
+
 for branch in $(git for-each-ref --format '%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' refs/heads); do
+  # git refuses to delete the checked-out branch; skipping it keeps set -e
+  # from aborting the loop and leaving the remaining gone branches unpruned.
+  if [ "$branch" = "$current" ]; then
+    echo "skipping checked-out branch: $branch"
+    continue
+  fi
   git branch -D "$branch"
 done

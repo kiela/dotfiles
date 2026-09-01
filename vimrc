@@ -22,7 +22,6 @@ set pastetoggle=<F2> " bind setting 'paste' on and off to F2 key
 set nobackup " TODO: do not create any backaup files
 set noswapfile " TODO: do not create any swap files
 set nowritebackup" TODO: wtf is that for?
-"set fencs=utf-8 " TODO: wtf is that for?
 set mouse= " let the terminal own the mouse, so select/copy stays native
 set autowrite " TODO: automatically :write before running commands
 set nojoinspaces " TODO: use one space, not two, after punctuation

@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-if [[ ! $TERM =~ '256color' ]]; then
+if [[ ! ${TERM:-} =~ '256color' ]]; then
   echo "Terminal does not support 256 colors."
   exit 1
 fi

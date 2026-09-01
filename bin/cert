@@ -2,6 +2,11 @@
 
 #set -euo pipefail
 
+# This script writes secrets to disk (the keystore password, the unencrypted
+# private key, the PKCS#12 bundle). Restrict new files to the owner so they
+# are not created world-readable under a default 022 umask.
+umask 077
+
 V=${V:-false}
 
 __debug() {

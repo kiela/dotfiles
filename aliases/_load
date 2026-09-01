@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 
 # Source every alias file in this directory. Files prefixed with an
 # underscore (like this loader) are skipped, so new alias files are

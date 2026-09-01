@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 
 if (type tmux &> /dev/null); then
   alias t='__tmux::main'

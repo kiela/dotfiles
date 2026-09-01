@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 
 if (type erl &> /dev/null); then
   alias erl='erl -config ~/.erlang-hist.config'

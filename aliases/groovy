@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 
 if (type groovy &> /dev/null); then
   alias gr='groovy'

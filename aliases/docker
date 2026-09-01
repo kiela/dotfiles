@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 
 if (type docker &> /dev/null); then
   alias d='docker'

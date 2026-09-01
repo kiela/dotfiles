@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 
 if (type oc &> /dev/null); then
   if (type __completion::load &> /dev/null); then

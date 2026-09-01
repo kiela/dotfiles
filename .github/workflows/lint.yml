@@ -12,7 +12,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run shellcheck on bash and sh scripts
         run: |
-          grep -rlE '^#!/(usr/bin/env )?(bash|sh)' bin \
+          # Match any bash/sh shebang (#!/bin/bash, #!/usr/bin/env sh, ...);
+          # \b excludes zsh. The old anchored form skipped #!/bin/bash.
+          grep -rlE '^#!.*\b(bash|sh)\b' bin \
             | xargs shellcheck -S error
 
   zsh-syntax:

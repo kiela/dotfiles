@@ -89,7 +89,7 @@ __file_find_by_extension() {
       _extension=".$_extension"
     fi
 
-    _result=$(find $_path -maxdepth 1 -type f -name "*$_extension" | head -1)
+    _result=$(find "$_path" -maxdepth 1 -type f -name "*$_extension" | head -1)
     if [[ ! -z $_result ]]; then
       break
     fi
@@ -325,31 +325,31 @@ fi
 
 password_file=$path/password
 
-cert_csr_file=$(__file_find_by_type $path "PEM certificate request$")
+cert_csr_file=$(__file_find_by_type "$path" "PEM certificate request$")
 if [[ -z $cert_csr_file ]]; then
-  cert_csr_file=$(__file_find_by_extension $path "csr")
+  cert_csr_file=$(__file_find_by_extension "$path" "csr")
   if [[ -z $cert_csr_file ]]; then
     cert_csr_file=$path/newfile.csr
   fi
 fi
 
-cert_pem_file=$(__file_find_by_type $path "PEM certificate$")
+cert_pem_file=$(__file_find_by_type "$path" "PEM certificate$")
 if [[ -z $cert_pem_file ]]; then
-  cert_pem_file=$(__file_find_by_extension $path "cert" "cer" ".crt" ".der")
+  cert_pem_file=$(__file_find_by_extension "$path" "cert" "cer" ".crt" ".der")
   if [[ -z $cert_pem_file ]]; then
     cert_pem_file=$path/newfile.cer
   fi
 fi
 
-cert_priv_key_file=$(__file_find_by_type $path "PEM RSA private key$")
+cert_priv_key_file=$(__file_find_by_type "$path" "PEM RSA private key$")
 if [[ -z $cert_priv_key_file ]]; then
-  cert_priv_key_file=$(__file_find_by_extension $path ".key")
+  cert_priv_key_file=$(__file_find_by_extension "$path" ".key")
   if [[ -z $cert_priv_key_file ]]; then
     cert_priv_key_file=$path/newfile.key
   fi
 fi
 
-cert_p12_file=$(__file_find_by_extension $path ".p12")
+cert_p12_file=$(__file_find_by_extension "$path" ".p12")
 if [[ -z $cert_p12_file ]]; then
   cert_p12_file=$path/newfile.p12
 fi

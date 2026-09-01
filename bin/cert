@@ -51,7 +51,14 @@ __should_proceed() {
 
   if [ -z "$_file" ] || [ -s "$_file" ]; then
     while true; do
-      read -p "$_prompt (y/n) " _yn
+      # A failed read means stdin is exhausted (non-interactive run, closed
+      # pipe). Without this the empty answer falls to *) and re-prompts for
+      # ever; decline instead, since every caller guards a destructive write.
+      if ! read -p "$_prompt (y/n) " _yn; then
+        echo "No answer on stdin, assuming no." >&2
+        break
+      fi
+
       case "$_yn" in
         [Yy]* ) _proceed=true; break ;;
         [Nn]* ) break ;;
@@ -247,12 +254,20 @@ __cert_seal() {
   echo "Sealling the keystore: "
 
   while true; do
-    read -p "  Should the keystore password be sealed$_question_extension? (y/n) " _yn
+    if ! read -p "  Should the keystore password be sealed$_question_extension? (y/n) " _yn; then
+      echo "  No answer on stdin, stopping." >&2
+      break
+    fi
+
     case $_yn in
       [Yy]* )
         _ns=""
         while [[ -z "$_ns" ]]; do
-          read -p "    What namespace should it be sealed for? " _ns
+          if ! read -p "    What namespace should it be sealed for? " _ns; then
+            echo "    No namespace on stdin, stopping." >&2
+            return 1
+          fi
+
           if [[ -z "$_ns" ]]; then
             echo "    Namespace cannot be empty\n"
           fi

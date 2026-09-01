@@ -15,7 +15,9 @@ if ! (type setvar &> /dev/null); then
     # Reject anything that is not a plain identifier, then assign without
     # re-parsing the value: the old `eval name=$value` executed values
     # containing spaces (`foo=hello world` runs `world`) or $(...)/backticks.
-    if [[ "$_variable_to_be_set" == [A-Za-z_][A-Za-z0-9_]* ]]; then
+    # Use a regex (anchored): the glob [A-Za-z_][A-Za-z0-9_]* required two
+    # char classes plus a trailing wildcard and so rejected single-char names.
+    if [[ "$_variable_to_be_set" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]]; then
       typeset -g -- "$_variable_to_be_set=$_value_to_be_set"
     fi
   }

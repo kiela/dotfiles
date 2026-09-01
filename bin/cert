@@ -141,7 +141,7 @@ __cert_encode() {
   _password=$(__password_load "$_password_file")
   __command_result_message
 
-  if __should_proceed "Overwrite PKCS #12 file?" "$_cert_pem_file"; then
+  if __should_proceed "Overwrite PKCS #12 file?" "$_cert_p12_file"; then
     printf "Export cert to PKCS #12: "
     openssl pkcs12 -export -in "$_cert_pem_file" -inkey "$_cert_priv_key_file" -out "$_cert_p12_file" -name 1 -password "pass:$_password" >> /dev/null 2>&1
     __command_result_message

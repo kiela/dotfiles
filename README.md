@@ -15,10 +15,13 @@ The default target installs oh-my-zsh, backs up its stock `custom/` and
 
 All targets are idempotent - re-running them is safe. Optional targets:
 
-    make git-link-conf    # ~/.gitconfig, ~/.gitignore, ~/.gitcommitmsg
-    make ssh-link-conf    # ~/.ssh/config
-    make tmux-link-conf   # ~/.tmux.conf
-    make vim-link-conf    # ~/.vimrc (or vim-link-conf-minimal)
+    make git-link-conf      # ~/.gitconfig, ~/.gitignore, ~/.gitcommitmsg
+    make ssh-link-conf      # ~/.ssh/config
+    make tmux-link-conf     # ~/.tmux.conf
+    make vim-link-conf      # ~/.vimrc (or vim-link-conf-minimal)
+    make ruby-link-conf     # ~/.gemrc, ~/.irbrc, ~/.pryrc, ~/.rvmrc
+    make erlang-link-conf   # ~/.erlang, ~/.erlang-hist.config, ~/.kerlrc
+    make yamllint-link-conf # ~/.config/yamllint/config
 
 Layout
 ------

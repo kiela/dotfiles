@@ -1,5 +1,9 @@
-call pathogen#infect()
-call pathogen#helptags()
+" Only invoke pathogen when it is actually installed, so a fresh machine
+" without ~/.vim/autoload/pathogen.vim does not error on every startup.
+if exists('*pathogen#infect')
+  call pathogen#infect()
+  call pathogen#helptags()
+endif
 
 let mapleader = ','
 

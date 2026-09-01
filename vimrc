@@ -58,6 +58,7 @@ autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 autocmd FileType sh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 autocmd FileType zsh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
+autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 autocmd FileType groovy setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 autocmd FileType erlang setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab

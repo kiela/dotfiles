@@ -157,8 +157,18 @@ __kubectl::get_pod_name_by_label() {
   if [[ ! -z "$__label" ]]; then
     __result=$(kubectl get pod -l "$__label=$__value" -o jsonpath='{.items[0].metadata.name}' "${__args[@]}" | head -n 1)
   else
-    # TODO: can it be done using jsonpath without jq?
-    __result=$(kubectl get pods -o json "${__args[@]}" | jq -r '.items[] | select(.metadata.labels[] | tostring | contains("'$__value'")) | .metadata.name' | head -n 1)
+    # Answers the "can it be done using jsonpath without jq?" TODO for the
+    # common case: charts label pods with app.kubernetes.io/instance, so
+    # try that as a plain selector first. No jq, and it matches the label
+    # exactly rather than substring-matching every label on every pod.
+    __result=$(kubectl get pod -l "app.kubernetes.io/instance=$__value" -o jsonpath='{.items[0].metadata.name}' "${__args[@]}" 2>/dev/null | head -n 1)
+
+    if [[ -z "$__result" ]] && (type jq &> /dev/null); then
+      # Fall back to the old scan for pods that do not carry the standard
+      # label. --arg keeps $__value out of the jq program text, and
+      # labels[]? tolerates pods with no labels at all.
+      __result=$(kubectl get pods -o json "${__args[@]}" | jq -r --arg value "$__value" '.items[] | select(.metadata.labels[]? | tostring | contains($value)) | .metadata.name' | head -n 1)
+    fi
   fi
 
   # TODO: add debug method for those:

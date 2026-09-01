@@ -284,7 +284,11 @@ function end_game {
     printf "Congratulations you have achieved $target\n"
     exit 0
   }
-  let test -z $2 && {
+  # `let test -z $2` never invoked test(1) - let evaluated its words
+  # arithmetically, so the branch ran only when $2 was set. Make that
+  # explicit: offer to save when a second argument was passed (the INT trap
+  # calls `end_game 0 1`; a natural game over calls `end_game 0`).
+  if [ -n "${2:-}" ]; then
     read -n1 -p "Do you want to overwrite saved game? [y|N]: "
     test "$REPLY" = "Y" || test "$REPLY" = "y" && {
       save_game
@@ -295,7 +299,7 @@ function end_game {
       printf "\nGame not saved.\n"
       exit 0
     }
-  }
+  fi
   printf "\nYou have lost, better luck next time.\033[0m\n"
   exit 0
 }

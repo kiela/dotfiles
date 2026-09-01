@@ -184,7 +184,7 @@ if has("autocmd")
 end
 
 " shortcut to rapidly toggle `set list`
-nmap <C-l> :set list!<CR>
+nmap <silent> <Leader>li :set list!<CR>
 set listchars=tab:▸\ ,eol:¬,nbsp:¶
 
 " Colors!

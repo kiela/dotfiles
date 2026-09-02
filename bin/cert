@@ -432,4 +432,11 @@ case $cmd in
     __usage
     exit 1
     ;;
+  *)
+    # empty or unknown command used to fall through and do nothing after
+    # printing "Work on certs in:", exiting 0 as if it had succeeded
+    echo "Unknown command: '${cmd:-}'" >&2
+    __usage
+    exit 1
+    ;;
 esac

@@ -117,6 +117,7 @@ __file_find_by_extension() {
 
 __password_generate() {
   local _file=$1
+  local _pw
 
   if __should_proceed "Overwrite existing password?" "$_file"; then
     __print "Generate password: " "false"
@@ -124,7 +125,12 @@ __password_generate() {
     # remote service both generated and saw the secret, and `curl -s` without
     # -f exits 0 on an HTTP error, so an error page silently became the
     # keystore password. Alphanumeric-only keeps it safe in all pass: contexts.
-    LC_ALL=C tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 20 > "$_file"
+    # Read a bounded chunk so tr reaches EOF and exits 0. A trailing
+    # `| head -c 20` on an unbounded tr gets SIGPIPE, which under the script's
+    # pipefail makes the pipeline exit 141 and __command_result_message
+    # report "fail" and abort. 256 random bytes yield ~60 alphanumerics.
+    _pw=$(head -c 256 /dev/urandom | LC_ALL=C tr -dc 'A-Za-z0-9')
+    printf '%s' "${_pw:0:20}" > "$_file"
     __command_result_message
   fi
 }

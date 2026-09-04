@@ -1,9 +1,10 @@
 .PHONY: all install omz-init omz-install omz-backup-original omz-link-setup \
+	bin-link git-link-conf ssh-link-conf \
 	tmux-link-conf vim-link-conf vim-link-conf-minimal
 
 all:: install
 
-install:: omz-init
+install:: omz-init bin-link
 
 omz-init:: omz-install omz-backup-original omz-link-setup
 
@@ -19,6 +20,20 @@ omz-link-setup:
 	ln -sfn $(CURDIR)/oh-my-zsh/custom ~/.oh-my-zsh/custom
 	ln -sfn $(CURDIR)/aliases ~/.aliases
 	ln -sfn $(CURDIR)/zshrc ~/.zshrc
+
+# zshrc puts ~/bin on PATH and several git aliases call scripts from it
+# (trim, spark, git-prune-local, git-all-repos), so link it by default.
+bin-link:
+	ln -sfn $(CURDIR)/bin ~/bin
+
+git-link-conf:
+	ln -sf $(CURDIR)/gitconfig ~/.gitconfig
+	ln -sf $(CURDIR)/gitignore ~/.gitignore
+	ln -sf $(CURDIR)/gitcommitmsg ~/.gitcommitmsg
+
+ssh-link-conf:
+	mkdir -p ~/.ssh
+	ln -sf $(CURDIR)/ssh/config ~/.ssh/config
 
 tmux-link-conf:
 	ln -sfn $(CURDIR)/tmux.conf ~/.tmux.conf

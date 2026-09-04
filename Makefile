@@ -1,4 +1,5 @@
-.PHONY: all install
+.PHONY: all install omz-init omz-install omz-backup-original omz-link-setup \
+	tmux-link-conf vim-link-conf vim-link-conf-minimal
 
 all:: install
 

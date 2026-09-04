@@ -8,7 +8,7 @@ omz-init:: omz-install omz-backup-original omz-link-setup
 
 omz-install:
 	# URL: https://github.com/ohmyzsh/ohmyzsh#basic-installation
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 omz-backup-original:
 	mv ~/.oh-my-zsh/custom ~/.oh-my-zsh/custom.oh-my-zsh

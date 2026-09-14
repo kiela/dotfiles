@@ -81,7 +81,7 @@ __cd::ln() {
   if [[ $# -eq 0 ]]; then
     echo "Error: No symbolic link provided."
     echo "Usage: cdln <symbolic_link>"
-    exit 1
+    return 1
   fi
 
   __target=$(readlink "$__link")
@@ -95,7 +95,7 @@ __cd::ln() {
       #__debug "\$__target: $__target"
       if [[ -z "$__target" ]]; then
           echo "Error: Neither a valid symbolic link nor a command found for '$__link'."
-          exit 1
+          return 1
       fi
   fi
 

@@ -97,7 +97,7 @@ __kubectl::get_decoded_secret() {
   if ! (type jq &> /dev/null); then
     echo "ERROR: Please install jq to use this feature"
     echo "-----"
-    exit 1
+    return 1
   fi
 
   if [[ -z "$_name" ]]; then

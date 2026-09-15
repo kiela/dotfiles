@@ -1,7 +1,11 @@
 #!/usr/bin/env sh
 
 if (type helm &> /dev/null); then
-  source <(helm completion zsh)
+  if (type __completion::load &> /dev/null); then
+    __completion::load helm
+  else
+    source <(helm completion zsh)
+  fi
 
   alias h='helm'
   alias hr='helm repo'

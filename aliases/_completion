@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+# Generating completions with "source <(tool completion zsh)" on every
+# shell startup is slow. Cache the generated script per tool and only
+# regenerate it when the tool's binary is newer than the cache.
+__completion::load() {
+  local __cmd="$1"
+  local __cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh-completions"
+  local __cache_file="$__cache_dir/$__cmd.zsh"
+  local __bin
+
+  __bin=$(command -v "$__cmd") || return 1
+
+  mkdir -p "$__cache_dir"
+
+  if [[ ! -s "$__cache_file" || "$__bin" -nt "$__cache_file" ]]; then
+    if ! "$__cmd" completion zsh > "$__cache_file" 2> /dev/null; then
+      rm -f "$__cache_file"
+      return 1
+    fi
+  fi
+
+  source "$__cache_file"
+}

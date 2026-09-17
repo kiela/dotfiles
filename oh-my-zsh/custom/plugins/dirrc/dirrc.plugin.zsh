@@ -6,6 +6,67 @@ __debug() {
   fi
 }
 
+# Sourcing .aliases/.env/.dirrc from any directory entered with cd means
+# arbitrary code execution when entering an untrusted checkout. Like
+# direnv, require directories to be trusted first (one absolute path per
+# line in $DIRRC_TRUST_FILE, managed with dirrc-trust / dirrc-untrust).
+DIRRC_TRUST_FILE="${DIRRC_TRUST_FILE:-$HOME/.dirrc_trusted}"
+
+__dirrc_trusted() {
+  local __dir="$1"
+
+  # the home directory and the dotfiles-managed aliases are always trusted
+  if [[ "$__dir" == "$HOME" || "$__dir" == "$HOME/.aliases" ]]; then
+    return 0
+  fi
+
+  [[ -f "$DIRRC_TRUST_FILE" ]] || return 1
+  grep -Fxq "$__dir" "$DIRRC_TRUST_FILE" 2> /dev/null
+}
+
+__dirrc_check_trust() {
+  local __filepath="$1"
+  local __dir="${__filepath:h}"
+
+  if __dirrc_trusted "$__dir"; then
+    return 0
+  fi
+
+  echo "$(tput setaf 1)Skipping untrusted $__filepath (run 'dirrc-trust $__dir' to allow)$(tput sgr0)"
+  return 1
+}
+
+dirrc-trust() {
+  local __dir="${1:-$PWD}"
+  __dir="${__dir:A}"
+
+  if [[ ! -d "$__dir" ]]; then
+    echo "dirrc-trust: $__dir: not a directory" >&2
+    return 1
+  fi
+
+  if __dirrc_trusted "$__dir"; then
+    echo "dirrc: $__dir is already trusted"
+  else
+    echo "$__dir" >> "$DIRRC_TRUST_FILE"
+    echo "dirrc: trusted $__dir"
+    dirrc
+  fi
+}
+
+dirrc-untrust() {
+  local __dir="${1:-$PWD}"
+  __dir="${__dir:A}"
+
+  if [[ -f "$DIRRC_TRUST_FILE" ]] && grep -Fxq "$__dir" "$DIRRC_TRUST_FILE" 2> /dev/null; then
+    grep -Fxv "$__dir" "$DIRRC_TRUST_FILE" > "$DIRRC_TRUST_FILE.tmp"
+    mv "$DIRRC_TRUST_FILE.tmp" "$DIRRC_TRUST_FILE"
+    echo "dirrc: untrusted $__dir"
+  else
+    echo "dirrc: $__dir is not trusted"
+  fi
+}
+
 __load_dir_links() {
   local __file="$1/.links"
 
@@ -59,7 +120,7 @@ __load_dir_aliases() {
     __debug "__load_dir_aliases::\$__filepath: $__filepath"
 
     if [[ $__found -eq 0 ]]; then
-      if [[ -f $__filepath && -s $__filepath ]]; then
+      if [[ -f $__filepath && -s $__filepath ]] && __dirrc_check_trust "$__filepath"; then
         source $__filepath
         echo "$(tput setaf 2)Directory aliases loaded$(tput sgr0)"
       fi
@@ -82,7 +143,7 @@ __load_dir_envs() {
   __debug "__load_dir_envs::\$__filepath: $__filepath"
 
   if [[ $__found -eq 0 ]]; then
-    if [[ -f $__filepath && -s $__filepath ]]; then
+    if [[ -f $__filepath && -s $__filepath ]] && __dirrc_check_trust "$__filepath"; then
       while read i
       do
         if [[ ($i[1] != '#') && (-n $i[1]) ]]; then
@@ -109,7 +170,7 @@ __load_dir_rc() {
   __debug "__load_dir_rc::\$__filepath: $__filepath"
 
   if [[ $__found -eq 0 ]]; then
-    if [[ -f $__filepath && -s $__filepath ]]; then
+    if [[ -f $__filepath && -s $__filepath ]] && __dirrc_check_trust "$__filepath"; then
       source $__filepath
       echo "$(tput setaf 2)Directory configuration loaded$(tput sgr0)"
     fi

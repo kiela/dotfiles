@@ -1,5 +1,11 @@
 #!/usr/bin/env sh
 
 if (type gcloud &> /dev/null); then
-  source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+  __gcloud_completion="/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+
+  if [ -f "$__gcloud_completion" ]; then
+    source "$__gcloud_completion"
+  fi
+
+  unset __gcloud_completion
 fi

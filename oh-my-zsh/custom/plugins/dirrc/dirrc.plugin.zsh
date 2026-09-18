@@ -32,8 +32,20 @@ __dirrc_check_trust() {
     return 0
   fi
 
-  echo "$(tput setaf 1)Skipping untrusted $__filepath$(tput sgr0)"
-  echo "$(tput setaf 1)  inspect it with 'dirrc-show $__dir', then allow with 'dirrc-trust $__dir'$(tput sgr0)"
+  local __shown __arg
+  local __red="$(tput setaf 1)" __bold="$(tput bold)" __reset="$(tput sgr0)"
+
+  # A config file can come from an ancestor directory, where the bare
+  # commands - which default to $PWD - would act on the wrong directory.
+  if [[ "$__dir" == "$PWD" ]]; then
+    __shown="./${__filepath:t}"
+    __arg=""
+  else
+    __shown="$__filepath"
+    __arg=" $__dir"
+  fi
+
+  echo "${__red}Skipping untrusted ${__bold}${__shown}${__reset}${__red}. Inspect it with ${__bold}'dirrc-show${__arg}'${__reset}${__red}, then allow with ${__bold}'dirrc-trust${__arg}'${__reset}${__red}.${__reset}"
   return 1
 }
 

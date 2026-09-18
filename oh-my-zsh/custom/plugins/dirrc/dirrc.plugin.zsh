@@ -32,7 +32,8 @@ __dirrc_check_trust() {
     return 0
   fi
 
-  echo "$(tput setaf 1)Skipping untrusted $__filepath (run 'dirrc-trust $__dir' to allow)$(tput sgr0)"
+  echo "$(tput setaf 1)Skipping untrusted $__filepath$(tput sgr0)"
+  echo "$(tput setaf 1)  inspect it with 'dirrc-show $__dir', then allow with 'dirrc-trust $__dir'$(tput sgr0)"
   return 1
 }
 
@@ -64,6 +65,50 @@ dirrc-untrust() {
     echo "dirrc: untrusted $__dir"
   else
     echo "dirrc: $__dir is not trusted"
+  fi
+}
+
+# Print the files dirrc would execute in a directory, so an untrusted one
+# can be read before deciding whether to trust it. Only the executable
+# files are shown - .links/.msg/.todo are displayed by dirrc anyway.
+dirrc-show() {
+  local __dir="${1:-$PWD}"
+  __dir="${__dir:A}"
+  local __file __loadfile __found=1
+
+  if [[ ! -d "$__dir" ]]; then
+    echo "dirrc-show: $__dir: not a directory" >&2
+    return 1
+  fi
+
+  for __file in "$__dir/.aliases" "$__dir/.env" "$__dir/.dirrc"; do
+    [[ -e "$__file" ]] || continue
+    __found=0
+
+    if [[ -d "$__file" ]]; then
+      __loadfile="$__file/_load"
+
+      if [[ -f "$__loadfile" ]]; then
+        echo "$(tput bold)$(tput setaf 6)----- $__loadfile -----$(tput sgr0)"
+        cat "$__loadfile"
+      else
+        echo "$(tput bold)$(tput setaf 6)----- $__file/ (no _load file) -----$(tput sgr0)"
+      fi
+    else
+      echo "$(tput bold)$(tput setaf 6)----- $__file -----$(tput sgr0)"
+      cat "$__file"
+    fi
+  done
+
+  if [[ $__found -ne 0 ]]; then
+    echo "dirrc: nothing to source in $__dir"
+    return 1
+  fi
+
+  if __dirrc_trusted "$__dir"; then
+    echo "$(tput setaf 2)dirrc: $__dir is trusted$(tput sgr0)"
+  else
+    echo "$(tput setaf 3)dirrc: $__dir is not trusted (allow with 'dirrc-trust $__dir')$(tput sgr0)"
   fi
 }
 

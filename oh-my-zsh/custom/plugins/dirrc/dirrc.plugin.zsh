@@ -24,6 +24,26 @@ __dirrc_trusted() {
   grep -Fxq "$__dir" "$DIRRC_TRUST_FILE" 2> /dev/null
 }
 
+# Every status line goes through here so they share one shape:
+# "dirrc: <text>", coloured by kind, errors on stderr.
+__dirrc_msg() {
+  local __kind="$1"
+  shift
+  local __colour=""
+
+  case "$__kind" in
+    ok) __colour="$(tput setaf 2)" ;;
+    warn) __colour="$(tput setaf 3)" ;;
+    err) __colour="$(tput setaf 1)" ;;
+  esac
+
+  if [[ "$__kind" == "err" ]]; then
+    echo "${__colour}dirrc: $*$(tput sgr0)" >&2
+  else
+    echo "${__colour}dirrc: $*$(tput sgr0)"
+  fi
+}
+
 # Abbreviate a path for messages ($HOME becomes ~). __dirrc_arg gives the
 # matching command suffix, kept empty for the current directory since the
 # commands already default to $PWD.
@@ -59,7 +79,7 @@ __dirrc_check_trust() {
   fi
   __arg="$(__dirrc_arg "$__dir")"
 
-  echo "${__red}Skipping untrusted ${__bold}${__shown}${__reset}${__red}. Inspect it with ${__bold}'dirrc-show${__arg}'${__reset}${__red}, then allow with ${__bold}'dirrc-trust${__arg}'${__reset}${__red}.${__reset}"
+  echo "${__red}dirrc: skipping untrusted ${__bold}${__shown}${__reset}${__red}. Inspect it with ${__bold}'dirrc-show${__arg}'${__reset}${__red}, then allow with ${__bold}'dirrc-trust${__arg}'${__reset}${__red}.${__reset}"
   return 1
 }
 
@@ -68,15 +88,15 @@ dirrc-trust() {
   __dir="${__dir:A}"
 
   if [[ ! -d "$__dir" ]]; then
-    echo "dirrc-trust: $__dir: not a directory" >&2
+    __dirrc_msg err "$(__dirrc_display "$__dir") is not a directory"
     return 1
   fi
 
   if __dirrc_trusted "$__dir"; then
-    echo "dirrc: $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0) is already trusted"
+    __dirrc_msg plain "$(tput bold)$(__dirrc_display "$__dir")$(tput sgr0) is already trusted"
   else
     echo "$__dir" >> "$DIRRC_TRUST_FILE"
-    echo "$(tput setaf 2)dirrc: trusted $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)"
+    __dirrc_msg ok "trusted $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)$(tput setaf 2)"
     dirrc
   fi
 }
@@ -88,9 +108,9 @@ dirrc-untrust() {
   if [[ -f "$DIRRC_TRUST_FILE" ]] && grep -Fxq "$__dir" "$DIRRC_TRUST_FILE" 2> /dev/null; then
     grep -Fxv "$__dir" "$DIRRC_TRUST_FILE" > "$DIRRC_TRUST_FILE.tmp"
     mv "$DIRRC_TRUST_FILE.tmp" "$DIRRC_TRUST_FILE"
-    echo "$(tput setaf 2)dirrc: untrusted $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)"
+    __dirrc_msg ok "untrusted $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)$(tput setaf 2)"
   else
-    echo "dirrc: $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0) is not trusted"
+    __dirrc_msg plain "$(tput bold)$(__dirrc_display "$__dir")$(tput sgr0) is not trusted"
   fi
 }
 
@@ -103,7 +123,7 @@ dirrc-show() {
   local __file __loadfile __found=1
 
   if [[ ! -d "$__dir" ]]; then
-    echo "dirrc-show: $__dir: not a directory" >&2
+    __dirrc_msg err "$(__dirrc_display "$__dir") is not a directory"
     return 1
   fi
 
@@ -115,26 +135,26 @@ dirrc-show() {
       __loadfile="$__file/_load"
 
       if [[ -f "$__loadfile" ]]; then
-        echo "$(tput bold)$(tput setaf 6)----- $__loadfile -----$(tput sgr0)"
+        echo "$(tput bold)$(tput setaf 6)----- $(__dirrc_display "$__loadfile") -----$(tput sgr0)"
         cat "$__loadfile"
       else
-        echo "$(tput bold)$(tput setaf 6)----- $__file/ (no _load file) -----$(tput sgr0)"
+        echo "$(tput bold)$(tput setaf 6)----- $(__dirrc_display "$__file")/ (no _load file) -----$(tput sgr0)"
       fi
     else
-      echo "$(tput bold)$(tput setaf 6)----- $__file -----$(tput sgr0)"
+      echo "$(tput bold)$(tput setaf 6)----- $(__dirrc_display "$__file") -----$(tput sgr0)"
       cat "$__file"
     fi
   done
 
   if [[ $__found -ne 0 ]]; then
-    echo "dirrc: nothing to source in $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)"
+    __dirrc_msg plain "nothing to source in $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)"
     return 1
   fi
 
   if __dirrc_trusted "$__dir"; then
-    echo "$(tput setaf 2)dirrc: $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)$(tput setaf 2) is trusted$(tput sgr0)"
+    __dirrc_msg ok "$(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)$(tput setaf 2) is trusted"
   else
-    echo "$(tput setaf 3)dirrc: $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)$(tput setaf 3) is not trusted. Allow it with $(tput bold)'dirrc-trust$(__dirrc_arg "$__dir")'$(tput sgr0)$(tput setaf 3).$(tput sgr0)"
+    __dirrc_msg warn "$(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)$(tput setaf 3) is not trusted. Allow it with $(tput bold)'dirrc-trust$(__dirrc_arg "$__dir")'$(tput sgr0)$(tput setaf 3)."
   fi
 }
 
@@ -193,10 +213,10 @@ __load_dir_aliases() {
     if [[ $__found -eq 0 ]]; then
       if [[ -f $__filepath && -s $__filepath ]] && __dirrc_check_trust "$__filepath"; then
         source $__filepath
-        echo "$(tput setaf 2)Directory aliases loaded$(tput sgr0)"
+        __dirrc_msg ok "directory aliases loaded"
       fi
     else
-      echo "$(tput setaf 2)Directory aliases not loaded$(tput sgr0)"
+      __dirrc_msg warn "directory aliases not loaded"
     fi
   fi;
 }
@@ -221,10 +241,10 @@ __load_dir_envs() {
           typeset -x ${i//[\'\"\`]}
         fi;
       done < $__filepath
-      echo "$(tput setaf 2)Directory ENVs loaded$(tput sgr0)"
+      __dirrc_msg ok "directory envs loaded"
     fi
   else
-    echo "$(tput setaf 1)Directory ENVs not loaded$(tput sgr0)"
+    __dirrc_msg warn "directory envs not loaded"
   fi
 }
 
@@ -243,10 +263,10 @@ __load_dir_rc() {
   if [[ $__found -eq 0 ]]; then
     if [[ -f $__filepath && -s $__filepath ]] && __dirrc_check_trust "$__filepath"; then
       source $__filepath
-      echo "$(tput setaf 2)Directory configuration loaded$(tput sgr0)"
+      __dirrc_msg ok "directory configuration loaded"
     fi
   else
-    echo "$(tput setaf 1)WARNING: Directory configuration not loaded$(tput sgr0)"
+    __dirrc_msg warn "directory configuration not loaded"
   fi;
 }
 
@@ -256,7 +276,7 @@ __find_dir_file() {
   local __previous_dir=""
 
   if [[ -z "$__start_dir" || -z "$__filename" ]]; then
-    echo "$(tput setaf 1)WARNING: __find_dir_file(): Required arguments are missing$(tput sgr0)"
+    __dirrc_msg err "__find_dir_file() needs a directory and a filename"
     return 1
   fi
 

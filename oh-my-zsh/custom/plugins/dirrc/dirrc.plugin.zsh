@@ -24,6 +24,21 @@ __dirrc_trusted() {
   grep -Fxq "$__dir" "$DIRRC_TRUST_FILE" 2> /dev/null
 }
 
+# Abbreviate a path for messages ($HOME becomes ~). __dirrc_arg gives the
+# matching command suffix, kept empty for the current directory since the
+# commands already default to $PWD.
+__dirrc_display() {
+  print -rD -- "$1"
+}
+
+__dirrc_arg() {
+  if [[ "$1" == "$PWD" ]]; then
+    print -r -- ""
+  else
+    print -r -- " $(print -rD -- "$1")"
+  fi
+}
+
 __dirrc_check_trust() {
   local __filepath="$1"
   local __dir="${__filepath:h}"
@@ -39,11 +54,10 @@ __dirrc_check_trust() {
   # commands - which default to $PWD - would act on the wrong directory.
   if [[ "$__dir" == "$PWD" ]]; then
     __shown="./${__filepath:t}"
-    __arg=""
   else
-    __shown="$__filepath"
-    __arg=" $__dir"
+    __shown="$(__dirrc_display "$__filepath")"
   fi
+  __arg="$(__dirrc_arg "$__dir")"
 
   echo "${__red}Skipping untrusted ${__bold}${__shown}${__reset}${__red}. Inspect it with ${__bold}'dirrc-show${__arg}'${__reset}${__red}, then allow with ${__bold}'dirrc-trust${__arg}'${__reset}${__red}.${__reset}"
   return 1
@@ -59,10 +73,10 @@ dirrc-trust() {
   fi
 
   if __dirrc_trusted "$__dir"; then
-    echo "dirrc: $__dir is already trusted"
+    echo "dirrc: $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0) is already trusted"
   else
     echo "$__dir" >> "$DIRRC_TRUST_FILE"
-    echo "dirrc: trusted $__dir"
+    echo "$(tput setaf 2)dirrc: trusted $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)"
     dirrc
   fi
 }
@@ -74,9 +88,9 @@ dirrc-untrust() {
   if [[ -f "$DIRRC_TRUST_FILE" ]] && grep -Fxq "$__dir" "$DIRRC_TRUST_FILE" 2> /dev/null; then
     grep -Fxv "$__dir" "$DIRRC_TRUST_FILE" > "$DIRRC_TRUST_FILE.tmp"
     mv "$DIRRC_TRUST_FILE.tmp" "$DIRRC_TRUST_FILE"
-    echo "dirrc: untrusted $__dir"
+    echo "$(tput setaf 2)dirrc: untrusted $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)"
   else
-    echo "dirrc: $__dir is not trusted"
+    echo "dirrc: $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0) is not trusted"
   fi
 }
 
@@ -113,14 +127,14 @@ dirrc-show() {
   done
 
   if [[ $__found -ne 0 ]]; then
-    echo "dirrc: nothing to source in $__dir"
+    echo "dirrc: nothing to source in $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)"
     return 1
   fi
 
   if __dirrc_trusted "$__dir"; then
-    echo "$(tput setaf 2)dirrc: $__dir is trusted$(tput sgr0)"
+    echo "$(tput setaf 2)dirrc: $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)$(tput setaf 2) is trusted$(tput sgr0)"
   else
-    echo "$(tput setaf 3)dirrc: $__dir is not trusted (allow with 'dirrc-trust $__dir')$(tput sgr0)"
+    echo "$(tput setaf 3)dirrc: $(tput bold)$(__dirrc_display "$__dir")$(tput sgr0)$(tput setaf 3) is not trusted. Allow it with $(tput bold)'dirrc-trust$(__dirrc_arg "$__dir")'$(tput sgr0)$(tput setaf 3).$(tput sgr0)"
   fi
 }
 

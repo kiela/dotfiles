@@ -1,13 +1,34 @@
 .PHONY: all install omz-init omz-install omz-backup-original omz-link-setup \
 	bin-link git-link-conf ssh-link-conf \
 	tmux-link-conf vim-link-conf vim-link-conf-minimal \
-	yamllint-link-conf
+	yamllint-link-conf check-shell
 
 all:: install
 
-install:: omz-init bin-link
+install:: check-shell omz-init bin-link
 
 omz-init:: omz-install omz-backup-original omz-link-setup
+
+# Everything here is zsh-only, so refuse to install rather than leave a
+# half-working setup behind. Ask the directory service first (macOS), then
+# /etc/passwd (Linux), and fall back to $SHELL.
+check-shell:
+	@zsh_bin=$$(command -v zsh); \
+	if [ -z "$$zsh_bin" ]; then \
+	  echo "ERROR: zsh is not installed; install it, then re-run make install" >&2; \
+	  exit 1; \
+	fi; \
+	login_shell=$$(dscl . -read ~/ UserShell 2>/dev/null | awk '{print $$2}'); \
+	if [ -z "$$login_shell" ]; then \
+	  login_shell=$$(getent passwd "$$(id -un)" 2>/dev/null | cut -d: -f7); \
+	fi; \
+	if [ -z "$$login_shell" ]; then login_shell="$$SHELL"; fi; \
+	case "$$login_shell" in \
+	  */zsh) echo "check-shell: login shell is $$login_shell";; \
+	  *) echo "ERROR: login shell is $$login_shell, not zsh" >&2; \
+	     echo "ERROR: run 'chsh -s $$zsh_bin', start a new session, then re-run make install" >&2; \
+	     exit 1;; \
+	esac
 
 omz-install:
 	# URL: https://github.com/ohmyzsh/ohmyzsh#basic-installation

@@ -1,6 +1,7 @@
 .PHONY: all install omz-init omz-install omz-backup-original omz-link-setup \
 	bin-link git-link-conf ssh-link-conf \
-	tmux-link-conf vim-link-conf vim-link-conf-minimal
+	tmux-link-conf vim-link-conf vim-link-conf-minimal \
+	yamllint-link-conf
 
 all:: install
 
@@ -50,3 +51,8 @@ vim-link-conf:
 
 vim-link-conf-minimal:
 	ln -sfn $(CURDIR)/vimrc.minimal ~/.vimrc
+
+# Opt-in language-tooling configs (not part of the default install).
+yamllint-link-conf:
+	mkdir -p ~/.config/yamllint
+	ln -sf $(CURDIR)/yamllint ~/.config/yamllint/config
